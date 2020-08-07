@@ -1,2 +1,2 @@
-# tcc-backEnd
-Back  End do projeto 
+# TCC-backEnd
+Repository where all the code related to the project's back end will be
