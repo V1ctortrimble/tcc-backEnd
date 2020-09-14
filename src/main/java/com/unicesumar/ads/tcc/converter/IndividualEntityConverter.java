@@ -1,0 +1,24 @@
+package com.unicesumar.ads.tcc.converter;
+
+import com.unicesumar.ads.tcc.converter.util.MapperUtil;
+import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.entity.IndividualEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class IndividualEntityConverter extends DTOEntityConverter<IndividualDTO, IndividualEntity>{
+
+    private final MapperUtil mapperUtil;
+
+    @Override
+    protected IndividualDTO toDTOImp(IndividualEntity entity){
+        return mapperUtil.use().map(entity, IndividualDTO.class);
+    }
+    @Override
+    protected IndividualEntity toEntityImp(IndividualDTO dto){
+        return mapperUtil.use().map(dto, IndividualEntity.class);
+    }
+
+}
