@@ -25,7 +25,7 @@ public class ContactEntity implements Serializable {
     private String phone;
 
     @Column(name = "CELL_PHONE")
-    private String celPhone;
+    private String cellPhone;
 
     @Column(name = "EMAIL")
     private String email;

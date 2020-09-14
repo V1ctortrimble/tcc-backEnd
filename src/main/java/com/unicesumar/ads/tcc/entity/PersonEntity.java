@@ -28,7 +28,7 @@ public class PersonEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ENDERECO")
-    private List<AdressEntity> enderecoEntities;
+    private List<AdressEntity> adressEntities;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_BANK_DETAILS")
