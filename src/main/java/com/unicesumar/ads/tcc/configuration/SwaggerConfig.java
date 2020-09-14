@@ -26,7 +26,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("TCC BACK-END REST API")
-                .description("Documentação API Rest Back-end")
+                .description("Rest Back-end API documentation")
                 .version("1.0.0")
                 .build();
     }

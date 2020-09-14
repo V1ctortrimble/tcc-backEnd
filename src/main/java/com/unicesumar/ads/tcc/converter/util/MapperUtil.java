@@ -1,4 +1,4 @@
-package com.unicesumar.ads.tcc.converter.mapper.util;
+package com.unicesumar.ads.tcc.converter.util;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
