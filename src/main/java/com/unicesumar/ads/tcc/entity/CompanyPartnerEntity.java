@@ -13,12 +13,15 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "PESSOA")
-public class PessoaEntity implements Serializable {
+@Table(name = "COMPANY_PARTNER")
+public class CompanyPartnerEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PESSOA")
-    private Integer idPessoa;
+    @Column(name = "ID_COMPANY_PARTNER")
+    private Integer idCompanyPartner;
+
+    @Column(name = "ACTIVE")
+    private Boolean active;
 
 }
