@@ -13,11 +13,11 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "USER")
+@Table(name = "USERS")
 public class UserEntity implements Serializable {
 
     @Id
-    @Column(name = "ID_USER")
+    @Column(name = "ID_USERS")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
