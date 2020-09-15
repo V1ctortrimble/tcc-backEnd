@@ -42,4 +42,8 @@ public class AdressEntity implements Serializable {
     @Column(name = "ZIP_CODE")
     private String zipCode;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity personEntity;
+
 }

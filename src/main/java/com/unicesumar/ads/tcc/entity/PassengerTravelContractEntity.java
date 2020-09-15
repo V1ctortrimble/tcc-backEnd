@@ -28,12 +28,14 @@ public class PassengerTravelContractEntity implements Serializable {
     @Column(name = "PAYING_PASSENGER")
     private Boolean payingPassenger;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PERSON")
-    private List<PersonEntity> personEntities;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_INDIVIDUAL")
+    private IndividualEntity individualEntity;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TRAVEL_CONTRACT")
-    private List<TravelContractEntity> travelContractEntities;
+    private TravelContractEntity travelContractEntity;
+
+
 
 }

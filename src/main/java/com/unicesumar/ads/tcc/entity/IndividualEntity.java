@@ -42,10 +42,14 @@ public class IndividualEntity implements Serializable {
     private Boolean active;
 
     @OneToOne
+    @JoinColumn(name = "ID_PERSON")
     private PersonEntity personEntity;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANY_PARTNER")
     private List<CompanyPartnerEntity> companyPartnerEntities;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individualEntity" )
+    private List<PassengerTravelContractEntity> passengerTravelContractEntities;
 
 }

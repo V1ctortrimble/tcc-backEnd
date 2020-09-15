@@ -75,4 +75,7 @@ public class TravelPackgeEntity implements Serializable {
     @JoinColumn(name = "ID_VEHICLE_TRAVEL_PACKAGE")
     private List<VehicleTravelPackgeEntity> vehicleTravelPackgeEntities;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelPackgeEntity")
+    private List<TravelContractEntity> travelContractEntities;
+
 }
