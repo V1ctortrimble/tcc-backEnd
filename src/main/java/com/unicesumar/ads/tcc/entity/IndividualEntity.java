@@ -49,6 +49,6 @@ public class IndividualEntity implements Serializable {
     private List<CompanyPartnerEntity> companyPartners;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual" )
-    private List<PassengerTravelContractDTO> passengerTravelContracts;
+    private List<PassengerTravelContractEntity> passengerTravelContracts;
 
 }

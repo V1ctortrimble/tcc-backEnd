@@ -32,6 +32,6 @@ public class PersonEntity implements Serializable {
     private List<BankDetailsEntity> banksDetails;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-    private List<HostingDTO> hostings;
+    private List<HostingEntity> hostings;
 
 }

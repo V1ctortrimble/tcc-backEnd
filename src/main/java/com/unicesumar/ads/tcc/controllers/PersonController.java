@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = {"Diretorio para vizualização de pessoas"})
+@Api(tags = {"Directory for visualization of people"})
 @RestController
 @RequestMapping(value = "/api")
 @RequiredArgsConstructor

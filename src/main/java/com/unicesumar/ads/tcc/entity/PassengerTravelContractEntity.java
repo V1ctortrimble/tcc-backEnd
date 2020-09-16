@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "PASSENGER_TRAVEL_CONTRACT")
-public class PassengerTravelContractDTO implements Serializable {
+public class PassengerTravelContractEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
