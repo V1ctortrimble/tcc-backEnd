@@ -1,8 +1,8 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.entity.PassengerTravelContractDTO;
-import com.unicesumar.ads.tcc.entity.PersonDTO;
+import com.unicesumar.ads.tcc.entity.PassengerTravelContractEntity;
+import com.unicesumar.ads.tcc.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class IndividualDTO {
     private Integer idIndividual;
 
     @JsonProperty("person")
-    private PersonDTO person;
+    private PersonEntity person;
 
     @JsonProperty("cpf")
     private String cpf;
@@ -45,7 +45,7 @@ public class IndividualDTO {
     private List<CompanyPartnerDTO> companyPartners;
 
     @JsonProperty("passenger_travel_contracts" )
-    private List<PassengerTravelContractDTO> passengerTravelContracts;
+    private List<PassengerTravelContractEntity> passengerTravelContracts;
 
 
 }

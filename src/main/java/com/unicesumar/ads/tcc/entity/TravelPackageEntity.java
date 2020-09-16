@@ -74,7 +74,7 @@ public class TravelPackageEntity implements Serializable {
     @JoinTable(name = "HOSTING_TRAVEL_PACKAGE", joinColumns =
             {@JoinColumn( name = "ID_HOSTING")}, inverseJoinColumns =
             {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )})
-    private List<HostingDTO> hostings;
+    private List<HostingEntity> hostings;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "VEHICLE_TRAVEL_PACKAGE", joinColumns =

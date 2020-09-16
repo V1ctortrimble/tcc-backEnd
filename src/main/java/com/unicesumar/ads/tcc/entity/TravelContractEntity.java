@@ -46,7 +46,7 @@ public class TravelContractEntity implements Serializable {
     private BigDecimal totalContractAmount;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract")
-    private List<PassengerTravelContractDTO> passengerTravelContracts;
+    private List<PassengerTravelContractEntity> passengerTravelContracts;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract")
     private List<FinancialEntity> financials;

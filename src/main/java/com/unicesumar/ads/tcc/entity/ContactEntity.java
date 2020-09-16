@@ -23,7 +23,7 @@ public class ContactEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonDTO person;
+    private PersonEntity person;
 
     @Column(name = "PHONE")
     private String phone;

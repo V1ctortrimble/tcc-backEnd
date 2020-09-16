@@ -25,7 +25,7 @@ public class CompanyEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonDTO person;
+    private PersonEntity person;
 
     @Column(name = "SOCIAL_REASON")
     private String socialReason;

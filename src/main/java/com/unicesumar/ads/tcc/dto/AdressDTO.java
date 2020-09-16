@@ -15,9 +15,6 @@ public class AdressDTO {
     @JsonProperty("id_adress")
     private Integer idAdress;
 
-    @JsonProperty("person")
-    private PersonDTO person;
-
     @JsonProperty("adress")
     private String adress;
 

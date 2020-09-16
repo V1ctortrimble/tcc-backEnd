@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "PERSON")
-public class PersonDTO implements Serializable {
+public class PersonEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,6 @@ public class PersonDTO implements Serializable {
     private List<BankDetailsEntity> banksDetails;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
-    private List<HostingDTO> hostings;
+    private List<HostingEntity> hostings;
 
 }
