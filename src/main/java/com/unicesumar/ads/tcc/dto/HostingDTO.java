@@ -17,25 +17,16 @@ public class HostingDTO {
     @JsonProperty("id_hosting")
     private Integer idHosting;
 
-    @JsonProperty("person")
-    private PersonDTO person;
-
-    @JsonProperty("hosting_type")
-    private HostingTypeDTO hostingType;
-
     @JsonProperty("adress")
     private AdressDTO adress;
 
     @JsonProperty("tourism_regis")
     private String tourismRegis;
 
-    @JsonProperty("quantityPerson")
+    @JsonProperty("quantity_person")
     private Integer quantityPerson;
 
-    @JsonProperty("featuresHosting")
+    @JsonProperty("features_hosting")
     private Integer featuresHosting;
-
-    @JsonProperty("travel_packges")
-    private List<TravelPackageDTO> travelPackages;
 
 }

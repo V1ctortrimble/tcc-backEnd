@@ -24,7 +24,7 @@ public class HostingDTO implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonDTO person;
+    private PersonEntity person;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_HOSTING_TYPE")
