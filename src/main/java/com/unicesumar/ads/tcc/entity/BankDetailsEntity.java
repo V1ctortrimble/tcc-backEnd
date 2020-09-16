@@ -21,6 +21,10 @@ public class BankDetailsEntity implements Serializable {
     @Column(name = "ID_BANK_DETAILS")
     private Integer idBankDetails;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity person;
+
     @Column(name = "BANK")
     private String bank;
 
@@ -39,7 +43,4 @@ public class BankDetailsEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity personEntity;
 }

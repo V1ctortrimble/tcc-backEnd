@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TRAVEL_PACKAGE")
-public class TravelPackgeEntity implements Serializable {
+public class TravelPackageEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,13 +68,18 @@ public class TravelPackgeEntity implements Serializable {
     private LocalDate registrationDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelPackgeEntity")
-    private List<TravelContractEntity> travelContractEntities;
+    private List<TravelContractEntity> travelContracts;
 
-    @ManyToMany
-    @JoinTable(name = "HOSTING_TRAVEL_PACKAGE", joinColumns = @JoinColumn( name = "ID_HOSTING"), inverseJoinColumns = @JoinColumn(name = "ID_TRAVEL_PACKAGE" ))
-    private List<HostingEntity> hostingEntities;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "HOSTING_TRAVEL_PACKAGE", joinColumns =
+            {@JoinColumn( name = "ID_HOSTING")}, inverseJoinColumns =
+            {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )})
+    private List<HostingEntity> hostings;
 
-    @ManyToMany
-    @JoinTable(name = "VEHICLE_TRAVEL_PACKAGE", joinColumns = @JoinColumn( name = "ID_VEHICLE"), inverseJoinColumns = @JoinColumn(name = "ID_TRAVEL_PACKAGE" ))
-    private List<VehicleEntity> vehicleEntities;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "VEHICLE_TRAVEL_PACKAGE", joinColumns =
+            {@JoinColumn( name = "ID_VEHICLE")}, inverseJoinColumns =
+            {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )})
+    private List<VehicleEntity> vehicles;
+
 }

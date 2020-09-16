@@ -15,6 +15,9 @@ public class BankDetailsDTO {
     @JsonProperty("id_bank_details")
     private Integer idBankDetails;
 
+    @JsonProperty("person")
+    private PersonDTO person;
+
     @JsonProperty("bank")
     private String bank;
 

@@ -21,14 +21,14 @@ public class CompanyPartnerEntity implements Serializable {
     @Column(name = "ID_COMPANY_PARTNER")
     private Integer idCompanyPartner;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_COMPANY_SYSTEM")
+    private CompanySystemEntity companySystem;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_INDIVIDUAL")
+    private IndividualEntity individual;
+
     @Column(name = "ACTIVE")
     private Boolean active;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_COMPANY_SYSTEM")
-    private CompanySystemEntity companySystemEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_INDIVIDUAL")
-    private IndividualEntity individualEntity;
 }

@@ -23,14 +23,18 @@ public class CompanyEntity implements Serializable {
     @Column(name = "ID_COMPANY")
     private Integer idCompany;
 
-    @Column(name = "CNPJ")
-    private String cnpj;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity person;
 
     @Column(name = "SOCIAL_REASON")
     private String socialReason;
 
     @Column(name = "FANTASY_NAME")
     private String fantasyName;
+
+    @Column(name = "CNPJ")
+    private String cnpj;
 
     @Column(name = "STATE_REGIS")
     private String stateRegis;
@@ -41,14 +45,10 @@ public class CompanyEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToMany(mappedBy = "companyEntity")
-    private List<VehicleEntity> vehicleEntities;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companyEntity")
+    private List<VehicleEntity> vehicles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companyEntity")
-    private List<TravelContractEntity> travelContractEntities;
-
-    @OneToOne
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity personEntity;
+    private List<TravelContractEntity> travelContracts;
 
 }

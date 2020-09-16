@@ -21,17 +21,17 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_INDIVIDUAL")
-    private IndividualEntity individualEntity;
+    private IndividualEntity individual;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANY_SYSTEM")
-    private CompanySystemEntity companySystemEntity;
+    private CompanySystemEntity companySystem;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USER_TYPE")
-    private UserTypeEntity userTypeEntity;
+    private UserTypeEntity userType;
 
     @Column(name = "PASSWORD")
     private String password;

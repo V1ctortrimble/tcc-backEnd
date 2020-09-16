@@ -18,12 +18,12 @@ public class CompanySystemDTO {
     private Integer idCompanySystem;
 
     @JsonProperty("company")
-    private CompanyDTO companyEntity;
+    private CompanyDTO company;
 
     @JsonProperty("Companies")
-    private List<CompanyPartnerDTO> companyPartnerEntities;
+    private List<CompanyPartnerDTO> companyPartners;
 
     @JsonProperty("users")
-    private List<UserDTO> userEntities;
+    private List<UserDTO> users;
 
 }

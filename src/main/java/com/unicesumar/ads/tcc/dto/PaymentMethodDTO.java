@@ -15,7 +15,7 @@ public class PaymentMethodDTO {
     @JsonProperty("id_payment_method")
     private Integer idPaymentMethod;
 
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("name_payment_method")
+    private String namePaymentMethod;
 
 }

@@ -1,11 +1,15 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.entity.HostingEntity;
+import com.unicesumar.ads.tcc.entity.TravelContractEntity;
+import com.unicesumar.ads.tcc.entity.VehicleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TravelPackgeDTO {
+public class TravelPackageDTO {
 
     @JsonProperty("id_travel_packge")
     private Integer idTravelPackge;
@@ -61,5 +65,14 @@ public class TravelPackgeDTO {
 
     @JsonProperty("registration_date")
     private LocalDate registrationDate;
+
+    @JsonProperty("travel_contracts")
+    private List<TravelContractDTO> travelContracts;
+
+    @JsonProperty("hostings")
+    private List<HostingEntity> hostings;
+
+    @JsonProperty("vehicles")
+    private List<VehicleEntity> vehicles;
 
 }

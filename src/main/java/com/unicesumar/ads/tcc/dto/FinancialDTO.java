@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +17,12 @@ public class FinancialDTO {
 
     @JsonProperty("id_financial")
     private Integer idFinancial;
+
+    @JsonProperty("travel_contracts")
+    private TravelContractDTO travelContract;
+
+    @JsonProperty("payment_methods")
+    private PaymentMethodDTO paymentMethod;
 
     @JsonProperty("installment")
     private Integer installment;
@@ -30,11 +35,5 @@ public class FinancialDTO {
 
     @JsonProperty("due_date")
     private LocalDate dueDate;
-
-    @JsonProperty("payment_methods")
-    private List<PaymentMethodDTO> paymentMethodEntities;
-
-    @JsonProperty("travel_contracts")
-    private List<TravelContractDTO> travelContractEntities;
 
 }

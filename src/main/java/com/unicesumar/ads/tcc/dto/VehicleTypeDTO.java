@@ -17,8 +17,8 @@ public class VehicleTypeDTO {
     @JsonProperty("id_vehicle_type")
     private Integer idVehicleType;
 
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("name_vehicle_type")
+    private String nameVehicleType;
 
     @JsonProperty("manufacturer")
     private String manufacturer;
@@ -42,6 +42,6 @@ public class VehicleTypeDTO {
     private String description;
 
     @JsonProperty("vehicles")
-    private List<VehicleDTO> vehicleEntities;
+    private List<VehicleDTO> vehicles;
 
 }

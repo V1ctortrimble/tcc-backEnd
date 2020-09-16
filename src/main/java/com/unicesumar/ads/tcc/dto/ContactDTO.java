@@ -1,12 +1,11 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +15,9 @@ public class ContactDTO {
 
     @JsonProperty("id_contact")
     private Integer idContact;
+
+    @JsonProperty("person")
+    private PersonEntity person;
 
     @JsonProperty("phone")
     private String phone;

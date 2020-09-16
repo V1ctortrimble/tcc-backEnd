@@ -22,8 +22,8 @@ public class VehicleTypeEntity implements Serializable {
     @Column(name = "ID_VEHICLE_TYPE")
     private Integer idVehicleType;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "NAME_VEHICLE_TYPE")
+    private String nameVehicleType;
 
     @Column(name = "MANUFACTURER")
     private String manufacturer;
@@ -47,6 +47,6 @@ public class VehicleTypeEntity implements Serializable {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicleTypeEntity")
-    private List<VehicleEntity> vehicleEntities;
+    private List<VehicleEntity> vehicles;
 
 }

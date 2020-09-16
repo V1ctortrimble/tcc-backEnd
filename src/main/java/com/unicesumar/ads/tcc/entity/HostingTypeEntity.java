@@ -22,7 +22,7 @@ public class HostingTypeEntity implements Serializable {
     @Column(name = "ID_HOSTING_TYPE")
     private Integer idHostingType;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "NAME_HOSTING_TYPE")
+    private String nameHostingType;
 
 }

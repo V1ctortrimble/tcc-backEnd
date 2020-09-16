@@ -22,14 +22,14 @@ public class CompanySystemEntity implements Serializable {
     @Column(name = "ID_COMPANY_SYSTEM")
     private Integer idCompanySystem;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANY")
-    private CompanyEntity companyEntity;
+    private CompanyEntity company;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companySystemEntity")
-    private List<CompanyPartnerEntity> companyPartnerEntities;
+    private List<CompanyPartnerEntity> companyPartners;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companySystemEntity")
-    private List<UserEntity> userEntities;
+    private List<UserEntity> users;
 
 }

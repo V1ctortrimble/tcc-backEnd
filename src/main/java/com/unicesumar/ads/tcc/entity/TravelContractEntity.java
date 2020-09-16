@@ -25,6 +25,14 @@ public class TravelContractEntity implements Serializable {
     @Column(name = "ID_TRAVEL_CONTRACT")
     private Integer idTravelContract;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TRAVEL_PACKAGE")
+    private TravelPackageEntity travelPackage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_COMPANY")
+    private CompanyEntity company;
+
     @Column(name = "BOARDING_LOCATION")
     private String boardingLocation;
 
@@ -37,18 +45,10 @@ public class TravelContractEntity implements Serializable {
     @Column(name = "TOTAL_CONTRACT_AMOUNT")
     private BigDecimal totalContractAmount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TRAVEL_PACKAGE")
-    private TravelPackgeEntity travelPackgeEntity;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COMPANY")
-    private CompanyEntity companyEntity;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContractEntity")
+    private List<PassengerTravelContractEntity> passengerTravelContracts;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContractEntity")
-    private List<PassengerTravelContractEntity> passengerTravelContractEntities;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContractEntity")
-    private List<FinancialEntity> financialEntities;
+    private List<FinancialEntity> financials;
 
 }

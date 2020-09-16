@@ -17,10 +17,7 @@ public class HostingTypeDTO {
     @JsonProperty("id_hosting_type")
     private Integer idHostingType;
 
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("hostings")
-    private List<HostingDTO> hostingEntities;
+    @JsonProperty("name_hosting_type")
+    private String nameHostingType;
 
 }

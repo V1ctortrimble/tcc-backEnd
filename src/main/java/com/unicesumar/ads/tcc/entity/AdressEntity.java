@@ -21,6 +21,10 @@ public class AdressEntity implements Serializable {
     @Column(name = "ID_ADRESS")
     private Integer idAdress;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity person;
+
     @Column(name = "ADRESS")
     private String adress;
 
@@ -41,9 +45,5 @@ public class AdressEntity implements Serializable {
 
     @Column(name = "ZIP_CODE")
     private String zipCode;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity personEntity;
 
 }

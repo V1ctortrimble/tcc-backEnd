@@ -18,15 +18,15 @@ public class PersonDTO {
     private Integer idPerson;
 
     @JsonProperty("contacts")
-    private List<ContactDTO> contactEntities;
+    private List<ContactDTO> contacts;
 
     @JsonProperty("Adresses")
-    private List<AdressDTO> adressEntities;
+    private List<AdressDTO> adresses;
 
     @JsonProperty("banks_details")
-    private List<BankDetailsDTO> bankDetailsEntities;
+    private List<BankDetailsDTO> banksDetails;
 
     @JsonProperty("hostings")
-    private List<HostingDTO> hostingEntities;
+    private List<HostingDTO> hostings;
 
 }

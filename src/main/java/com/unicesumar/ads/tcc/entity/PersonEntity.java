@@ -23,15 +23,15 @@ public class PersonEntity implements Serializable {
     private Integer idPerson;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
-    private List<ContactEntity> contactEntities;
+    private List<ContactEntity> contacts;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
-    private List<AdressEntity> adressEntities;
+    private List<AdressEntity> adresses;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
-    private List<BankDetailsEntity> bankDetailsEntities;
+    private List<BankDetailsEntity> banksDetails;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
-    private List<HostingEntity> hostingEntities;
+    private List<HostingEntity> hostings;
 
 }

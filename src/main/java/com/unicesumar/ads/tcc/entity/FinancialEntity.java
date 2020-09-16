@@ -24,6 +24,14 @@ public class FinancialEntity implements Serializable {
     @Column(name = "ID_FINANCIAL")
     private Integer idFinancial;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TRAVEL_CONTRACT")
+    private TravelContractEntity travelContract;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PAYMENT_METHOD")
+    private PaymentMethodEntity paymentMethod;
+
     @Column(name = "INSTALLMENT")
     private Integer installment;
 
@@ -35,13 +43,5 @@ public class FinancialEntity implements Serializable {
 
     @Column(name = "DUE_DATE")
     private LocalDate dueDate;
-
-    @OneToOne
-    @JoinColumn(name = "ID_PAYMENT_METHOD")
-    private PaymentMethodEntity paymentMethodEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_TRAVEL_CONTRACT")
-    private TravelContractEntity travelContractEntity;
 
 }

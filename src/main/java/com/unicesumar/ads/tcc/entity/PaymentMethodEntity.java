@@ -21,7 +21,7 @@ public class PaymentMethodEntity implements Serializable {
     @Column(name = "ID_PAYMENT_METHOD")
     private Integer idPaymentMethod;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "NAME_PAYMENT_METHOD")
+    private String namePaymentMethod;
 
 }

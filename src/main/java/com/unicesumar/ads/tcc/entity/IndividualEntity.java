@@ -23,14 +23,18 @@ public class IndividualEntity implements Serializable {
     @Column(name = "ID_INDIVIDUAL")
     private Integer idIndividual;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity person;
+
     @Column(name = "CPF")
     private String cpf;
 
     @Column(name = "RG")
     private String rg;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "NAME_INDIVIDUAL")
+    private String nameIndividual;
 
     @Column(name = "LAST_NAME")
     private String lastName;
@@ -41,14 +45,10 @@ public class IndividualEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToOne
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity personEntity;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "individualEntity")
-    private List<CompanyPartnerEntity> companyPartnerEntities;
+    private List<CompanyPartnerEntity> companyPartners;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "individualEntity" )
-    private List<PassengerTravelContractEntity> passengerTravelContractEntities;
+    private List<PassengerTravelContractEntity> passengerTravelContracts;
 
 }

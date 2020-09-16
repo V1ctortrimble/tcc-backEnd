@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,16 @@ public class VehicleDTO {
     @JsonProperty("id_vehicle")
     private Integer idVehicle;
 
+    @JsonProperty("company")
+    private CompanyDTO company;
+
+    @JsonProperty("vehicle_type")
+    private VehicleTypeDTO vehicleType;
+
     @JsonProperty("rntrc")
     private String rntrc;
+
+    @JsonProperty("travel_packges")
+    private List<TravelPackageDTO> travelPackages;
 
 }

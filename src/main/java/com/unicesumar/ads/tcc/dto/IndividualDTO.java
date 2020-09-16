@@ -1,6 +1,8 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.entity.PassengerTravelContractEntity;
+import com.unicesumar.ads.tcc.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,14 +20,17 @@ public class IndividualDTO {
     @JsonProperty("id_individual")
     private Integer idIndividual;
 
+    @JsonProperty("person")
+    private PersonEntity person;
+
     @JsonProperty("cpf")
     private String cpf;
 
     @JsonProperty("rg")
     private String rg;
 
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("name_individual")
+    private String nameIndividual;
 
     @JsonProperty("last_name")
     private String lastName;
@@ -36,10 +41,11 @@ public class IndividualDTO {
     @JsonProperty("active")
     private Boolean active;
 
-    @JsonProperty("person")
-    private PersonDTO personEntity;
-
     @JsonProperty("company_partners")
-    private List<CompanyPartnerDTO> companyPartnerEntities;
+    private List<CompanyPartnerDTO> companyPartners;
+
+    @JsonProperty("passenger_travel_contracts" )
+    private List<PassengerTravelContractEntity> passengerTravelContracts;
+
 
 }

@@ -21,6 +21,10 @@ public class ContactEntity implements Serializable {
     @Column(name = "ID_CONTACT")
     private Integer idContact;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity person;
+
     @Column(name = "PHONE")
     private String phone;
 
@@ -29,9 +33,5 @@ public class ContactEntity implements Serializable {
 
     @Column(name = "EMAIL")
     private String email;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity personEntity;
 
 }

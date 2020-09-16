@@ -22,29 +22,20 @@ public class HostingEntity implements Serializable {
     @Column(name = "ID_HOSTING")
     private Integer idHosting;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity person;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_HOSTING_TYPE")
+    private HostingTypeEntity hostingType;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_ADRESS")
+    private AdressEntity adress;
+
     @Column(name = "TOURISM_REGIS")
     private String tourismRegis;
-
-    @Column(name = "ADDRESS")
-    private String address;
-
-    @Column(name = "NUMBER")
-    private Integer number;
-
-    @Column(name = "COMPLEMENT")
-    private String complement;
-
-    @Column(name = "NEIGHBORHOOD")
-    private String neighborhood;
-
-    @Column(name = "CITY")
-    private String city;
-
-    @Column(name = "STATE")
-    private String state;
-
-    @Column(name = "ZIP_CODE")
-    private String zipCode;
 
     @Column(name = "QUANTITY_PERSON")
     private Integer quantityPerson;
@@ -52,15 +43,7 @@ public class HostingEntity implements Serializable {
     @Column(name = "FEATURES_HOSTING")
     private Integer featuresHosting;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity personEntity;
-
-    @OneToOne
-    @JoinColumn(name = "ID_HOSTING_TYPE")
-    private HostingTypeEntity hostingTypeEntity;
-
-    @ManyToMany(mappedBy = "hostingEntities")
-    private List<TravelPackgeEntity> travelPackgeEntities;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostingEntities")
+    private List<TravelPackageEntity> travelPackages;
 
 }
