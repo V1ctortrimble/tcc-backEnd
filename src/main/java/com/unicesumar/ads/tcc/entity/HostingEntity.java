@@ -26,7 +26,7 @@ public class HostingEntity implements Serializable {
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_HOSTING_TYPE")
     private HostingTypeEntity hostingType;
 
@@ -41,7 +41,7 @@ public class HostingEntity implements Serializable {
     private Integer quantityPerson;
 
     @Column(name = "FEATURES_HOSTING")
-    private Integer featuresHosting;
+    private String featuresHosting;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostings")
     private List<TravelPackageEntity> travelPackages;
