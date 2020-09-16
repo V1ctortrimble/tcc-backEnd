@@ -48,4 +48,7 @@ public class TravelContractEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContractEntity")
     private List<PassengerTravelContractEntity> passengerTravelContractEntities;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContractEntity")
+    private List<FinancialEntity> financialEntities;
+
 }

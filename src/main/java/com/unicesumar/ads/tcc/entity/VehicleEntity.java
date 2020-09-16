@@ -33,5 +33,7 @@ public class VehicleEntity implements Serializable {
     @JoinColumn(name = "ID_VEHICLE_TYPE")
     private VehicleTypeEntity vehicleTypeEntity;
 
+    @ManyToMany(mappedBy = "vehicleEntities")
+    private List<TravelPackgeEntity> travelPackgeEntities;
 
 }

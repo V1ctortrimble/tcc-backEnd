@@ -22,6 +22,17 @@ public class UserEntity implements Serializable {
     private Integer idUser;
 
     @OneToOne
+    @JoinColumn(name = "ID_INDIVIDUAL")
     private IndividualEntity individualEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_COMPANY_SYSTEM")
+    private CompanySystemEntity companySystemEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_USER_TYPE")
+    private UserTypeEntity userTypeEntity;
+
+    @Column(name = "PASSWORD")
+    private String password;
 }

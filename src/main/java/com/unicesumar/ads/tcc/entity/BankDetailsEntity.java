@@ -39,4 +39,7 @@ public class BankDetailsEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity personEntity;
 }

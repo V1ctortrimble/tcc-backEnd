@@ -28,12 +28,10 @@ public class PersonEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
     private List<AdressEntity> adressEntities;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_BANK_DETAILS")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
     private List<BankDetailsEntity> bankDetailsEntities;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_HOSTING")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
     private List<HostingEntity> hostingEntities;
 
 }

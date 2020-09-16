@@ -36,12 +36,12 @@ public class FinancialEntity implements Serializable {
     @Column(name = "DUE_DATE")
     private LocalDate dueDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "ID_PAYMENT_METHOD")
-    private List<PaymentMethodEntity> paymentMethodEntities;
+    private PaymentMethodEntity paymentMethodEntity;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ID_TRAVEL_CONTRACT")
-    private List<TravelContractEntity> travelContractEntities;
+    private TravelContractEntity travelContractEntity;
 
 }

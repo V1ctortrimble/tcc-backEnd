@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -50,5 +51,16 @@ public class HostingEntity implements Serializable {
 
     @Column(name = "FEATURES_HOSTING")
     private Integer featuresHosting;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_PERSON")
+    private PersonEntity personEntity;
+
+    @OneToOne
+    @JoinColumn(name = "ID_HOSTING_TYPE")
+    private HostingTypeEntity hostingTypeEntity;
+
+    @ManyToMany(mappedBy = "hostingEntities")
+    private List<TravelPackgeEntity> travelPackgeEntities;
 
 }

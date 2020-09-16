@@ -25,8 +25,7 @@ public class UserTypeEntity implements Serializable {
     @Column(name = "USER_TYPE")
     private String userType;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_USERS")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userTypeEntity")
     private List<UserEntity> userEntities;
 
 }

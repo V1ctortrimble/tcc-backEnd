@@ -24,4 +24,11 @@ public class CompanyPartnerEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_COMPANY_SYSTEM")
+    private CompanySystemEntity companySystemEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_INDIVIDUAL")
+    private IndividualEntity individualEntity;
 }
