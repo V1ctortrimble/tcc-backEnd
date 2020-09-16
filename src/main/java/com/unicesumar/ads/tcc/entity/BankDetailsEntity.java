@@ -23,7 +23,7 @@ public class BankDetailsEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonEntity person;
+    private PersonDTO person;
 
     @Column(name = "BANK")
     private String bank;

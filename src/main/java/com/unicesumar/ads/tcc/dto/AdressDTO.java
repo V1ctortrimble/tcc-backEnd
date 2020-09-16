@@ -21,8 +21,8 @@ public class AdressDTO {
     @JsonProperty("adress")
     private String adress;
 
-    @JsonProperty("number")
-    private Integer number;
+    @JsonProperty("adress_number")
+    private Integer adressNumber;
 
     @JsonProperty("additional")
     private String additional;

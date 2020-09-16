@@ -45,10 +45,10 @@ public class TravelContractEntity implements Serializable {
     @Column(name = "TOTAL_CONTRACT_AMOUNT")
     private BigDecimal totalContractAmount;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContractEntity")
-    private List<PassengerTravelContractEntity> passengerTravelContracts;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract")
+    private List<PassengerTravelContractDTO> passengerTravelContracts;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContractEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract")
     private List<FinancialEntity> financials;
 
 }

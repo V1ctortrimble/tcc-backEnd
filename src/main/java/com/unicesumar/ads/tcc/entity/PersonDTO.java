@@ -15,23 +15,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "PERSON")
-public class PersonEntity implements Serializable {
+public class PersonDTO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PERSON")
     private Integer idPerson;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<ContactEntity> contacts;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<AdressEntity> adresses;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<BankDetailsEntity> banksDetails;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "personEntity")
-    private List<HostingEntity> hostings;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    private List<HostingDTO> hostings;
 
 }

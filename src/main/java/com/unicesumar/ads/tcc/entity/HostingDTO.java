@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "HOSTING")
-public class HostingEntity implements Serializable {
+public class HostingDTO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class HostingEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonEntity person;
+    private PersonDTO person;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_HOSTING_TYPE")
@@ -43,7 +43,7 @@ public class HostingEntity implements Serializable {
     @Column(name = "FEATURES_HOSTING")
     private Integer featuresHosting;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostingEntities")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostings")
     private List<TravelPackageEntity> travelPackages;
 
 }

@@ -25,7 +25,7 @@ public class IndividualEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonEntity person;
+    private PersonDTO person;
 
     @Column(name = "CPF")
     private String cpf;
@@ -45,10 +45,10 @@ public class IndividualEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individualEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual")
     private List<CompanyPartnerEntity> companyPartners;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individualEntity" )
-    private List<PassengerTravelContractEntity> passengerTravelContracts;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual" )
+    private List<PassengerTravelContractDTO> passengerTravelContracts;
 
 }

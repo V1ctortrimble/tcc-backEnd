@@ -33,7 +33,7 @@ public class VehicleEntity implements Serializable {
     @Column(name = "RNTRC")
     private String rntrc;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "vehicleEntities")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "vehicles")
     private List<TravelPackageEntity> travelPackages;
 
 }

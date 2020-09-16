@@ -1,3 +1,4 @@
+-- Select de Empresas e seus Veiculos
 SELECT
 	co.id_company,
 	co.fantasy_name,
@@ -14,32 +15,34 @@ INNER JOIN vehicle AS ve ON co.id_company = ve.id_vehicle
 INNER JOIN vehicle_type AS vt ON ve.id_vehicle = vt.id_vehicle_type
 WHERE co.cnpj = '31261251000153';
 
+--Select de Empresas e suas hospedagens
 SELECT
 	pe.id_person,
 	co.id_company,
 	co.fantasy_name,
 	ho.id_hosting,
-	ho.address,
-	ho.city,
-	ho.complement,
-	ho.features_hosting,
-	ho.neighborhood,
-	ho.number,
-	ho.state,
 	ho.tourism_regis,
-	ho.zip_code
+	ad.adress,
+	ad.city,
+	ad.additional,
+	ad.neighborhood,
+	ad.adress_number,
+	ad.state,
+	ad.zip_code
 FROM person AS pe
+INNER JOIN adress as ad ON pe.id_person = ad.id_person
 INNER JOIN company AS co ON pe.id_person = co.id_person
 INNER JOIN hosting AS ho ON co.id_company = ho.id_hosting
 WHERE pe.id_person = 1;
 
+--Select de contrato de um passageiro
 SELECT
 	pe.id_person,
 	ad.additional,
 	ad.adress,
 	ad.city,
 	ad.neighborhood,
-	ad.number,
+	ad.adress_number,
 	ad.state,
 	ad.zip_code,
 	co.cell_phone,

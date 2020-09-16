@@ -25,7 +25,7 @@ public class CompanyEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonEntity person;
+    private PersonDTO person;
 
     @Column(name = "SOCIAL_REASON")
     private String socialReason;
@@ -45,10 +45,10 @@ public class CompanyEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companyEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     private List<VehicleEntity> vehicles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companyEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     private List<TravelContractEntity> travelContracts;
 
 }

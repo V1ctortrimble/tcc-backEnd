@@ -1,15 +1,13 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.entity.HostingEntity;
-import com.unicesumar.ads.tcc.entity.TravelContractEntity;
+import com.unicesumar.ads.tcc.entity.HostingDTO;
 import com.unicesumar.ads.tcc.entity.VehicleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -70,9 +68,9 @@ public class TravelPackageDTO {
     private List<TravelContractDTO> travelContracts;
 
     @JsonProperty("hostings")
-    private List<HostingEntity> hostings;
+    private List<HostingDTO> hostings;
 
     @JsonProperty("vehicles")
-    private List<VehicleEntity> vehicles;
+    private List<VehicleDTO> vehicles;
 
 }

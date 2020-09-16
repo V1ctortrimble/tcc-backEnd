@@ -46,7 +46,7 @@ public class VehicleTypeEntity implements Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicleTypeEntity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicleType")
     private List<VehicleEntity> vehicles;
 
 }

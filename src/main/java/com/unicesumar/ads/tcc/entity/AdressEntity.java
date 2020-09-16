@@ -23,13 +23,13 @@ public class AdressEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
-    private PersonEntity person;
+    private PersonDTO person;
 
     @Column(name = "ADRESS")
     private String adress;
 
-    @Column(name = "NUMBER")
-    private Integer number;
+    @Column(name = "ADRESS_NUMBER")
+    private Integer adressNumber;
 
     @Column(name = "ADDITIONAL")
     private String additional;
