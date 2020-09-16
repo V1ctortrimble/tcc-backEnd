@@ -1,7 +1,6 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,13 +1,14 @@
 package com.unicesumar.ads.tcc.converter;
 
 import com.unicesumar.ads.tcc.converter.util.MapperUtil;
+import com.unicesumar.ads.tcc.dto.PassengerTravelContractDTO;
 import com.unicesumar.ads.tcc.entity.PassengerTravelContractEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PassengerTravelContractEntityConverter extends DTOEntityConverter<com.unicesumar.ads.tcc.dto.PassengerTravelContractDTO, PassengerTravelContractEntity> {
+public class PassengerTravelContractEntityConverter extends DTOEntityConverter<PassengerTravelContractDTO, PassengerTravelContractEntity> {
 
     private final MapperUtil mapperUtil;
 

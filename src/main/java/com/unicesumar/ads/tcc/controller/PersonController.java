@@ -1,4 +1,4 @@
-package com.unicesumar.ads.tcc.controllers;
+package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.PersonEntityConverter;
 import com.unicesumar.ads.tcc.dto.PersonDTO;
