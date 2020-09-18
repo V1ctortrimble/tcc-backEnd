@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // cria uma conta default
         auth.inMemoryAuthentication()
                 .withUser("admin")
-                .password("password")
+                .password("{noop}password")
                 .roles("ADMIN");
     }
 }
