@@ -3,12 +3,15 @@ package com.unicesumar.ads.tcc.configuration;
 
 import com.unicesumar.ads.tcc.security.JWTAuthenticationFilter;
 import com.unicesumar.ads.tcc.security.JWTLoginFilter;
+import com.unicesumar.ads.tcc.service.UserDetailsServiceImplements;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -16,7 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserDetailsServiceImplements userDetailsService;
+
     /**
      * Entrypoint definition and filtering method
      */
@@ -36,13 +43,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Method of creating a standard user in Memory
+     * Method that takes a user registered in the bank with an encrypted password
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("{noop}password123!@#")
-                .roles("ADMIN");
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 }

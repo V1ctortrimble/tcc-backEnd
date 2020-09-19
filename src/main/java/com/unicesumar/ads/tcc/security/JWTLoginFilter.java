@@ -1,6 +1,7 @@
 package com.unicesumar.ads.tcc.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unicesumar.ads.tcc.dto.UserDTO;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,8 +27,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter{
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
 
-        AccountCredentials credentials = new ObjectMapper()
-                .readValue(request.getInputStream(), AccountCredentials.class);
+        UserDTO credentials = new ObjectMapper()
+                .readValue(request.getInputStream(), UserDTO.class);
 
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
