@@ -66,3 +66,8 @@ INNER JOIN individual AS il ON pe.id_person = il.id_person
 INNER JOIN passenger_travel_contract AS ptc ON il.id_individual = ptc.id_individual
 INNER JOIN travel_contract AS tc ON ptc.id_travel_contract = tc.id_travel_contract
 WHERE il.cpf = '11867136903';
+
+
+INSERT INTO users("login","password") VALUES('admin', '$2a$10$gi4K50fisL/i1dBR2vgoSOuKinjVWqCWrjiqBws2j0iYwTP9YB1wW');
+
+SELECT * FROM users;
