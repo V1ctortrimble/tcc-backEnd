@@ -1,40 +1,45 @@
-package com.unicesumar.ads.tcc.security;
+package com.unicesumar.ads.tcc.configuration;
 
+
+import com.unicesumar.ads.tcc.security.JWTAuthenticationFilter;
+import com.unicesumar.ads.tcc.security.JWTLoginFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
+/**
+ * Configuration class for JWT authentication
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    /**
+     * Entrypoint definition and filtering method
+     */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeRequests()
-                .antMatchers("/home").permitAll()
-                .antMatchers("/v2/api-docs","/swagger-resources/**",
-                        "/swagger-ui.html","/webjars/**","/swagger.json").permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers("/api/home").permitAll()
+                .antMatchers("/v2/api-docs", "/swagger-resources/**",
+                        "/swagger-ui.html", "/webjars/**", "/swagger.json").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
-
-                // filtra requisições de login
-                .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
-
-                // filtra outras requisições para verificar a presença do JWT no header
                 .addFilterBefore(new JWTAuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class);
     }
 
+    /**
+     * Method of creating a standard user in Memory
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // cria uma conta default
         auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password("{noop}password123!@#")

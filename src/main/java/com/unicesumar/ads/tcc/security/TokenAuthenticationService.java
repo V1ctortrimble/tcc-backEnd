@@ -1,20 +1,17 @@
 package com.unicesumar.ads.tcc.security;
 
-import java.util.Collections;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.Date;
 
 public class TokenAuthenticationService {
 
-    // EXPIRATION_TIME = 10 dias
     static final long EXPIRATION_TIME = 860_000_000;
     static final String SECRET = "MySecret";
     static final String TOKEN_PREFIX = "Bearer";
@@ -34,7 +31,6 @@ public class TokenAuthenticationService {
         String token = request.getHeader(HEADER_STRING);
 
         if (token != null) {
-            // faz parse do token
             String user = Jwts.parser()
                     .setSigningKey(SECRET)
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
