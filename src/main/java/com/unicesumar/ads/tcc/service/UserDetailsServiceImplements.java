@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  * UserDetailsService implementation class to find the request user
  */
-@Repository
+@Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImplements implements UserDetailsService {
 

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.unicesumar.ads.tcc</groupId>
 	<artifactId>tccBackEnd</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>tccBackEnd</name>
 	<description>Sistema para gerenciamento de excursões e viagens.</description>
 
