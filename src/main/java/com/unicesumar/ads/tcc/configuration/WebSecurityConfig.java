@@ -2,17 +2,17 @@ package com.unicesumar.ads.tcc.configuration;
 
 
 import com.unicesumar.ads.tcc.security.JWTAuthenticationFilter;
-import com.unicesumar.ads.tcc.security.JWTLoginFilter;
+import com.unicesumar.ads.tcc.security.JWTAuthorizationFilter;
 import com.unicesumar.ads.tcc.service.UserDetailsServiceImplements;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 /**
@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfiguration;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImplements userDetailsService;
@@ -29,20 +30,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * Entrypoint definition and filtering method
      */
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
                 .and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/home").permitAll()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**",
                         "/swagger-ui.html", "/webjars/**", "/swagger.json").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/*/protected/**").hasRole("USER")
+                .antMatchers("/*/admin/**").hasRole("ADMIN")
                 .and()
-                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()),
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JWTAuthenticationFilter(),
-                        UsernamePasswordAuthenticationFilter.class);
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService));
     }
 
     /**

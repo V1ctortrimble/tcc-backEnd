@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.controller;
 
+import com.unicesumar.ads.tcc.exception.HttpForbiddenException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -22,7 +23,11 @@ public class UserController {
     @ApiOperation(value = "Returns one Body test", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(value = "/users")
     public ResponseEntity<?> getUsers() {
-        return new ResponseEntity<>(RETURN_TEST_JSON, HttpStatus.OK) ;
+        try{
+            return new ResponseEntity<>(RETURN_TEST_JSON, HttpStatus.OK) ;
+        }catch (HttpForbiddenException e){
+            throw new HttpForbiddenException("Não autorizado");
+        }
     }
 
 }

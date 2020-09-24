@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,9 @@ public class UserEntity implements Serializable, UserDetails {
 
     @Column(name = "PASSWORD")
     private String password;
+
+    @Column(name = "ADMIN")
+    private Boolean admin;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_INDIVIDUAL")
