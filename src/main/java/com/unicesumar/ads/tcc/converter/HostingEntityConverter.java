@@ -1,8 +1,8 @@
 package com.unicesumar.ads.tcc.converter;
 
-import com.unicesumar.ads.tcc.converter.util.MapperUtil;
+import com.unicesumar.ads.tcc.util.MapperUtil;
 import com.unicesumar.ads.tcc.dto.HostingDTO;
-import com.unicesumar.ads.tcc.entity.HostingEntity;
+import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

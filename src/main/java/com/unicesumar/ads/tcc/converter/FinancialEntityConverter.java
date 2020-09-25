@@ -1,8 +1,8 @@
 package com.unicesumar.ads.tcc.converter;
 
-import com.unicesumar.ads.tcc.converter.util.MapperUtil;
+import com.unicesumar.ads.tcc.util.MapperUtil;
 import com.unicesumar.ads.tcc.dto.FinancialDTO;
-import com.unicesumar.ads.tcc.entity.FinancialEntity;
+import com.unicesumar.ads.tcc.data.entity.FinancialEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

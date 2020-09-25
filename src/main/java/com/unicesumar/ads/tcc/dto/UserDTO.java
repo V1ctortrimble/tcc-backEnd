@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +28,10 @@ public class UserDTO {
     @JsonProperty("username")
     private String username;
 
+    @JsonIgnore
     private String password;
 
+    @JsonProperty("admin")
     private Boolean admin;
 
 }

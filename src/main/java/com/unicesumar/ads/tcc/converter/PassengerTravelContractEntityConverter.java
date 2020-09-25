@@ -1,8 +1,8 @@
 package com.unicesumar.ads.tcc.converter;
 
-import com.unicesumar.ads.tcc.converter.util.MapperUtil;
+import com.unicesumar.ads.tcc.util.MapperUtil;
 import com.unicesumar.ads.tcc.dto.PassengerTravelContractDTO;
-import com.unicesumar.ads.tcc.entity.PassengerTravelContractEntity;
+import com.unicesumar.ads.tcc.data.entity.PassengerTravelContractEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

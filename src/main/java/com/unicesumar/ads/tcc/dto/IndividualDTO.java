@@ -1,8 +1,8 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.entity.PassengerTravelContractEntity;
-import com.unicesumar.ads.tcc.entity.PersonEntity;
+import com.unicesumar.ads.tcc.data.entity.PassengerTravelContractEntity;
+import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

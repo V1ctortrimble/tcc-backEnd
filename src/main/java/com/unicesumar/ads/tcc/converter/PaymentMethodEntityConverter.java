@@ -1,8 +1,8 @@
 package com.unicesumar.ads.tcc.converter;
 
-import com.unicesumar.ads.tcc.converter.util.MapperUtil;
+import com.unicesumar.ads.tcc.util.MapperUtil;
 import com.unicesumar.ads.tcc.dto.PaymentMethodDTO;
-import com.unicesumar.ads.tcc.entity.PaymentMethodEntity;
+import com.unicesumar.ads.tcc.data.entity.PaymentMethodEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
