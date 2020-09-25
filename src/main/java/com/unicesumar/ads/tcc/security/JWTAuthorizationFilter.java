@@ -45,6 +45,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         chain.doFilter(request, response);
     }
+
     /**
      * Parse the token and retrieve the user to validate their authorization if the reader has the token
      */

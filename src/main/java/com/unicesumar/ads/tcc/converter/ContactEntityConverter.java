@@ -1,8 +1,8 @@
 package com.unicesumar.ads.tcc.converter;
 
-import com.unicesumar.ads.tcc.util.MapperUtil;
-import com.unicesumar.ads.tcc.dto.ContactDTO;
 import com.unicesumar.ads.tcc.data.entity.ContactEntity;
+import com.unicesumar.ads.tcc.dto.ContactDTO;
+import com.unicesumar.ads.tcc.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
