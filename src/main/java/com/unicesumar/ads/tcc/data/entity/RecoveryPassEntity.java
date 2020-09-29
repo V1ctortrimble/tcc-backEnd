@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "RECOVERY_SENHA")
-public class RecoveryPassCodeEntity implements Serializable {
+public class RecoveryPassEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

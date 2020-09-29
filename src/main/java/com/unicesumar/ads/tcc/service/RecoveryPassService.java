@@ -1,6 +1,6 @@
 package com.unicesumar.ads.tcc.service;
 
-import com.unicesumar.ads.tcc.data.entity.RecoveryPassCodeEntity;
+import com.unicesumar.ads.tcc.data.entity.RecoveryPassEntity;
 import com.unicesumar.ads.tcc.data.entity.UserEntity;
 import com.unicesumar.ads.tcc.data.repository.RecoveryPassCodeRepository;
 import com.unicesumar.ads.tcc.data.repository.UserRepository;
@@ -23,7 +23,7 @@ public class RecoveryPassService {
     @Autowired
     private UserRepository userRepository;
 
-    private RecoveryPassCodeEntity recoveryPassCodeEntity;
+    private RecoveryPassEntity recoveryPassCodeEntity;
 
     @Value("${spring.mail.username}")
     private String email;
@@ -39,7 +39,7 @@ public class RecoveryPassService {
                 //salvar no banco código e usuário e apagar depois de um tempo.
                 String link = "https://localhost:8000/recuperasenha/" + code;
 
-                recoveryPassCodeEntity = RecoveryPassCodeEntity.builder()
+                recoveryPassCodeEntity = RecoveryPassEntity.builder()
                         .code(code.toString())
                         .userEntity(user)
                         .build();
@@ -67,9 +67,8 @@ public class RecoveryPassService {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText("Você solicitou a recuperação de senha, clique no link para realizar o cadastro de uma nova senha: " + link);
-        message.setTo("memorygamelgpd@gmail.com");
-        message.setSubject( "Teste email" );
-        message.setFrom(mail);
+        message.setTo(mail);
+        message.setSubject("Recuperação de senha");
         try {
             mailSender.send(message);
             return "Email enviado com sucesso!";
