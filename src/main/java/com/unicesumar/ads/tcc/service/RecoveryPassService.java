@@ -1,17 +1,32 @@
 package com.unicesumar.ads.tcc.service;
 
+import com.unicesumar.ads.tcc.data.entity.RecoveryPassCodeEntity;
 import com.unicesumar.ads.tcc.data.entity.UserEntity;
+import com.unicesumar.ads.tcc.data.repository.RecoveryPassCodeRepository;
 import com.unicesumar.ads.tcc.data.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.UUID;
 
+@RequiredArgsConstructor
+@Service
 public class RecoveryPassService {
-    @Autowired private JavaMailSender mailSender;
-    @Autowired private UserRepository userRepository;
+
+    private final RecoveryPassCodeRepository repository;
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private UserRepository userRepository;
+
+    private RecoveryPassCodeEntity recoveryPassCodeEntity;
+
+    @Value("${spring.mail.username}")
+    private String email;
 
     public String recoveryPass(String mail){
 
@@ -20,9 +35,15 @@ public class RecoveryPassService {
 
         try {
             if(user != null){
-                String code = createCode();
+                UUID code = createCode();
                 //salvar no banco código e usuário e apagar depois de um tempo.
                 String link = "https://localhost:8000/recuperasenha/" + code;
+
+                recoveryPassCodeEntity = RecoveryPassCodeEntity.builder()
+                        .code(code.toString())
+                        .userEntity(user)
+                        .build();
+                repository.save(recoveryPassCodeEntity);
 
                 response = sendMail(mail, link);
             }
@@ -37,21 +58,18 @@ public class RecoveryPassService {
         return response;
     }
 
-    public String createCode(){
-
-        Random random = new Random();
-        String code = String.valueOf(random.nextInt(1000));
-
-        return code;
+    public UUID createCode(){
+        UUID uuid = UUID.randomUUID();
+        return uuid;
     }
 
     public String sendMail(String mail, String link) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText("Você solicitou a recuperação de senha, clique no link para realizar o cadastro de uma nova senha: " + link);
-        message.setTo("");
+        message.setTo("memorygamelgpd@gmail.com");
+        message.setSubject( "Teste email" );
         message.setFrom(mail);
-
         try {
             mailSender.send(message);
             return "Email enviado com sucesso!";
