@@ -1,54 +1,54 @@
 package com.unicesumar.ads.tcc.service;
 
 import com.unicesumar.ads.tcc.data.entity.RecoveryPassEntity;
-import com.unicesumar.ads.tcc.data.entity.UserEntity;
-import com.unicesumar.ads.tcc.data.repository.RecoveryPassCodeRepository;
-import com.unicesumar.ads.tcc.data.repository.UserRepository;
+import com.unicesumar.ads.tcc.data.entity.UsersEntity;
+import com.unicesumar.ads.tcc.data.repository.RecoveryPassRepository;
+import com.unicesumar.ads.tcc.data.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@RequiredArgsConstructor
+import static com.unicesumar.ads.tcc.service.RecoveryPassConstants.*;
+
 @Service
+@RequiredArgsConstructor
 public class RecoveryPassService {
 
-    private final RecoveryPassCodeRepository repository;
+    private final RecoveryPassRepository repository;
+    private RecoveryPassEntity recoveryPassCodeEntity;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
-    private RecoveryPassEntity recoveryPassCodeEntity;
-
-    @Value("${spring.mail.username}")
-    private String email;
-
+    /**
+     * validation method for email forwarding
+     * @return response
+     */
     public String recoveryPass(String mail){
 
-        UserEntity user = userRepository.findByUsername(mail);
+        UsersEntity user = usersRepository.findByUsername(mail);
         String response = "";
 
         try {
             if(user != null){
                 UUID code = createCode();
-                //salvar no banco código e usuário e apagar depois de um tempo.
-                String link = "https://localhost:8000/recuperasenha/" + code;
+                String link = LINK + code;
 
                 recoveryPassCodeEntity = RecoveryPassEntity.builder()
                         .code(code.toString())
-                        .userEntity(user)
+                        .user(user)
                         .build();
                 repository.save(recoveryPassCodeEntity);
 
                 response = sendMail(mail, link);
             }
             else{
-                response = "Usuário não encontrado!!!";
+                response = RESPONSE;
             }
         }
         catch (Exception e){
@@ -58,22 +58,39 @@ public class RecoveryPassService {
         return response;
     }
 
+    /**
+     * Create a random code
+     * @return uuid
+     */
     public UUID createCode(){
         UUID uuid = UUID.randomUUID();
         return uuid;
     }
 
+    /**
+     * forward the email if everything is correct
+     * Try @return "Email enviado com sucesso!"
+     * Catch @return "Erro ao enviar email!"
+     */
     public String sendMail(String mail, String link) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setText("Você solicitou a recuperação de senha, clique no link para realizar o cadastro de uma nova senha: " + link);
+        message.setText(TEXT + link);
         message.setTo(mail);
-        message.setSubject("Recuperação de senha");
+        message.setSubject(SUBJECT);
         try {
             mailSender.send(message);
             return "Email enviado com sucesso!";
         } catch (Exception e) {
-            return "Erro ao enviar email.";
+            return "Erro ao enviar email!";
         }
     }
+
+    /**
+     * Find RecoveryPassEntity by code
+     */
+    public RecoveryPassEntity getRecoveryPassByCode(String code) {
+        return repository.findByCode(code);
+    }
+
 }

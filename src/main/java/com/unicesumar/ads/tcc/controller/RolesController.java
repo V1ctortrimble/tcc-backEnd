@@ -22,14 +22,14 @@ public class RolesController {
 
     @ApiOperation(value = "Test Admin", authorizations = { @Authorization(value="jwtToken") })
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(path = "teste1")
+    @GetMapping(path = "teste/admin")
     public ResponseEntity<?> getHelloAdmin() {
         return new ResponseEntity<>(ADMIN, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Test Protected", authorizations = { @Authorization(value="jwtToken") })
     @PreAuthorize("hasRole('USER')")
-    @GetMapping(path = "teste2")
+    @GetMapping(path = "teste/protected")
     public ResponseEntity<?> getHelloprotected() {
         return new ResponseEntity<>(PROTECTED, HttpStatus.OK);
     }

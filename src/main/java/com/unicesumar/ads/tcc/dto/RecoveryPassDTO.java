@@ -6,21 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserTypeDTO {
+public class RecoveryPassDTO {
 
-    @JsonProperty("id_user_type")
-    private Integer idUserType;
+    @JsonProperty("code")
+    private String code;
 
-    @JsonProperty("user_type")
-    private String userType;
-
-    @JsonProperty("users")
-    private List<UserDTO> users;
+    @JsonProperty("user")
+    private UsersDTO user;
 
 }

@@ -26,7 +26,7 @@ public class RecoveryPassEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USER")
-    private UserEntity userEntity;
+    private UsersEntity user;
 
 
 }

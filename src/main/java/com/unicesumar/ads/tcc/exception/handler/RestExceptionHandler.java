@@ -2,6 +2,7 @@ package com.unicesumar.ads.tcc.exception.handler;
 
 
 import com.unicesumar.ads.tcc.exception.ErrorDetatils;
+import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpForbiddenException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +28,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .message(hnfException.getMessage())
                 .build();
         return new ResponseEntity<>(details, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HttpBadRequestException.class)
+    public ResponseEntity<?> handlerHttpBadRequestException(HttpBadRequestException hbrException) {
+        ErrorDetatils details = ErrorDetatils.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(hbrException.getMessage())
+                .build();
+        return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpForbiddenException.class)

@@ -1,13 +1,16 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.unicesumar.ads.tcc.converter.UserEntityConverter;
+import com.unicesumar.ads.tcc.converter.RecoveryPassEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.RecoveryPassEntity;
-import com.unicesumar.ads.tcc.data.entity.UserEntity;
-import com.unicesumar.ads.tcc.data.repository.RecoveryPassCodeRepository;
-import com.unicesumar.ads.tcc.data.repository.UserRepository;
-import com.unicesumar.ads.tcc.dto.UserDTO;
+import com.unicesumar.ads.tcc.data.entity.UsersEntity;
+import com.unicesumar.ads.tcc.dto.RecoveryPassDTO;
+import com.unicesumar.ads.tcc.dto.UsersDTO;
+import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.RecoveryPassService;
+import com.unicesumar.ads.tcc.service.UsersService;
+import com.unicesumar.ads.tcc.util.PasswordEncoderUtil;
+import com.unicesumar.ads.tcc.util.ValidatePasswordUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -16,53 +19,70 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = {"visualization tests of Recovery Pass"})
+@Api(tags = {"visualization of Recovery Pass"})
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
 public class RecoveryPassController {
 
-    private final RecoveryPassCodeRepository recoveryPassCodeRepository;
-    private final UserRepository userRepository;
+    /**
+     * Constants
+     */
+    public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
+    public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA = "Usuário não localizado para alterar senha";
+    public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
+
+    /**
+     * Services
+     */
+    private final UsersService usersService;
     private final RecoveryPassService recoveryPassService;
-    private final UserEntityConverter converter;
 
-    private UserDTO userDTO;
+    /**
+     * Converters
+     */
+    private final RecoveryPassEntityConverter recoveryPassEntityConverter;
 
+    /**
+     * Utils
+     */
+    private final PasswordEncoderUtil passwordEncoder;
+    private final ValidatePasswordUtil validatePassword;
 
-    @GetMapping("recuperasenha/{code}")
-    public RecoveryPassEntity getCodeRecoveryPass(@PathVariable("code") String code) {
-        RecoveryPassEntity recoveryPassEntity = recoveryPassCodeRepository.findByCode(code);
-        return recoveryPassEntity;
+    @ApiOperation(value = "Recovers user to change password")
+    @GetMapping(path = "recoverysenha/{code}")
+    public ResponseEntity<RecoveryPassDTO> getCodeRecoveryPass(@PathVariable("code") String code) {
+        RecoveryPassEntity entity = recoveryPassService.getRecoveryPassByCode(code);
+        RecoveryPassDTO dto = recoveryPassEntityConverter.toDTO(entity);
+        return new ResponseEntity<>(dto, HttpStatus.OK) ;
     }
 
-//    @PutMapping("alterarsenha/{username}")
-//    public ResponseEntity<UserDTO> putPassword(@PathVariable("username") String username,
-//                                               @Validated @RequestBody UserDTO userDTO) throws HttpNotFoundException {
-//
-//        UserEntity user = userRepository.findByUsername(username);
-//
-//        if (user != null){
-//            this.userDTO = UserDTO.builder()
-//                    .password(userDTO.getPassword())
-//                    .build();
-//            userRepository.save(converter.toEntity(this.userDTO));
-//            return new ResponseEntity<>(userDTO, HttpStatus.OK);
-//        }
-//        throw new HttpNotFoundException("not found");
-//    }
+    @ApiOperation(value = "URL to change user password")
+    @PutMapping(path = "changepassword")
+    public ResponseEntity<UsersDTO> putPassword(@Validated @RequestBody UsersDTO dto) {
 
+        UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
 
-    @ApiOperation(value = "Test enviar email" )
-    @PostMapping(path = "sendemail/{email}")
-    public ResponseEntity<?> getHelloAdmin(@PathVariable("email") String email) {
-       try {
-           recoveryPassService.recoveryPass(email);
-           return new ResponseEntity<>(email, HttpStatus.OK);
-       }catch (RuntimeException ex){
-           throw new RuntimeException(ex);
-       }
+        if (entity != null) {
+            if (dto.getPassword().equals(dto.getRepeatPassword())) {
+                if (validatePassword.getMatcher(dto.getPassword())) {
+                    entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
+                    usersService.postUsers(entity);
+                    //TODO: Criar uma mensagem de retorno HttpStatus.OK
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+                throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
+            }
+            throw new HttpBadRequestException(SENHAS_INFORMADAS_NAO_CONFEREM);
+        }
+        throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA);
     }
 
-
+    @ApiOperation(value = "Send password recovery email")
+    @PostMapping(path = "sendemail")
+    public ResponseEntity<?> getHelloAdmin(@Validated @RequestBody UsersDTO dto) {
+        recoveryPassService.recoveryPass(dto.getUsername());
+        //TODO: Criar uma mensagem de retorno HttpStatus.OK
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -17,7 +17,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "USERS")
-public class UserEntity implements Serializable, UserDetails {
+public class UsersEntity implements Serializable, UserDetails {
 
     @Id
     @Column(name = "ID_USERS")
@@ -40,10 +40,6 @@ public class UserEntity implements Serializable, UserDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANY_SYSTEM")
     private CompanySystemEntity companySystem;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_USER_TYPE")
-    private UserTypeEntity userType;
 
     /**
      * Methods for implementing UserDetails

@@ -1,7 +1,7 @@
 package com.unicesumar.ads.tcc.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unicesumar.ads.tcc.data.entity.UserEntity;
+import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            UserEntity user = new ObjectMapper().readValue(request.getInputStream(), UserEntity.class);
+            UsersEntity user = new ObjectMapper().readValue(request.getInputStream(), UsersEntity.class);
             return this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),
                     user.getPassword()));
         } catch (IOException e) {

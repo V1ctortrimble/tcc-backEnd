@@ -30,6 +30,6 @@ public class CompanySystemEntity implements Serializable {
     private List<CompanyPartnerEntity> companyPartners;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companySystem")
-    private List<UserEntity> users;
+    private List<UsersEntity> users;
 
 }

@@ -1,7 +1,7 @@
 package com.unicesumar.ads.tcc.service;
 
-import com.unicesumar.ads.tcc.data.entity.UserEntity;
-import com.unicesumar.ads.tcc.data.repository.UserRepository;
+import com.unicesumar.ads.tcc.data.entity.UsersEntity;
+import com.unicesumar.ads.tcc.data.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -25,7 +25,7 @@ public class UserDetailsServiceImplements implements UserDetailsService {
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
-    private final UserRepository repository;
+    private final UsersRepository repository;
 
     /**
      * User search method informed in the request
@@ -34,7 +34,7 @@ public class UserDetailsServiceImplements implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity user = Optional.ofNullable(repository.findByUsername(username))
+        UsersEntity user = Optional.ofNullable(repository.findByUsername(username))
                 .orElseThrow(()-> new UsernameNotFoundException(USER_NOT_FOUND));
         List<GrantedAuthority> authorityListAdmin = AuthorityUtils
                 .createAuthorityList(ROLE_USER, ROLE_ADMIN);
