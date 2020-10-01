@@ -49,7 +49,7 @@ public class RecoveryPassController {
     private final ValidatePasswordUtil validatePassword;
 
     @ApiOperation(value = "Recovers user to change password")
-    @GetMapping(path = "recoverysenha/{code}")
+    @GetMapping(path = "recoverypassword/{code}")
     public ResponseEntity<UsersDTO> getCodeRecoveryPass(@PathVariable("code") String code) {
         UsersEntity entity = usersService.getUserChangePass(code);
 
