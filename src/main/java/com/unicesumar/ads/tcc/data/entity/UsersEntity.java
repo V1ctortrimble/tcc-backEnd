@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Data
@@ -40,6 +41,12 @@ public class UsersEntity implements Serializable, UserDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANY_SYSTEM")
     private CompanySystemEntity companySystem;
+
+    @Column(name = "CODE")
+    private String code;
+
+    @Column(name = "DATE_CODE")
+    private LocalDateTime dataCode;
 
     /**
      * Methods for implementing UserDetails

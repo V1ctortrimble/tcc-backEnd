@@ -1,15 +1,13 @@
 package com.unicesumar.ads.tcc.service;
 
-import com.unicesumar.ads.tcc.data.entity.RecoveryPassEntity;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
-import com.unicesumar.ads.tcc.data.repository.RecoveryPassRepository;
 import com.unicesumar.ads.tcc.data.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.unicesumar.ads.tcc.service.RecoveryPassConstants.*;
@@ -18,8 +16,6 @@ import static com.unicesumar.ads.tcc.service.RecoveryPassConstants.*;
 @RequiredArgsConstructor
 public class RecoveryPassService {
 
-    private final RecoveryPassRepository repository;
-    private RecoveryPassEntity recoveryPassCodeEntity;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
@@ -38,12 +34,10 @@ public class RecoveryPassService {
             if(user != null){
                 UUID code = createCode();
                 String link = LINK + code;
+                user.setCode(code.toString());
+                user.setDataCode(LocalDateTime.now());
 
-                recoveryPassCodeEntity = RecoveryPassEntity.builder()
-                        .code(code.toString())
-                        .user(user)
-                        .build();
-                repository.save(recoveryPassCodeEntity);
+                usersRepository.save(user);
 
                 response = sendMail(mail, link);
             }
@@ -84,13 +78,6 @@ public class RecoveryPassService {
         } catch (Exception e) {
             return "Erro ao enviar email!";
         }
-    }
-
-    /**
-     * Find RecoveryPassEntity by code
-     */
-    public RecoveryPassEntity getRecoveryPassByCode(String code) {
-        return repository.findByCode(code);
     }
 
 }

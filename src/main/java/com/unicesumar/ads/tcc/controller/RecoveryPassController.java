@@ -1,9 +1,7 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.unicesumar.ads.tcc.converter.RecoveryPassEntityConverter;
-import com.unicesumar.ads.tcc.data.entity.RecoveryPassEntity;
+import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
-import com.unicesumar.ads.tcc.dto.RecoveryPassDTO;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
@@ -31,6 +29,7 @@ public class RecoveryPassController {
     public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
     public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA = "Usuário não localizado para alterar senha";
     public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
+    public static final String CODIGO_EXPIRADO_OU_INEXISTENTE = "Código expirado ou inexistente";
 
     /**
      * Services
@@ -41,7 +40,7 @@ public class RecoveryPassController {
     /**
      * Converters
      */
-    private final RecoveryPassEntityConverter recoveryPassEntityConverter;
+    private final UsersEntityConverter usersEntityConverter;
 
     /**
      * Utils
@@ -51,10 +50,15 @@ public class RecoveryPassController {
 
     @ApiOperation(value = "Recovers user to change password")
     @GetMapping(path = "recoverysenha/{code}")
-    public ResponseEntity<RecoveryPassDTO> getCodeRecoveryPass(@PathVariable("code") String code) {
-        RecoveryPassEntity entity = recoveryPassService.getRecoveryPassByCode(code);
-        RecoveryPassDTO dto = recoveryPassEntityConverter.toDTO(entity);
-        return new ResponseEntity<>(dto, HttpStatus.OK) ;
+    public ResponseEntity<UsersDTO> getCodeRecoveryPass(@PathVariable("code") String code) {
+        UsersEntity entity = usersService.getUserChangePass(code);
+
+        if (entity != null){
+            UsersDTO dto = usersEntityConverter.toDTO(entity);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }else {
+            throw new HttpNotFoundException(CODIGO_EXPIRADO_OU_INEXISTENTE);
+        }
     }
 
     @ApiOperation(value = "URL to change user password")
