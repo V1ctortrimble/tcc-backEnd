@@ -11,4 +11,5 @@ public class RecoveryPassConstants {
             "realizar o cadastro de uma nova senha: ";
     public static final String SUBJECT = "Recuperação de senha";
 
+    public static final String ERRO_AO_ENVIAR_EMAIL = "Erro ao enviar e-mail para o usuário";
 }

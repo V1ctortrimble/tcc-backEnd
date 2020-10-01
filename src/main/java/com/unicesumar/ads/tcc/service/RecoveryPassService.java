@@ -2,7 +2,10 @@ package com.unicesumar.ads.tcc.service;
 
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.data.repository.UsersRepository;
+import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
+import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.httpclient.NoHttpResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.unicesumar.ads.tcc.controller.RecoveryPassController.USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA;
 import static com.unicesumar.ads.tcc.service.RecoveryPassConstants.*;
 
 @Service
@@ -46,7 +50,7 @@ public class RecoveryPassService {
             }
         }
         catch (Exception e){
-            return e.getMessage();
+            throw new HttpBadRequestException(ERRO_AO_ENVIAR_EMAIL);
         }
 
         return response;
@@ -76,7 +80,7 @@ public class RecoveryPassService {
             mailSender.send(message);
             return "Email enviado com sucesso!";
         } catch (Exception e) {
-            return "Erro ao enviar email!";
+            throw new HttpNotFoundException(ERRO_AO_ENVIAR_EMAIL);
         }
     }
 

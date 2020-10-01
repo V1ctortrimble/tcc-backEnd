@@ -30,6 +30,7 @@ public class RecoveryPassController {
     public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA = "Usuário não localizado para alterar senha";
     public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
     public static final String CODIGO_EXPIRADO_OU_INEXISTENTE = "Código expirado ou inexistente";
+    private static final String EMAIL_ENVIADO_COM_SUCESSO = "E-mail enviado com sucesso";
 
     /**
      * Services
@@ -85,8 +86,13 @@ public class RecoveryPassController {
     @ApiOperation(value = "Send password recovery email")
     @PostMapping(path = "sendemail")
     public ResponseEntity<?> getHelloAdmin(@Validated @RequestBody UsersDTO dto) {
-        recoveryPassService.recoveryPass(dto.getUsername());
-        //TODO: Criar uma mensagem de retorno HttpStatus.OK
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            recoveryPassService.recoveryPass(dto.getUsername());
+            //TODO: Criar uma mensagem de retorno HttpStatus.OK
+            return new ResponseEntity<>(EMAIL_ENVIADO_COM_SUCESSO,HttpStatus.OK);
+        }
+        catch (Exception e){
+            throw new HttpBadRequestException(e.getMessage());
+        }
     }
 }
