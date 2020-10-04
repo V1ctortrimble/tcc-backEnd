@@ -87,7 +87,7 @@ public class RecoveryPassController {
 
     @ApiOperation(value = "Send password recovery email")
     @PostMapping(path = "/sendemail")
-    public ResponseEntity<?> getHelloAdmin(@Validated @RequestBody UsersDTO dto) {
+    public ResponseEntity<?> sendRecoveryEmail(@Validated @RequestBody UsersDTO dto) {
         try {
             recoveryPassService.recoveryPass(dto.getUsername());
             //TODO: Criar uma mensagem de retorno HttpStatus.OK
