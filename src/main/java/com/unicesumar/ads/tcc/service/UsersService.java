@@ -31,13 +31,19 @@ public class UsersService {
     public UsersEntity getUserChangePass(String code) {
         UsersEntity user = repository.findByCode(code);
 
-        double horaAtual = LocalDateTime.now().getHour();
-        double horaToken = user.getDataCode().getHour();
+        if(user != null){
+            double horaAtual = LocalDateTime.now().getHour();
+            double horaToken = user.getDataCode().getHour();
 
-        if( horaAtual - horaToken > 1 ){
-            return null;
-        }else{
-            return user;
+            if( horaAtual - horaToken > 1 ){
+                return null;
+            }else{
+                return user;
+            }
         }
+        else{
+            return null;
+        }
+
     }
 }
