@@ -8,6 +8,7 @@ import com.unicesumar.ads.tcc.service.RecoveryPassService;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,15 +35,20 @@ public class RecoveryPassTest {
     @Autowired
     private RecoveryPassController recoveryPassController;
 
+    @MockBean
+    private RecoveryPassService recoveryPassService;
+
     @Test
     void case1() throws Exception{
 
         UsersDTO usersDTO = new UsersDTO();
         usersDTO.setUsername("marcio.lesni@gmail.com");
 
-        mockMvc.perform(post("/sendemail")
+        BDDMockito.when((recoveryPassService.recoveryPass(usersDTO.getUsername()))).thenReturn("OK");
+
+        mockMvc.perform(post(BASE_URL+"/api/sendemail")
                 .contentType("application/json")
-        .content(objectMapper.writeValueAsString(recoveryPassController.sendRecoveryEmail(usersDTO))))
+        .content(objectMapper.writeValueAsString(usersDTO)))
         .andExpect(status().isOk());
 
         Assertions.assertTrue(true);
@@ -54,9 +60,11 @@ public class RecoveryPassTest {
         UsersDTO usersDTO = new UsersDTO();
         usersDTO.setUsername("");
 
-        mockMvc.perform(post(BASE_URL+"/sendemail")
+        BDDMockito.when((recoveryPassService.recoveryPass(usersDTO.getUsername()))).thenThrow();
+
+        mockMvc.perform(post(BASE_URL+"/api/sendemail")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(recoveryPassController.sendRecoveryEmail(usersDTO))))
+                .content(objectMapper.writeValueAsString(usersDTO)))
                 .andExpect(status().isBadRequest());
 
         Assertions.assertTrue(true);
