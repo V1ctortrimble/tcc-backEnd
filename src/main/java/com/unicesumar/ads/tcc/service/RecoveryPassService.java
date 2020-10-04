@@ -46,7 +46,7 @@ public class RecoveryPassService {
                 response = sendMail(mail, link);
             }
             else{
-                response = RESPONSE;
+                throw new HttpBadRequestException(ERRO_AO_ENVIAR_EMAIL);
             }
         }
         catch (Exception e){

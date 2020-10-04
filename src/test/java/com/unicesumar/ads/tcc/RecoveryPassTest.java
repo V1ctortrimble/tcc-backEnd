@@ -5,6 +5,7 @@ import com.unicesumar.ads.tcc.controller.RecoveryPassController;
 import com.unicesumar.ads.tcc.data.repository.UsersRepository;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.service.RecoveryPassService;
+import com.unicesumar.ads.tcc.service.UsersService;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -35,18 +36,14 @@ public class RecoveryPassTest {
     @Autowired
     private RecoveryPassController recoveryPassController;
 
-    @MockBean
-    private RecoveryPassService recoveryPassService;
 
     @Test
-    void case1() throws Exception{
+    void ct02001() throws Exception{
 
         UsersDTO usersDTO = new UsersDTO();
-        usersDTO.setUsername("marcio.lesni@gmail.com");
+        usersDTO.setUsername("guto_rick1997@hotmail.com");
 
-        BDDMockito.when((recoveryPassService.recoveryPass(usersDTO.getUsername()))).thenReturn("OK");
-
-        mockMvc.perform(post(BASE_URL+"/api/sendemail")
+        mockMvc.perform(post(BASE_URL+"/api/sendemail") 
                 .contentType("application/json")
         .content(objectMapper.writeValueAsString(usersDTO)))
         .andExpect(status().isOk());
@@ -55,12 +52,10 @@ public class RecoveryPassTest {
     }
 
     @Test
-    void case2() throws Exception{
+    void ct0202() throws Exception{
 
         UsersDTO usersDTO = new UsersDTO();
         usersDTO.setUsername("");
-
-        BDDMockito.when((recoveryPassService.recoveryPass(usersDTO.getUsername()))).thenThrow();
 
         mockMvc.perform(post(BASE_URL+"/api/sendemail")
                 .contentType("application/json")
@@ -68,6 +63,68 @@ public class RecoveryPassTest {
                 .andExpect(status().isBadRequest());
 
         Assertions.assertTrue(true);
-
     }
+
+    @Test
+    void ct0203() throws Exception{
+
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setUsername("guto_rick1997@hotmail.com");
+        usersDTO.setPassword("Teste157#@!");
+        usersDTO.setRepeatPassword("Teste157#@!");
+
+        mockMvc.perform(put(BASE_URL+"/api/changepassword")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(usersDTO)))
+                .andExpect(status().isOk());
+
+        Assertions.assertTrue(true);
+    }
+
+    @Test
+    void ct0204() throws Exception{
+
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setUsername("guto_rick1997@hotmail.com");
+        usersDTO.setPassword("Teste157#@!");
+        usersDTO.setRepeatPassword("Teste1#@!");
+
+        mockMvc.perform(put(BASE_URL+"/api/changepassword")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(usersDTO)))
+                .andExpect(status().isBadRequest());
+
+        Assertions.assertTrue(true);
+    }
+
+    @Test
+    void ct0205() throws Exception{
+
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setUsername("guto_rick1997@hotmail.com");
+        usersDTO.setPassword("testeteste");
+        usersDTO.setRepeatPassword("testeteste");
+
+        mockMvc.perform(put(BASE_URL+"/api/changepassword")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(usersDTO)))
+                .andExpect(status().isBadRequest());
+
+        Assertions.assertTrue(true);
+    }
+
+    @Test
+    void ct0206() throws Exception{
+
+        UsersDTO usersDTO = new UsersDTO();
+
+        mockMvc.perform(put(BASE_URL+"/api/changepassword")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(usersDTO)))
+                .andExpect(status().isNotFound());
+
+        Assertions.assertTrue(true);
+    }
+
+
 }
