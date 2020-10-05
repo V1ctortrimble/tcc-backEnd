@@ -38,7 +38,7 @@ public class RecoveryPassTest {
 
 
     @Test
-    void ct02001() throws Exception{
+    void ct0201() throws Exception{
 
         UsersDTO usersDTO = new UsersDTO();
         usersDTO.setUsername("guto_rick1997@hotmail.com");
