@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +29,8 @@ public class UsersDTO {
 
     @JsonProperty("admin")
     private Boolean admin;
+
+    @JsonProperty("code")
+    private String code;
 
 }

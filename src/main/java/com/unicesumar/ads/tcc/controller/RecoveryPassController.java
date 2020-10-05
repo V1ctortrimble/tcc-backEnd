@@ -31,6 +31,7 @@ public class RecoveryPassController {
     public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
     public static final String CODIGO_EXPIRADO_OU_INEXISTENTE = "Código expirado ou inexistente";
     private static final String EMAIL_ENVIADO_COM_SUCESSO = "E-mail enviado com sucesso";
+    public static final String SENHA_ALTERADA_COM_SUCESSO = "Senha alterada com sucesso";
 
     /**
      * Services
@@ -65,7 +66,7 @@ public class RecoveryPassController {
 
     @ApiOperation(value = "URL to change user password")
     @PutMapping(path = "/changepassword")
-    public ResponseEntity<UsersDTO> putPassword(@Validated @RequestBody UsersDTO dto) {
+    public ResponseEntity<?> putPassword(@Validated @RequestBody UsersDTO dto) {
 
         UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
 
@@ -76,7 +77,7 @@ public class RecoveryPassController {
                     entity.setCode(null);
                     usersService.postUsers(entity);
                     //TODO: Criar uma mensagem de retorno HttpStatus.OK
-                    return new ResponseEntity<>(HttpStatus.OK);
+                    return new ResponseEntity<>(SENHA_ALTERADA_COM_SUCESSO, HttpStatus.OK);
                 }
                 throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
             }
