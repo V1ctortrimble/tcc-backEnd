@@ -73,7 +73,7 @@ public class RecoveryPassController {
             if (dto.getPassword().equals(dto.getRepeatPassword())) {
                 if (validatePassword.getMatcher(dto.getPassword())) {
                     entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
-//                    entity.setCode(null);
+                    entity.setCode(null);
                     usersService.postUsers(entity);
                     //TODO: Criar uma mensagem de retorno HttpStatus.OK
                     return new ResponseEntity<>(HttpStatus.OK);
