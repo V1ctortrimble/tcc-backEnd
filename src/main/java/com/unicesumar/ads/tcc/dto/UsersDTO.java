@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
 @Builder
 public class UsersDTO {
 
-    @JsonProperty("id_user")
-    private Integer idUser;
-
     @JsonProperty("username")
     private String username;
 
@@ -29,8 +26,5 @@ public class UsersDTO {
 
     @JsonProperty("admin")
     private Boolean admin;
-
-    @JsonProperty("code")
-    private String code;
 
 }

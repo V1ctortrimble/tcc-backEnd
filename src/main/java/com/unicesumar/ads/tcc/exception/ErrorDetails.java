@@ -11,11 +11,10 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorDetatils {
+public class ErrorDetails {
     private LocalDateTime timestamp;
     private Integer status;
     private String error;
     private String message;
     private String details;
-
 }

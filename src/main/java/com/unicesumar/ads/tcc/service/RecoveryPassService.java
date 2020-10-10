@@ -5,15 +5,14 @@ import com.unicesumar.ads.tcc.data.repository.UsersRepository;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.httpclient.NoHttpResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.unicesumar.ads.tcc.controller.RecoveryPassController.USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA;
 import static com.unicesumar.ads.tcc.service.RecoveryPassConstants.*;
 
 @Service

@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -25,9 +27,12 @@ public class UsersEntity implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
+    @NotEmpty(message = "Usuário não pode ser vazio")
+    @Email(message = "Campo deve ser um e-mail válido")
     @Column(name = "LOGIN")
     private String username;
 
+    @NotEmpty(message = "Senha não pode ser vazia")
     @Column(name = "PASSWORD")
     private String password;
 

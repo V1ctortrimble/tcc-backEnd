@@ -59,9 +59,8 @@ public class RecoveryPassController {
             entity.setPassword(null);
             UsersDTO dto = usersEntityConverter.toDTO(entity);
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        }else {
-            throw new HttpNotFoundException(CODIGO_EXPIRADO_OU_INEXISTENTE);
         }
+        throw new HttpNotFoundException(CODIGO_EXPIRADO_OU_INEXISTENTE);
     }
 
     @ApiOperation(value = "URL to change user password")
@@ -76,7 +75,6 @@ public class RecoveryPassController {
                     entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
                     entity.setCode(null);
                     usersService.postUsers(entity);
-                    //TODO: Criar uma mensagem de retorno HttpStatus.OK
                     return new ResponseEntity<>(SENHA_ALTERADA_COM_SUCESSO, HttpStatus.OK);
                 }
                 throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
@@ -91,8 +89,7 @@ public class RecoveryPassController {
     public ResponseEntity<?> sendRecoveryEmail(@Validated @RequestBody UsersDTO dto) {
         try {
             recoveryPassService.recoveryPass(dto.getUsername());
-            //TODO: Criar uma mensagem de retorno HttpStatus.OK
-            return new ResponseEntity<>(EMAIL_ENVIADO_COM_SUCESSO,HttpStatus.OK);
+            return new ResponseEntity<>(EMAIL_ENVIADO_COM_SUCESSO, HttpStatus.OK);
         }
         catch (Exception e){
             throw new HttpBadRequestException(e.getMessage());

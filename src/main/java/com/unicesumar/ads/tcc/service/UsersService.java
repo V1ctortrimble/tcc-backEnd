@@ -3,10 +3,10 @@ package com.unicesumar.ads.tcc.service;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.data.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,26 +24,31 @@ public class UsersService {
     /**
      * Save or update a UsersEntity
      */
-    public UsersEntity postUsers(UsersEntity entity) {
-        return repository.save(entity);
+    public void postUsers(UsersEntity entity) {
+        repository.save(entity);
     }
 
+    /**
+     * Find All Users
+     */
+    public List<UsersEntity> getUsers() {
+        return repository.findAll();
+    }
+
+    /**
+     * Validates that the password change code is valid
+     */
     public UsersEntity getUserChangePass(String code) {
         UsersEntity user = repository.findByCode(code);
 
         if(user != null){
             double horaAtual = LocalDateTime.now().getHour();
             double horaToken = user.getDataCode().getHour();
-
             if( horaAtual - horaToken > 1 ){
                 return null;
-            }else{
-                return user;
             }
+            return user;
         }
-        else{
-            return null;
-        }
-
+        return null;
     }
 }
