@@ -42,6 +42,6 @@ public class VehicleTypeDTO {
     private String description;
 
     @JsonProperty("vehicles")
-    private List<VehicleDTO> vehicles;
+    private List<VehicleDTO> vehicleDTOS;
 
 }

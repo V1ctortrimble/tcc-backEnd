@@ -16,7 +16,7 @@ public class HostingDTO {
     private Integer idHosting;
 
     @JsonProperty("adress")
-    private AdressDTO adress;
+    private AdressDTO adressDTO;
 
     @JsonProperty("tourism_regis")
     private String tourismRegis;

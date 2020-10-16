@@ -19,10 +19,10 @@ public class FinancialDTO {
     private Integer idFinancial;
 
     @JsonProperty("travel_contracts")
-    private TravelContractDTO travelContract;
+    private TravelContractDTO contractDTO;
 
     @JsonProperty("payment_methods")
-    private PaymentMethodDTO paymentMethod;
+    private PaymentMethodDTO paymentMethodDTO;
 
     @JsonProperty("installment")
     private Integer installment;

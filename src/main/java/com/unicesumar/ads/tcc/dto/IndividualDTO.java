@@ -21,7 +21,7 @@ public class IndividualDTO {
     private Integer idIndividual;
 
     @JsonProperty("person")
-    private PersonEntity person;
+    private PersonDTO personDTO;
 
     @JsonProperty("cpf")
     private String cpf;
@@ -38,14 +38,11 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @JsonProperty("active")
-    private Boolean active;
-
     @JsonProperty("company_partners")
-    private List<CompanyPartnerDTO> companyPartners;
+    private List<CompanyPartnerDTO> companyPartnerDTOS;
 
     @JsonProperty("passenger_travel_contracts" )
-    private List<PassengerTravelContractEntity> passengerTravelContracts;
+    private List<PassengerTravelContractDTO> passengerTravelContractDTOS;
 
 
 }

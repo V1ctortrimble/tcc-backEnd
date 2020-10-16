@@ -1,5 +1,7 @@
 package com.unicesumar.ads.tcc.controller;
 
+import com.unicesumar.ads.tcc.converter.CompanySystemEntityConverter;
+import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
@@ -34,6 +36,7 @@ public class UsersController {
     public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
     public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
     public static final String USUARIO_NAO_LOCALIZADO = "Usuário não localizado";
+    public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR = "Usuário não localizado para alterar";
 
     /**
      * Services
@@ -44,6 +47,8 @@ public class UsersController {
      * Converters
      */
     private final UsersEntityConverter usersEntityConverter;
+    private final IndividualEntityConverter individualEntityConverter;
+    private final CompanySystemEntityConverter companySystemEntityConverter;
 
     /**
      * Utils
@@ -51,22 +56,25 @@ public class UsersController {
     private final PasswordEncoderUtil passwordEncoder;
     private final ValidatePasswordUtil validatePassword;
 
+
     @ApiOperation(value = "Returns All users", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(path = "/users")
     public ResponseEntity<List<UsersDTO>> getUsers() {
         List<UsersEntity> entities = usersService.getUsers();
         List<UsersDTO> dtos = usersEntityConverter.toDTOList(entities);
+        for (UsersDTO dto : dtos) { dto.setPassword(null); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Returns users registered according to Username",
             authorizations = { @Authorization(value="jwtToken") })
-    @GetMapping(value = "/users/{username}")
-    public ResponseEntity<UsersDTO> getUsersByUsername(@PathVariable("username") String username) {
+    @GetMapping(value = "/users/username")
+    public ResponseEntity<?> getUsersByUsername(@RequestParam(value = "username") String username) {
 
         UsersEntity entity = usersService.getUserByLogin(username);
 
         if (entity != null) {
+            entity.setPassword(null);
             return new ResponseEntity<>(usersEntityConverter.toDTO(entity), HttpStatus.OK);
         }
         throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);
@@ -90,5 +98,29 @@ public class UsersController {
             throw new HttpBadRequestException(SENHAS_INFORMADAS_NAO_CONFEREM);
         }
         throw new HttpBadRequestException(USUARIO_JA_CADASTRADO);
+    }
+
+    @ApiOperation(value = "URL to update users", authorizations = { @Authorization(value="jwtToken") })
+    @PutMapping(path = "/updateusers")
+    public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,
+                                      @Validated @RequestBody UsersDTO dto) {
+
+        UsersEntity entity = usersService.getUserByLogin(username);
+
+        if (entity != null) {
+            if (validatePassword.getMatcher(dto.getPassword())) {
+                entity.setAdmin(dto.getAdmin());
+                entity.setUsername(dto.getUsername());
+                entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
+
+                entity.setCompanySystem(companySystemEntityConverter.toEntity(dto.getCompanySystemDTO()));
+                entity.setIndividual(individualEntityConverter.toEntity(dto.getIndividualDTO()));
+
+                usersService.postUsers(entity);
+                return new ResponseEntity<>(dto, HttpStatus.OK);
+            }
+            throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
+        }
+        throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO_PARA_ALTERAR);
     }
 }

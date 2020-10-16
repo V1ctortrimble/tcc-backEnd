@@ -22,6 +22,9 @@ public class PersonEntity implements Serializable {
     @Column(name = "ID_PERSON")
     private Integer idPerson;
 
+    @Column(name = "ACTIVE")
+    private Boolean active;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<ContactEntity> contacts;
 

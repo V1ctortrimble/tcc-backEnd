@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -19,6 +20,8 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    public static final String VERIFIQUE_OS_CAMPOS_PREENCHIDOS = "Verifique se os campos preenchidos estão válidos";
 
     @ExceptionHandler(HttpNotFoundException.class)
     public ResponseEntity<?> handlerHttpNotFoundException(HttpNotFoundException hnfException) {
@@ -38,6 +41,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST.value())
                 .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .message(manvException.getMessage())
+                .details(VERIFIQUE_OS_CAMPOS_PREENCHIDOS)
+                .build();
+        return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TransactionSystemException.class)
+    protected ResponseEntity<Object> handlerMethodArgumentNotValid(TransactionSystemException tsException) {
+        ErrorDetails details = ErrorDetails.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(tsException.getMessage())
+                .details(VERIFIQUE_OS_CAMPOS_PREENCHIDOS)
                 .build();
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
     }

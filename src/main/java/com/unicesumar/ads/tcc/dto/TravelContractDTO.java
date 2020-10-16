@@ -33,15 +33,15 @@ public class TravelContractDTO {
     private BigDecimal totalContractAmount;
 
     @JsonProperty("travel_Packge")
-    private TravelPackageDTO travelPackage;
+    private TravelPackageDTO travelPackageDTO;
 
     @JsonProperty("company")
-    private CompanyDTO company;
+    private CompanyDTO companyDTO;
 
     @JsonProperty("passenger_travel_contracts")
-    private List<PassengerTravelContractDTO> passengerTravelContracts;
+    private List<PassengerTravelContractDTO> passengerTravelContractDTOS;
 
     @JsonProperty("financials")
-    private List<FinancialDTO> financials;
+    private List<FinancialDTO> financialDTOS;
 
 }

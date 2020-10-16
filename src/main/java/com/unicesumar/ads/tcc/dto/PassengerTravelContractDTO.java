@@ -22,9 +22,9 @@ public class PassengerTravelContractDTO {
     private Boolean payingPassenger;
 
     @JsonProperty("individual")
-    private IndividualDTO individual;
+    private IndividualDTO individualDTO;
 
     @JsonProperty("travel_contract")
-    private TravelContractDTO travelContract;
+    private TravelContractDTO contractDTO;
 
 }

@@ -68,6 +68,6 @@ INNER JOIN travel_contract AS tc ON ptc.id_travel_contract = tc.id_travel_contra
 WHERE il.cpf = '11867136903';
 
 
-INSERT INTO users("login","password") VALUES('admin', '$2a$10$gi4K50fisL/i1dBR2vgoSOuKinjVWqCWrjiqBws2j0iYwTP9YB1wW');
+INSERT INTO users("login","password", "admin") VALUES('victorif627@outlook.com', '$2a$10$gi4K50fisL/i1dBR2vgoSOuKinjVWqCWrjiqBws2j0iYwTP9YB1wW', true);
 
 SELECT * FROM users;

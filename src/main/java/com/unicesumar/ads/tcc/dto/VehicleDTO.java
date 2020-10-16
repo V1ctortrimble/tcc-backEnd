@@ -18,15 +18,15 @@ public class VehicleDTO {
     private Integer idVehicle;
 
     @JsonProperty("company")
-    private CompanyDTO company;
+    private CompanyDTO companyDTO;
 
     @JsonProperty("vehicle_type")
-    private VehicleTypeDTO vehicleType;
+    private VehicleTypeDTO vehicleTypeDTO;
 
     @JsonProperty("rntrc")
     private String rntrc;
 
     @JsonProperty("travel_packges")
-    private List<TravelPackageDTO> travelPackages;
+    private List<TravelPackageDTO> travelPackageDTOS;
 
 }

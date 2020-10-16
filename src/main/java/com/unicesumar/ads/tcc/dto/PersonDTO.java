@@ -17,16 +17,19 @@ public class PersonDTO {
     @JsonProperty("id_person")
     private Integer idPerson;
 
+    @JsonProperty("active")
+    private Boolean active;
+
     @JsonProperty("contacts")
-    private List<ContactDTO> contacts;
+    private List<ContactDTO> contactDTOS;
 
     @JsonProperty("Adresses")
-    private List<AdressDTO> adresses;
+    private List<AdressDTO> adressDTOS;
 
     @JsonProperty("banks_details")
-    private List<BankDetailsDTO> banksDetails;
+    private List<BankDetailsDTO> bankDetailsDTOS;
 
     @JsonProperty("hostings")
-    private List<HostingDTO> hostings;
+    private List<HostingDTO> hostingDTOS;
 
 }

@@ -16,10 +16,10 @@ public class CompanyPartnerDTO {
     private Integer idCompanyPartner;
 
     @JsonProperty("company_system")
-    private CompanySystemDTO companySystem;
+    private CompanySystemDTO companySystemDTO;
 
     @JsonProperty("individual")
-    private IndividualDTO individual;
+    private IndividualDTO individualDTO;
 
     @JsonProperty("active")
     private Boolean active;

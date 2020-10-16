@@ -39,7 +39,7 @@ public class UsersEntity implements Serializable, UserDetails {
     @Column(name = "ADMIN")
     private Boolean admin;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_INDIVIDUAL")
     private IndividualEntity individual;
 

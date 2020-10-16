@@ -19,7 +19,7 @@ public class CompanyDTO {
     private Integer idCompany;
 
     @JsonProperty("person")
-    private PersonDTO person;
+    private PersonDTO personDTO;
 
     @JsonProperty("social_reason")
     private String socialReason;
@@ -36,13 +36,13 @@ public class CompanyDTO {
     @JsonProperty("open_date")
     private LocalDate openDate;
 
-    @JsonProperty("active")
+    @JsonProperty(value = "active")
     private Boolean active;
 
     @JsonProperty("vehicles")
-    private List<VehicleDTO> vehicles;
+    private List<VehicleDTO> vehicleDTOS;
 
     @JsonProperty("travels")
-    private List<TravelContractDTO> travelContracts;
+    private List<TravelContractDTO> travelContractDTOS;
 
 }

@@ -23,7 +23,7 @@ public class IndividualEntity implements Serializable {
     @Column(name = "ID_INDIVIDUAL")
     private Integer idIndividual;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 
