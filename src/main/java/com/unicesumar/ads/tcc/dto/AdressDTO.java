@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AdressDTO {
 
-    @JsonProperty("id_adress")
-    private Integer idAdress;
-
     @JsonProperty("adress")
     private String adress;
 
@@ -35,5 +32,7 @@ public class AdressDTO {
 
     @JsonProperty("zip_code")
     private String zipCode;
+
+    private PersonDTO person;
 
 }

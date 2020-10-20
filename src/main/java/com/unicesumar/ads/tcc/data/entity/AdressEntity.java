@@ -21,7 +21,7 @@ public class AdressEntity implements Serializable {
     @Column(name = "ID_ADRESS")
     private Integer idAdress;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 

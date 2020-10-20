@@ -14,13 +14,7 @@ import java.util.List;
 @Builder
 public class CompanySystemDTO {
 
-    @JsonProperty("id_company_system")
-    private Integer idCompanySystem;
-
     @JsonProperty("company")
     private CompanyDTO companyDTO;
-
-    @JsonProperty("Companies")
-    private List<CompanyPartnerDTO> companyPartnerDTOS;
 
 }

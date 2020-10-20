@@ -42,10 +42,7 @@ public class IndividualEntity implements Serializable {
     @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
-    @Column(name = "ACTIVE")
-    private Boolean active;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual", cascade=CascadeType.PERSIST)
     private List<CompanyPartnerEntity> companyPartners;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual" )

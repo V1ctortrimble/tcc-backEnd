@@ -17,12 +17,6 @@ import java.util.List;
 @Builder
 public class IndividualDTO {
 
-    @JsonProperty("id_individual")
-    private Integer idIndividual;
-
-    @JsonProperty("person")
-    private PersonDTO personDTO;
-
     @JsonProperty("cpf")
     private String cpf;
 
@@ -38,11 +32,7 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @JsonProperty("company_partners")
-    private List<CompanyPartnerDTO> companyPartnerDTOS;
-
-    @JsonProperty("passenger_travel_contracts" )
-    private List<PassengerTravelContractDTO> passengerTravelContractDTOS;
-
+    @JsonProperty("person")
+    private PersonDTO person;
 
 }

@@ -29,13 +29,15 @@ public class UsersDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean admin;
 
+    @JsonProperty("individual")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private IndividualDTO individual;
+
     @JsonProperty("company_system")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CompanySystemDTO companySystemDTO;
 
-    @JsonProperty("individual")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private IndividualDTO individualDTO;
+
 
 
 }

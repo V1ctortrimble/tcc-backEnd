@@ -14,22 +14,16 @@ import java.util.List;
 @Builder
 public class PersonDTO {
 
-    @JsonProperty("id_person")
-    private Integer idPerson;
-
     @JsonProperty("active")
     private Boolean active;
 
     @JsonProperty("contacts")
-    private List<ContactDTO> contactDTOS;
+    private List<ContactDTO> contacts;
 
     @JsonProperty("Adresses")
-    private List<AdressDTO> adressDTOS;
+    private List<AdressDTO> adresses;
 
     @JsonProperty("banks_details")
-    private List<BankDetailsDTO> bankDetailsDTOS;
-
-    @JsonProperty("hostings")
-    private List<HostingDTO> hostingDTOS;
+    private List<BankDetailsDTO> banksDetails;
 
 }

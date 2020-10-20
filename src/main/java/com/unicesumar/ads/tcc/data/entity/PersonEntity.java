@@ -25,16 +25,16 @@ public class PersonEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
     private List<ContactEntity> contacts;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
     private List<AdressEntity> adresses;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
     private List<BankDetailsEntity> banksDetails;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
     private List<HostingEntity> hostings;
 
 }

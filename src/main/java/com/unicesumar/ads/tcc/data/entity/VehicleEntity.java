@@ -22,18 +22,18 @@ public class VehicleEntity implements Serializable {
     @Column(name = "ID_VEHICLE")
     private Integer idVehicle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_COMPANY")
     private CompanyEntity company;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_VEHICLE_TYPE")
     private VehicleTypeEntity vehicleType;
 
     @Column(name = "RNTRC")
     private String rntrc;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "vehicles")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "vehicles", cascade=CascadeType.PERSIST)
     private List<TravelPackageEntity> travelPackages;
 
 }

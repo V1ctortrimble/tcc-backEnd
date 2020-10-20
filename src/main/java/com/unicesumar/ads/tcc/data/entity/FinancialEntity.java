@@ -23,11 +23,11 @@ public class FinancialEntity implements Serializable {
     @Column(name = "ID_FINANCIAL")
     private Integer idFinancial;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_TRAVEL_CONTRACT")
     private TravelContractEntity travelContract;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_PAYMENT_METHOD")
     private PaymentMethodEntity paymentMethod;
 

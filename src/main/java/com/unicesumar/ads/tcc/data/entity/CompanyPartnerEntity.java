@@ -21,11 +21,11 @@ public class CompanyPartnerEntity implements Serializable {
     @Column(name = "ID_COMPANY_PARTNER")
     private Integer idCompanyPartner;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_COMPANY_SYSTEM")
     private CompanySystemEntity companySystem;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_INDIVIDUAL")
     private IndividualEntity individual;
 

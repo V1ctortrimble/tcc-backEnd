@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BankDetailsDTO {
 
-    @JsonProperty("id_bank_details")
-    private Integer idBankDetails;
-
     @JsonProperty("bank")
     private String bank;
 
@@ -32,5 +29,7 @@ public class BankDetailsDTO {
 
     @JsonProperty("active")
     private Boolean active;
+
+    private PersonDTO person;
 
 }

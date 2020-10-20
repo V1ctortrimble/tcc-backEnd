@@ -45,10 +45,10 @@ public class CompanyEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade=CascadeType.PERSIST)
     private List<VehicleEntity> vehicles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade=CascadeType.PERSIST)
     private List<TravelContractEntity> travelContracts;
 
 }

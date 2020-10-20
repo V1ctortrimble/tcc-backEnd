@@ -4,6 +4,8 @@ import com.unicesumar.ads.tcc.converter.CompanySystemEntityConverter;
 import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
+import com.unicesumar.ads.tcc.data.repository.CompanySystemRepositoty;
+import com.unicesumar.ads.tcc.data.repository.IndividualRepository;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
@@ -42,6 +44,8 @@ public class UsersController {
      * Services
      */
     private final UsersService usersService;
+    private final IndividualRepository individualRepository;
+    private final CompanySystemRepositoty companySystemRepositoty;
 
     /**
      * Converters
@@ -114,7 +118,7 @@ public class UsersController {
                 entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
 
                 entity.setCompanySystem(companySystemEntityConverter.toEntity(dto.getCompanySystemDTO()));
-                entity.setIndividual(individualEntityConverter.toEntity(dto.getIndividualDTO()));
+                entity.setIndividual(individualEntityConverter.toEntity(dto.getIndividual()));
 
                 usersService.postUsers(entity);
                 return new ResponseEntity<>(dto, HttpStatus.OK);

@@ -21,7 +21,7 @@ public class BankDetailsEntity implements Serializable {
     @Column(name = "ID_BANK_DETAILS")
     private Integer idBankDetails;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 

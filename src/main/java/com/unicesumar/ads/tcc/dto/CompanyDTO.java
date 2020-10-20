@@ -15,11 +15,7 @@ import java.util.List;
 @Builder
 public class CompanyDTO {
 
-    @JsonProperty("id_company")
-    private Integer idCompany;
-
-    @JsonProperty("person")
-    private PersonDTO personDTO;
+    private PersonDTO person;
 
     @JsonProperty("social_reason")
     private String socialReason;
@@ -38,11 +34,5 @@ public class CompanyDTO {
 
     @JsonProperty(value = "active")
     private Boolean active;
-
-    @JsonProperty("vehicles")
-    private List<VehicleDTO> vehicleDTOS;
-
-    @JsonProperty("travels")
-    private List<TravelContractDTO> travelContractDTOS;
 
 }
