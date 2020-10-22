@@ -23,10 +23,6 @@ public class IndividualEntity implements Serializable {
     @Column(name = "ID_INDIVIDUAL")
     private Integer idIndividual;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity person;
-
     @Column(name = "CPF")
     private String cpf;
 
@@ -42,7 +38,7 @@ public class IndividualEntity implements Serializable {
     @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual", cascade=CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual")
     private List<CompanyPartnerEntity> companyPartners;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual" )

@@ -15,8 +15,6 @@ import java.util.List;
 @Builder
 public class CompanyDTO {
 
-    private PersonDTO person;
-
     @JsonProperty("social_reason")
     private String socialReason;
 

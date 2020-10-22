@@ -16,5 +16,4 @@ public class CompanySystemDTO {
 
     @JsonProperty("company")
     private CompanyDTO companyDTO;
-
 }

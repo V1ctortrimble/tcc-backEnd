@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNullFields;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,16 +27,32 @@ public class PersonEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name = "ID_INDIVIDUAL")
+    private IndividualEntity individual;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_COMPANY")
+    private CompanyEntity company;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.ALL)
     private List<ContactEntity> contacts;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.ALL)
     private List<AdressEntity> adresses;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.ALL)
     private List<BankDetailsEntity> banksDetails;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
     private List<HostingEntity> hostings;
 
+    @PostPersist
+    public void setPerson() {
+        this.adresses.forEach(a -> a.setPerson(this));
+        this.contacts.forEach(c -> c.setPerson(this));
+        if(banksDetails != null){
+            this.banksDetails.forEach(b -> b.setPerson(this));
+        }
+    }
 }

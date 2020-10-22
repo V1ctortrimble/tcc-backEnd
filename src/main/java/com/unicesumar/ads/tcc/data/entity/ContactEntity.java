@@ -21,7 +21,7 @@ public class ContactEntity implements Serializable {
     @Column(name = "ID_CONTACT")
     private Integer idContact;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 

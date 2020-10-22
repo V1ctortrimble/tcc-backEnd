@@ -32,7 +32,10 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @JsonProperty("person")
-    private PersonDTO person;
+//    @JsonProperty("company_partners")
+//    private CompanyPartnerDTO companyPartners;
+//
+//    @JsonProperty("passenger_travel_contracts")
+//    private PassengerTravelContractDTO passengerTravelContracts;
 
 }

@@ -25,7 +25,7 @@ public class HostingTypeEntity implements Serializable {
     @Column(name = "NAME_HOSTING_TYPE")
     private String nameHostingType;
 
-    @OneToMany (fetch = FetchType.LAZY, mappedBy = "hostingType", cascade=CascadeType.PERSIST)
+    @OneToMany (fetch = FetchType.LAZY, mappedBy = "hostingType", cascade=CascadeType.ALL)
     private List<HostingEntity> hostingEntities;
 
 }

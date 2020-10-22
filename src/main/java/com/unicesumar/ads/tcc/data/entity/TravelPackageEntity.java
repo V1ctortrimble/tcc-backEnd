@@ -67,16 +67,16 @@ public class TravelPackageEntity implements Serializable {
     @Column(name = "REGISTRATION_DATE")
     private LocalDate registrationDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelPackage", cascade=CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelPackage", cascade=CascadeType.ALL)
     private List<TravelContractEntity> travelContracts;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(name = "HOSTING_TRAVEL_PACKAGE", joinColumns =
             {@JoinColumn( name = "ID_HOSTING")}, inverseJoinColumns =
             {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )})
     private List<HostingEntity> hostings;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(name = "VEHICLE_TRAVEL_PACKAGE", joinColumns =
             {@JoinColumn( name = "ID_VEHICLE")}, inverseJoinColumns =
             {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )})

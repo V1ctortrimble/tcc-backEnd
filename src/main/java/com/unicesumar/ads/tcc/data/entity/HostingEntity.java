@@ -22,15 +22,15 @@ public class HostingEntity implements Serializable {
     @Column(name = "ID_HOSTING")
     private Integer idHosting;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_HOSTING_TYPE")
     private HostingTypeEntity hostingType;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_ADRESS")
     private AdressEntity adress;
 
@@ -43,7 +43,7 @@ public class HostingEntity implements Serializable {
     @Column(name = "FEATURES_HOSTING")
     private String featuresHosting;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostings", cascade=CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostings", cascade=CascadeType.ALL)
     private List<TravelPackageEntity> travelPackages;
 
 }

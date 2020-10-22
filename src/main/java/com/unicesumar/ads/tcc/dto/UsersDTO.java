@@ -37,7 +37,4 @@ public class UsersDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CompanySystemDTO companySystemDTO;
 
-
-
-
 }

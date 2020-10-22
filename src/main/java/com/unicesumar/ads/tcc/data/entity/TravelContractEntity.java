@@ -25,11 +25,11 @@ public class TravelContractEntity implements Serializable {
     @Column(name = "ID_TRAVEL_CONTRACT")
     private Integer idTravelContract;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_TRAVEL_PACKAGE")
     private TravelPackageEntity travelPackage;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_COMPANY")
     private CompanyEntity company;
 
@@ -45,10 +45,10 @@ public class TravelContractEntity implements Serializable {
     @Column(name = "TOTAL_CONTRACT_AMOUNT")
     private BigDecimal totalContractAmount;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract", cascade=CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract", cascade=CascadeType.ALL)
     private List<PassengerTravelContractEntity> passengerTravelContracts;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract", cascade=CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelContract", cascade=CascadeType.ALL)
     private List<FinancialEntity> financials;
 
 }

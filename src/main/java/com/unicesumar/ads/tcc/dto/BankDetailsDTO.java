@@ -1,6 +1,9 @@
 package com.unicesumar.ads.tcc.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
+import com.unicesumar.ads.tcc.dto.personDTO.PersonIndividualDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,24 +15,18 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BankDetailsDTO {
 
-    @JsonProperty("bank")
     private String bank;
 
-    @JsonProperty("agency")
     private String agency;
 
-    @JsonProperty("account")
     private String account;
 
-    @JsonProperty("digit")
     private String digit;
 
-    @JsonProperty("operation")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String operation;
 
-    @JsonProperty("active")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean active;
-
-    private PersonDTO person;
 
 }
