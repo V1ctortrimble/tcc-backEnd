@@ -41,10 +41,6 @@ public class CompanyEntity implements Serializable {
     @Column(name = "ACTIVE")
     private Boolean active;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COMPANY")
-    private CompanySystemEntity companySystem;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     private List<VehicleEntity> vehicles;
 

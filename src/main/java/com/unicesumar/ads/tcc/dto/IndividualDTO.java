@@ -32,6 +32,9 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
+    @JsonProperty("cell_whats")
+    private Boolean cellwhats;
+
 //    @JsonProperty("company_partners")
 //    private CompanyPartnerDTO companyPartners;
 //

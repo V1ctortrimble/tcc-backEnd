@@ -28,4 +28,8 @@ public class CompanySystemEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companySystem")
     private List<UsersEntity> users;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_COMPANY")
+    private CompanyEntity company;
+
 }

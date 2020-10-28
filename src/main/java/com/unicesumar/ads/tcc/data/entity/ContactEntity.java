@@ -34,4 +34,7 @@ public class ContactEntity implements Serializable {
     @Column(name = "EMAIL")
     private String email;
 
+    @Column(name = "CELL_WHATS")
+    private Boolean cellwhats;
+
 }
