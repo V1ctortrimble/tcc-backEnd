@@ -22,10 +22,13 @@ import com.unicesumar.ads.tcc.service.BankDetailsService;
 import com.unicesumar.ads.tcc.service.CompanyService;
 import com.unicesumar.ads.tcc.service.IndividualService;
 import com.unicesumar.ads.tcc.service.PersonService;
+import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -59,21 +62,28 @@ public class PersonController {
     private final IndividualEntityConverter individualEntityConverter;
     private final CompanyEntityConverter companyEntityConverter;
 
+    /**
+     * Utils
+     */
+    private final PaginatorUtil paginator;
+
 
     @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(path = "/persons/individual/all")
-    public ResponseEntity<List<IndividualDTO>> getPersonsIndividual() {
+    public ResponseEntity<Page<IndividualDTO>> getPersonsIndividual(Pageable pageable) {
         List<IndividualEntity> entities = individualService.getIndividuals();
         List<IndividualDTO> dtos = individualEntityConverter.toDTOList(entities);
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
+        return new ResponseEntity<>(pages, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(path = "/persons/company/all")
-    public ResponseEntity<List<CompanyDTO>> getPersonsCompany() {
+    public ResponseEntity<Page<CompanyDTO>> getPersonsCompany(Pageable pageable) {
         List<CompanyEntity> entities = companyService.getCompanies();
         List<CompanyDTO> dtos = companyEntityConverter.toDTOList(entities);
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        Page<CompanyDTO> pages = paginator.paginateCompanyDTO(pageable, dtos);
+        return new ResponseEntity<>(pages, HttpStatus.OK);
     }
 
     @ApiOperation(value = "URL to add persons Individual", authorizations = { @Authorization(value="jwtToken") })
