@@ -6,11 +6,13 @@ import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_OBRIGATORIOS;
+
 @Service
 @RequiredArgsConstructor
 public class CompanyPartnerService {
 
-    public static final String CAMPOS_OBRIGATORIOS = "Campos obrigatórios vazios";
+
     private final CompanyPartnerRepository repository;
 
     /**

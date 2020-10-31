@@ -12,56 +12,42 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "USERS")
 public class UsersEntity implements Serializable, UserDetails {
 
-    @Getter
-    @Setter
     @Id
     @Column(name = "ID_USERS")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
-    @Getter
-    @Setter
     @NotEmpty(message = "Nome de usuário não pode ser vazio")
     @Email(message = "Campo deve ser um e-mail válido")
     @Column(name = "LOGIN")
     private String username;
 
-    @Getter
-    @Setter
     @NotEmpty(message = "Senha não pode ser vazia")
     @Column(name = "PASSWORD")
     private String password;
 
-    @Getter
-    @Setter
     @Column(name = "ADMIN")
     private Boolean admin;
 
-    @Getter
-    @Setter
     @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_INDIVIDUAL")
     private IndividualEntity individual;
 
-    @Getter
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_COMPANY_SYSTEM")
     private CompanySystemEntity companySystem;
 
-    @Getter
-    @Setter
     @Column(name = "RESET_PASS_CODE")
     private String code;
 
-    @Getter
-    @Setter
     @Column(name = "RESET_PASS_DATE")
     private LocalDateTime dataCode;
 

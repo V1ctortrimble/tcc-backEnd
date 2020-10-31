@@ -17,21 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
+
 @Api(tags = {"visualization of Recovery Pass"})
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
 public class RecoveryPassController {
-
-    /**
-     * Constants
-     */
-    public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
-    public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA = "Usuário não localizado para alterar senha";
-    public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
-    public static final String CODIGO_EXPIRADO_OU_INEXISTENTE = "Código expirado ou inexistente";
-    private static final String EMAIL_ENVIADO_COM_SUCESSO = "E-mail enviado com sucesso";
-    public static final String SENHA_ALTERADA_COM_SUCESSO = "Senha alterada com sucesso";
 
     /**
      * Services

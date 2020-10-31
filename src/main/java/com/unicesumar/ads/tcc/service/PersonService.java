@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_OBRIGATORIOS;
+
 @Service
 @RequiredArgsConstructor
 public class PersonService {
-
-    public static final String CAMPOS_OBRIGATORIOS = "Campos obrigatórios vazios";
 
     private final PersonRepository repository;
 

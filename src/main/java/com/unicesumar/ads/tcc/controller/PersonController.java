@@ -23,8 +23,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
 @Api(tags = {"visualization of Persons"})
 @RestController
@@ -32,17 +33,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonController {
 
-    public static final String PESSOA_JA_CADASTRADA = "Pessoa já cadastrada";
-    public static final String PESSOA_NAO_CADASTRADA = "Pessoa não cadastrada";
-    public static final String DOCUMENTO_INVALIDO = "Documento inválido";
+    /**
+     * Services
+     */
+    private final PersonService personService;
+    private final BankDetailsService bankDetailsService;
 
+    /**
+     * Converters
+     */
     private final PersonIndividualEntityConverter personIndividualEntityConverter;
     private final PersonCompanyEntityConverter personCompanyEntityConverter;
     private final BankDetailsEntityConverter bankDetailsEntityConverter;
     private final PersonGetEntityConverter personGetEntityConverter;
-
-    private final PersonService personService;
-    private final BankDetailsService bankDetailsService;
 
 
     @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })

@@ -4,8 +4,6 @@ import com.unicesumar.ads.tcc.converter.CompanySystemEntityConverter;
 import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
-import com.unicesumar.ads.tcc.data.repository.CompanySystemRepository;
-import com.unicesumar.ads.tcc.data.repository.IndividualRepository;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
@@ -24,21 +22,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
+
 @Api(tags = {"visualization of Users"})
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
 public class UsersController {
-
-    /**
-     * Constants
-     */
-    public static final String USUARIO_JA_CADASTRADO = "Usuário já cadastrado";
-    public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
-    public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
-    public static final String USUARIO_NAO_LOCALIZADO = "Usuário não localizado";
-    public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR = "Usuário não localizado para alterar";
 
     /**
      * Services
@@ -74,7 +65,6 @@ public class UsersController {
     public ResponseEntity<?> getUsersByUsername(@RequestParam(value = "username") String username) {
 
         UsersEntity entity = usersService.getUserByLogin(username);
-
         if (entity != null) {
             entity.setPassword(null);
             return new ResponseEntity<>(usersEntityConverter.toDTO(entity), HttpStatus.OK);
@@ -87,7 +77,6 @@ public class UsersController {
     public ResponseEntity<?> postUsers(@Validated @RequestBody UsersDTO dto) {
 
         UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
-
         if (entity == null) {
             if (dto.getPassword().equals(dto.getRepeatPassword())) {
                 if (validatePassword.getMatcher(dto.getPassword())) {
@@ -108,16 +97,13 @@ public class UsersController {
                                       @Validated @RequestBody UsersDTO dto) {
 
         UsersEntity entity = usersService.getUserByLogin(username);
-
         if (entity != null) {
             if (validatePassword.getMatcher(dto.getPassword())) {
                 entity.setAdmin(dto.getAdmin());
                 entity.setUsername(dto.getUsername());
                 entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
-
                 entity.setCompanySystem(companySystemEntityConverter.toEntity(dto.getCompanySystemDTO()));
                 entity.setIndividual(individualEntityConverter.toEntity(dto.getIndividual()));
-
                 usersService.postUsers(entity);
                 return new ResponseEntity<>(dto, HttpStatus.OK);
             }

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.unicesumar.ads.tcc.util.CorsConstants.*;
+import static com.unicesumar.ads.tcc.util.constants.UtilsConstants.*;
 
 /**
  * Component for CORS authorization

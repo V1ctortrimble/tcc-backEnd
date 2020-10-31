@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.unicesumar.ads.tcc.service.RecoveryPassConstants.*;
+import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.*;
 
 @Service
 @RequiredArgsConstructor
