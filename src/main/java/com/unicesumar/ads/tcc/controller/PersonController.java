@@ -1,11 +1,17 @@
 package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.BankDetailsEntityConverter;
+import com.unicesumar.ads.tcc.converter.CompanyEntityConverter;
+import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonCompanyEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonGetEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonIndividualEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.BankDetailsEntity;
+import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
+import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
+import com.unicesumar.ads.tcc.dto.CompanyDTO;
+import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonBankDetailsDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonIndividualDTO;
@@ -13,6 +19,8 @@ import com.unicesumar.ads.tcc.dto.personGetDTO.PersonGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.BankDetailsService;
+import com.unicesumar.ads.tcc.service.CompanyService;
+import com.unicesumar.ads.tcc.service.IndividualService;
 import com.unicesumar.ads.tcc.service.PersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +45,8 @@ public class PersonController {
      * Services
      */
     private final PersonService personService;
+    private final IndividualService individualService;
+    private final CompanyService companyService;
     private final BankDetailsService bankDetailsService;
 
     /**
@@ -46,13 +56,23 @@ public class PersonController {
     private final PersonCompanyEntityConverter personCompanyEntityConverter;
     private final BankDetailsEntityConverter bankDetailsEntityConverter;
     private final PersonGetEntityConverter personGetEntityConverter;
+    private final IndividualEntityConverter individualEntityConverter;
+    private final CompanyEntityConverter companyEntityConverter;
 
 
     @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
-    @GetMapping(path = "/persons")
-    public ResponseEntity<List<PersonIndividualDTO>> getPersons() {
-        List<PersonEntity> entities = personService.getPerson();
-        List<PersonIndividualDTO> dtos = personIndividualEntityConverter.toDTOList(entities);
+    @GetMapping(path = "/persons/individual/all")
+    public ResponseEntity<List<IndividualDTO>> getPersonsIndividual() {
+        List<IndividualEntity> entities = individualService.getIndividuals();
+        List<IndividualDTO> dtos = individualEntityConverter.toDTOList(entities);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
+    @GetMapping(path = "/persons/company/all")
+    public ResponseEntity<List<CompanyDTO>> getPersonsCompany() {
+        List<CompanyEntity> entities = companyService.getCompanies();
+        List<CompanyDTO> dtos = companyEntityConverter.toDTOList(entities);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 

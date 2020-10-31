@@ -14,20 +14,20 @@ import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_O
 @RequiredArgsConstructor
 public class PersonService {
 
-    private final PersonRepository repository;
+    private final PersonRepository personRepository;
 
     /**
      * Find PersonEntity by cnpj
      */
     public PersonEntity getPersonByCnpj(String cnpj) {
-        return repository.findByCompanyCnpj(cnpj);
+        return personRepository.findByCompanyCnpj(cnpj);
     }
 
     /**
      * Find PersonEntity by cpf
      */
     public PersonEntity getPersonByCpf(String cpf) {
-        return repository.findByIndividualCpf(cpf);
+        return personRepository.findByIndividualCpf(cpf);
     }
 
     /**
@@ -35,7 +35,7 @@ public class PersonService {
      */
     public void postUsers(PersonEntity entity) {
        try {
-           repository.save(entity);
+           personRepository.save(entity);
        }catch (NullPointerException e) {
            throw new HttpBadRequestException(CAMPOS_OBRIGATORIOS);
        }
@@ -45,7 +45,7 @@ public class PersonService {
      * Find All Persons
      */
     public List<PersonEntity> getPerson() {
-        return repository.findAll();
+        return personRepository.findAll();
     }
 
 }
