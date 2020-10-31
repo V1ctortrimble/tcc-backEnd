@@ -34,7 +34,7 @@ public class CompanySystemController {
     private final PersonService personService;
 
     @ApiOperation(value = "URL to add Company System")
-    @PostMapping(path = "/CompanySystem")
+    @PostMapping(path = "/companySystem")
     public ResponseEntity<CompanySystemDTO> PostCompanySystem(@Validated @RequestBody CompanySystemDTO dto) {
 
         PersonEntity entity = personService.getPersonByCnpj(dto.getCnpj());
@@ -51,7 +51,7 @@ public class CompanySystemController {
     }
 
     @ApiOperation(value = "URL to add Company System")
-    @PostMapping(path = "/CompanyPartner")
+    @PostMapping(path = "/companyPartner")
     public ResponseEntity<CompanyPartnerDTO> PostCompanyPartner(@Validated @RequestBody CompanyPartnerDTO dto) {
 
         PersonEntity entity = personService.getPersonByCpf(dto.getCpf());

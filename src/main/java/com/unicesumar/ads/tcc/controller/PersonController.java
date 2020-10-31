@@ -11,6 +11,7 @@ import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonIndividualDTO;
 import com.unicesumar.ads.tcc.dto.personGetDTO.PersonGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
+import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.BankDetailsService;
 import com.unicesumar.ads.tcc.service.PersonService;
 import io.swagger.annotations.Api;
@@ -33,6 +34,7 @@ public class PersonController {
 
     public static final String PESSOA_JA_CADASTRADA = "Pessoa já cadastrada";
     public static final String PESSOA_NAO_CADASTRADA = "Pessoa não cadastrada";
+    public static final String DOCUMENTO_INVALIDO = "Documento inválido";
 
     private final PersonIndividualEntityConverter personIndividualEntityConverter;
     private final PersonCompanyEntityConverter personCompanyEntityConverter;
@@ -80,15 +82,18 @@ public class PersonController {
     }
 
     @ApiOperation(value = "URL to add persons Company")
-    @PostMapping(path = "/Persons/bankDetails")
+    @PostMapping(path = "/persons/bankDetails")
     public ResponseEntity<?> postBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
 
         PersonEntity entity;
-        if (dto.getDocumento().length() == 11){
-            entity = personService.getPersonByCpf(dto.getDocumento());
+        if (dto.getDocument().length() == 11){
+            entity = personService.getPersonByCpf(dto.getDocument());
         }
-        else{
-            entity = personService.getPersonByCnpj(dto.getDocumento());
+        else if (dto.getDocument().length() == 14){
+            entity = personService.getPersonByCnpj(dto.getDocument());
+        }
+        else {
+            throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
         }
 
         if (entity != null) {
@@ -98,11 +103,11 @@ public class PersonController {
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         }
-        throw new HttpBadRequestException(PESSOA_NAO_CADASTRADA);
+        throw new HttpNotFoundException(PESSOA_NAO_CADASTRADA);
     }
 
     @ApiOperation(value = "Return person by cpf")
-    @GetMapping(path = "/person/individual")
+    @GetMapping(path = "/persons/individual")
     public ResponseEntity<PersonGetDTO> getPersonIndividual(@RequestParam(value = "cpf") String cpf) {
         PersonEntity entity = personService.getPersonByCpf(cpf);
         PersonGetDTO dto = personGetEntityConverter.toDTO(entity);

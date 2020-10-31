@@ -1,15 +1,11 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
 @Entity
 @Builder
 @AllArgsConstructor
@@ -17,17 +13,25 @@ import java.util.List;
 @Table(name = "COMPANY_SYSTEM")
 public class CompanySystemEntity implements Serializable {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_COMPANY_SYSTEM")
     private Integer idCompanySystem;
 
+    @Getter
+    @Setter
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companySystem")
     private List<CompanyPartnerEntity> companyPartners;
 
+    @Getter
+    @Setter
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companySystem")
     private List<UsersEntity> users;
 
+    @Getter
+    @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANY")
     private CompanyEntity company;

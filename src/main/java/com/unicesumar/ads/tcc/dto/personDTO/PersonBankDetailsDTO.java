@@ -19,10 +19,10 @@ import java.util.List;
 @Builder
 public class PersonBankDetailsDTO {
 
-    @JsonProperty("documento")
-    private String documento;
+    @JsonProperty("document")
+    private String document;
 
-    @JsonProperty("banks_details")
+    @JsonProperty("bank_details")
     private BankDetailsDTO banksDetails;
 
 }
