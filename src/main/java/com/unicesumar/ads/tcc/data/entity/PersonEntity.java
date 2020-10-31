@@ -49,8 +49,11 @@ public class PersonEntity implements Serializable {
 
     @PostPersist
     public void setPerson() {
-        this.adresses.forEach(a -> a.setPerson(this));
+        if(adresses != null) {
+            this.adresses.forEach(a -> a.setPerson(this));
+        }
         this.contacts.forEach(c -> c.setPerson(this));
+
         if(banksDetails != null){
             this.banksDetails.forEach(b -> b.setPerson(this));
         }

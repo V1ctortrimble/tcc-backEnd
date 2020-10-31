@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CompanySystemRepositoty extends JpaRepository<CompanySystemEntity, Integer> {
+public interface CompanySystemRepository extends JpaRepository<CompanySystemEntity, Integer> {
+    CompanySystemEntity findByCompanyCnpj(String cnpj);
 }

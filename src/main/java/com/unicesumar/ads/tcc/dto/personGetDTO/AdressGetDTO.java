@@ -1,9 +1,7 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.personGetDTO;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
-import com.unicesumar.ads.tcc.dto.personDTO.PersonIndividualDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,19 +11,28 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ContactDTO {
+public class AdressGetDTO {
+
+    @JsonProperty("id_adress")
+    private int idAdress;
+
+    private String adress;
+
+    @JsonProperty("adress_number")
+    private Integer adressNumber;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String phone;
+    private String additional;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("cell_phone")
-    private String cellPhone;
+    private String neighborhood;
 
-    @JsonProperty("cell_whats")
-    private Boolean cellwhats;
+    private String city;
+
+    private String state;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String email;
+    @JsonProperty("zip_code")
+    private String zipCode;
 
 }

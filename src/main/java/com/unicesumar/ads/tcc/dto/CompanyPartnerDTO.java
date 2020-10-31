@@ -12,16 +12,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CompanyPartnerDTO {
 
-    @JsonProperty("id_company_partner")
-    private Integer idCompanyPartner;
+    @JsonProperty("cpf")
+    private String cpf;
 
-//    @JsonProperty("company_system")
-//    private CompanySystemDTO companySystemDTO;
-//
-//    @JsonProperty("individual")
-//    private IndividualDTO individualDTO;
-
-    @JsonProperty("active")
-    private Boolean active;
+    @JsonProperty("cnpj")
+    private String cnpj;
 
 }

@@ -1,21 +1,21 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.personGetDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.data.entity.PassengerTravelContractEntity;
-import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IndividualDTO {
+public class IndividualGetDTO {
+
+    @JsonProperty("id_individual")
+    private int idIndividual;
 
     @JsonProperty("cpf")
     private String cpf;
@@ -32,10 +32,5 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-//    @JsonProperty("company_partners")
-//    private CompanyPartnerDTO companyPartners;
-//
-//    @JsonProperty("passenger_travel_contracts")
-//    private PassengerTravelContractDTO passengerTravelContracts;
 
 }

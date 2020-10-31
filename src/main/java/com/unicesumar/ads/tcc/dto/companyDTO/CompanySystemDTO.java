@@ -1,4 +1,4 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.companyDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -14,6 +14,6 @@ import java.util.List;
 @Builder
 public class CompanySystemDTO {
 
-    @JsonProperty("company")
-    private CompanyDTO companyDTO;
+    @JsonProperty("cnpj")
+    private String cnpj;
 }

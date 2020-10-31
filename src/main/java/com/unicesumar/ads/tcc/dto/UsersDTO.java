@@ -2,6 +2,7 @@ package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.dto.companyDTO.CompanySystemDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
