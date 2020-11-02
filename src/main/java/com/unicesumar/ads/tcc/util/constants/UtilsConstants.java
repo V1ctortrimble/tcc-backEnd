@@ -17,4 +17,9 @@ public class UtilsConstants {
      * Define ValidatePasswordUtil properties
      */
     public static final String REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+
+    /**
+     * Define PaginatorUtil properties
+     */
+    public static final String PAGINA_NAO_ENCONTRADA = "Pagina não Encontrada";
 }
