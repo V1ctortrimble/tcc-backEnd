@@ -89,8 +89,9 @@ public class PersonController {
     @ApiOperation(value = "URL to add persons Individual", authorizations = { @Authorization(value="jwtToken") })
     @PostMapping(path = "/persons/individual")
     public ResponseEntity<?> postPersonIndividual(@Validated @RequestBody PersonIndividualDTO dto) {
-        PersonEntity entity = personService.getPersonByCpf(dto.getIndividual().getCpf());
-        if (entity == null) {
+        PersonEntity entityCpg = personService.getPersonByCpf(dto.getIndividual().getCpf());
+        PersonEntity entityRg = personService.getPersonByRg(dto.getIndividual().getRg());
+        if (entityCpg == null && entityRg == null) {
             if (dto.getActive() == null) {
                 dto.setActive(true);
             }

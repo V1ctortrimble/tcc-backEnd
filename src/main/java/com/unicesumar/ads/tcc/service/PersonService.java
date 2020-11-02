@@ -31,6 +31,13 @@ public class PersonService {
     }
 
     /**
+     * Find PersonEntity by rg
+     */
+    public PersonEntity getPersonByRg(String rg) {
+        return personRepository.findByIndividualRg(rg);
+    }
+
+    /**
      * Save or update a PersonEntity
      */
     public void postUsers(PersonEntity entity) {
