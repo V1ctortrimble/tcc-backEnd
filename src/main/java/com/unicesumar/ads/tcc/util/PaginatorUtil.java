@@ -1,7 +1,9 @@
 package com.unicesumar.ads.tcc.util;
 
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
+import com.unicesumar.ads.tcc.dto.CompanyPartnerDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.dto.companyDTO.CompanyPartnerGetDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,12 @@ public class PaginatorUtil {
 
     //TODO: Deixar metodos como um metodo geral para qualquer classe
     public Page<IndividualDTO> paginateIndividualDTO(Pageable pageable, List<IndividualDTO> dtos) {
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), dtos.size());
+        return new PageImpl<>(dtos.subList(start, end), pageable, dtos.size());
+    }
+
+    public Page<CompanyPartnerGetDTO> paginateCompanyPartnerDTO(Pageable pageable, List<CompanyPartnerGetDTO> dtos) {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), dtos.size());
         return new PageImpl<>(dtos.subList(start, end), pageable, dtos.size());

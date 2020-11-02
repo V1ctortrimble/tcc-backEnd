@@ -1,24 +1,33 @@
 package com.unicesumar.ads.tcc.controller;
 
+import com.unicesumar.ads.tcc.converter.CompanyPartnerEntityConverter;
+import com.unicesumar.ads.tcc.converter.companyPartner.CompanyPartnerEntityGetConverter;
 import com.unicesumar.ads.tcc.data.entity.CompanyPartnerEntity;
 import com.unicesumar.ads.tcc.data.entity.CompanySystemEntity;
+import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import com.unicesumar.ads.tcc.dto.CompanyPartnerDTO;
+import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.dto.companyDTO.CompanyPartnerGetDTO;
 import com.unicesumar.ads.tcc.dto.companyDTO.CompanySystemDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
+import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.CompanyPartnerService;
 import com.unicesumar.ads.tcc.service.CompanySystemService;
 import com.unicesumar.ads.tcc.service.PersonService;
+import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.PESSOA_NAO_CADASTRADA;
 
@@ -35,6 +44,13 @@ public class CompanySystemController {
     private final CompanyPartnerService companyPartnerService;
     private final PersonService personService;
 
+    private final CompanyPartnerEntityGetConverter companyPartnerEntityConverter;
+
+    /**
+     * Utils
+     */
+    private final PaginatorUtil paginator;
+
 
     @ApiOperation(value = "URL to add Company System")
     @PostMapping(path = "/companySystem")
@@ -49,7 +65,7 @@ public class CompanySystemController {
         throw new HttpBadRequestException(PESSOA_NAO_CADASTRADA);
     }
 
-    @ApiOperation(value = "URL to add Company System")
+    @ApiOperation(value = "URL to add Company Partner")
     @PostMapping(path = "/companyPartner")
     public ResponseEntity<CompanyPartnerDTO> PostCompanyPartner(@Validated @RequestBody CompanyPartnerDTO dto) {
         PersonEntity entity = personService.getPersonByCpf(dto.getCpf());
@@ -63,5 +79,35 @@ public class CompanySystemController {
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         throw new HttpBadRequestException(PESSOA_NAO_CADASTRADA);
+    }
+
+    @ApiOperation(value = "URL to active Company Partner")
+    @PutMapping(path = "/companyPartner")
+    public ResponseEntity<CompanyPartnerDTO> PutCompanyPartner(@RequestParam(value = "cpf") String cpf){
+        CompanyPartnerEntity entity = companyPartnerService.getCompanyPartnerByCpfIndividual(cpf);
+        if (entity != null){
+            entity.setActive(false);
+            companyPartnerService.postCompanyPartner(entity);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            throw new HttpNotFoundException(PESSOA_NAO_CADASTRADA);
+        }
+    }
+
+    @ApiOperation(value = "URL to get all Company Partner")
+    @GetMapping(path = "/companyPartner")
+    public ResponseEntity<List<CompanyPartnerGetDTO>> getCompanyPartner(Pageable pageable, @RequestParam(value = "cnpj") String cnpj) {
+        List<CompanyPartnerEntity> entities = companyPartnerService.getCompanyPartners(cnpj);
+        if (entities != null){
+            List<CompanyPartnerGetDTO> dtos = new ArrayList<>();
+            for (CompanyPartnerEntity entity : entities ){
+                dtos.add(companyPartnerEntityConverter.toDTO(entity.getIndividual()));
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        else{
+            throw new HttpNotFoundException(PESSOA_NAO_CADASTRADA);
+        }
     }
 }

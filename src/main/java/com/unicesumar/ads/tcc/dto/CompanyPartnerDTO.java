@@ -18,4 +18,7 @@ public class CompanyPartnerDTO {
     @JsonProperty("cnpj")
     private String cnpj;
 
+    @JsonProperty("active")
+    public Boolean active;
+
 }
