@@ -28,12 +28,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,8 +77,9 @@ public class PersonController {
     @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(path = "/persons/individual/all")
     public ResponseEntity<Page<IndividualDTO>> getPersonsIndividual(Pageable pageable) {
-        List<IndividualEntity> entities = individualService.getIndividuals();
-        List<IndividualDTO> dtos = individualEntityConverter.toDTOList(entities);
+        Page<IndividualEntity> entities = individualService.getIndividuals(pageable);
+        List<IndividualEntity> list = new ArrayList<>(entities.toList());
+        List<IndividualDTO> dtos = individualEntityConverter.toDTOList(list);
         Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
         return new ResponseEntity<>(pages, HttpStatus.OK);
     }
@@ -81,8 +87,9 @@ public class PersonController {
     @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(path = "/persons/company/all")
     public ResponseEntity<Page<CompanyDTO>> getPersonsCompany(Pageable pageable) {
-        List<CompanyEntity> entities = companyService.getCompanies();
-        List<CompanyDTO> dtos = companyEntityConverter.toDTOList(entities);
+        Page<CompanyEntity> entities = companyService.getCompanies(pageable);
+        List<CompanyEntity> companyEntities = new ArrayList<>(entities.toList());
+        List<CompanyDTO> dtos = companyEntityConverter.toDTOList(companyEntities);
         Page<CompanyDTO> pages = paginator.paginateCompanyDTO(pageable, dtos);
         return new ResponseEntity<>(pages, HttpStatus.OK);
     }

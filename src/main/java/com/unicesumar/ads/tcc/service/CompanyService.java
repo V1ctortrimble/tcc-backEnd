@@ -3,9 +3,9 @@ package com.unicesumar.ads.tcc.service;
 import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
 import com.unicesumar.ads.tcc.data.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +16,8 @@ public class CompanyService {
     /**
      * Find All Companies
      */
-    public List<CompanyEntity> getCompanies() {
-        return companyRepository.findAll();
+    public Page<CompanyEntity> getCompanies(Pageable pageable) {
+        return companyRepository.findAll(pageable);
     }
 
 }

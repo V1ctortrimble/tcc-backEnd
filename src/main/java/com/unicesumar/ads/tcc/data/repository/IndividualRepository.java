@@ -2,13 +2,14 @@ package com.unicesumar.ads.tcc.data.repository;
 
 import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface IndividualRepository extends JpaRepository<IndividualEntity, Integer> {
+public interface IndividualRepository extends PagingAndSortingRepository<IndividualEntity, Integer> {
 
     List<IndividualEntity> findByCpf(Optional<String> cpf);
     List<IndividualEntity> findByRg(Optional<String> rg);

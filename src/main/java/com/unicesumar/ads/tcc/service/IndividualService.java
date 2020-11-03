@@ -4,6 +4,8 @@ import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.data.repository.IndividualRepository;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +23,8 @@ public class IndividualService {
     /**
      * Find All Individuals
      */
-    public List<IndividualEntity> getIndividuals() {
-        return individualRepository.findAll();
+    public Page<IndividualEntity> getIndividuals(Pageable pageable) {
+        return individualRepository.findAll(pageable);
     }
 
     /**
