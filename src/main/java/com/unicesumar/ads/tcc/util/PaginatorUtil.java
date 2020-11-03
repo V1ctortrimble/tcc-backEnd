@@ -22,7 +22,6 @@ import static com.unicesumar.ads.tcc.util.constants.UtilsConstants.PAGINA_NAO_EN
 public class PaginatorUtil {
 
     public Page<CompanyDTO> paginateCompanyDTO(Pageable pageable, List<CompanyDTO> dtos) {
-        pageable = PageRequest.of(0,10);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), dtos.size());
         validateFinalPage(start, dtos.size());
@@ -30,8 +29,6 @@ public class PaginatorUtil {
     }
 
     public Page<IndividualDTO> paginateIndividualDTO(Pageable pageable, List<IndividualDTO> dtos) {
-        pageable = PageRequest.of(0,10);
-        Collections.sort(dtos);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), dtos.size());
         validateFinalPage(start, dtos.size());
@@ -39,7 +36,6 @@ public class PaginatorUtil {
     }
 
     public Page<CompanyPartnerGetDTO> paginateCompanyPartnerDTO(Pageable pageable, List<CompanyPartnerGetDTO> dtos) {
-        pageable = PageRequest.of(0,10);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), dtos.size());
         validateFinalPage(start, dtos.size());

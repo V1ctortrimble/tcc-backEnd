@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IndividualDTO implements Comparable<IndividualDTO>{
+public class IndividualDTO {
 
     @JsonProperty("cpf")
     private String cpf;
@@ -32,10 +32,6 @@ public class IndividualDTO implements Comparable<IndividualDTO>{
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @Override
-    public int compareTo(IndividualDTO o) {
-        return getNameIndividual().compareToIgnoreCase(o.getNameIndividual());
-    }
 
 //    @JsonProperty("company_partners")
 //    private CompanyPartnerDTO companyPartners;
