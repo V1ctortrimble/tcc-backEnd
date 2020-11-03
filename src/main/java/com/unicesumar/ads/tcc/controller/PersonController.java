@@ -70,15 +70,15 @@ public class PersonController {
     private final PaginatorUtil paginator;
 
 
-    @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
-    @GetMapping(path = "/persons/individual/all")
-    public ResponseEntity<Page<IndividualDTO>> getPersonsIndividual(Pageable pageable) {
-        Page<IndividualEntity> entities = individualService.getIndividuals(pageable);
-        List<IndividualEntity> list = new ArrayList<>(entities.toList());
-        List<IndividualDTO> dtos = individualEntityConverter.toDTOList(list);
-        Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
-        return new ResponseEntity<>(pages, HttpStatus.OK);
-    }
+//    @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
+//    @GetMapping(path = "/persons/individual/all")
+//    public ResponseEntity<Page<IndividualDTO>> getPersonsIndividual(Pageable pageable) {
+//        Page<IndividualEntity> entities = individualService.getIndividuals(pageable);
+//        List<IndividualEntity> list = new ArrayList<>(entities.toList());
+//        List<IndividualDTO> dtos = individualEntityConverter.toDTOList(list);
+//        Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
+//        return new ResponseEntity<>(pages, HttpStatus.OK);
+//    }
 
     @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(path = "/persons/company/all")
@@ -152,24 +152,26 @@ public class PersonController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Return person by cpf, name, last name or birth date")
+    @ApiOperation(value = "Return person by cpf, name, last name, rg or return all individuals")
     @GetMapping(path = "/persons/individual/filter")
-    public ResponseEntity<Page<IndividualDTO>> getPersonIndividualFilter(Pageable pageable,
-                                                                         @RequestParam(value = "cpf", required = false)
+    public ResponseEntity<Page<IndividualDTO>> getPersonIndividualAllAndFilter(Pageable pageable,
+                                                                               @RequestParam(value = "cpf", required = false)
                                                                                  Optional<String> cpf,
-                                                                         @RequestParam(value = "rg", required = false)
+                                                                               @RequestParam(value = "rg", required = false)
                                                                                  Optional<String> rg,
-                                                                         @RequestParam(value = "name", required = false)
+                                                                               @RequestParam(value = "name", required = false)
                                                                                  Optional<String> name,
-                                                                         @RequestParam(value = "lastname",
+                                                                               @RequestParam(value = "lastname",
                                                                                  required = false)
                                                                                  Optional<String> lastName) {
-        List<IndividualEntity> entities = individualService.getIndividualFilter(cpf, rg, name, lastName);
-        if (entities.size() != 0) {
-            List<IndividualDTO> dtos = individualEntityConverter.toDTOList(entities);
+        Page<IndividualEntity> entities = individualService.getIndividualFilter(cpf, rg, name, lastName, pageable);
+        if (entities.getTotalPages() != 0) {
+            List<IndividualEntity> individualEntities = new ArrayList<>(entities.toList());
+            List<IndividualDTO> dtos = individualEntityConverter.toDTOList(individualEntities);
             Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
             return new ResponseEntity<>(pages, HttpStatus.OK);
         }
         throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
     }
+
 }

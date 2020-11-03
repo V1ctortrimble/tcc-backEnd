@@ -2,16 +2,12 @@ package com.unicesumar.ads.tcc.service;
 
 import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.data.repository.IndividualRepository;
-import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-
-import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.PASSE_ALGUM_DADO_PARA_REALIZAR_A_BUSCA;
 
 @Service
 @RequiredArgsConstructor
@@ -30,32 +26,88 @@ public class IndividualService {
     /**
      * Find Persons by  cpf, name, last name or birth date
      */
-    public List<IndividualEntity> getIndividualFilter(Optional<String> cpf,
-                                                       Optional<String> rg,
-                                                       Optional<String> name,
-                                                       Optional<String> lastName) {
+    public Page<IndividualEntity> getIndividualFilter(Optional<String> cpf, Optional<String> rg, Optional<String> name,
+                                                      Optional<String> lastName,
+                                                      Pageable pageable) {
+        cpf = validationCpfIsEmpty(cpf);
+        rg = validationRgIsEmpty(rg);
+        name = validationNameIsEmpty(name);
+        lastName = validationLastNameIsEmpty(lastName);
+        return getIndividualByFilters(cpf, rg, name, lastName, pageable);
+    }
 
-
-        if (name.isPresent() && !lastName.isPresent()){
-            return individualRepository.findByNameIndividualIgnoreCaseContaining(name);
+    /**
+     * Seleciona find de acordo com parametros passados na URL
+     */
+    private Page<IndividualEntity> getIndividualByFilters(Optional<String> cpf, Optional<String> rg,
+                                                          Optional<String> name, Optional<String> lastName,
+                                                          Pageable pageable) {
+        if(cpf.isPresent() && name.isPresent()) {
+           return individualRepository.findByCpfAndNameIndividualIgnoreCaseContaining(cpf, name, pageable);
         }
-        if (!name.isPresent() && lastName.isPresent()) {
-            return individualRepository.findByLastNameIgnoreCaseContaining(lastName);
+        if(cpf.isPresent() && lastName.isPresent()) {
+            return individualRepository.findByCpfAndLastNameIgnoreCaseContaining(cpf, lastName, pageable);
         }
-        if (name.isPresent()) {
+        if (name.isPresent() && lastName.isPresent()) {
             return individualRepository.findByNameIndividualIgnoreCaseContainingAndLastNameIgnoreCaseContaining(name,
-                    lastName);
+                    lastName, pageable);
+        }
+        if (name.isPresent()){
+            return individualRepository.findByNameIndividualIgnoreCaseContaining(name, pageable);
+        }
+        if (lastName.isPresent()) {
+            return individualRepository.findByLastNameIgnoreCaseContaining(lastName, pageable);
         }
         if (cpf.isPresent() && rg.isPresent()) {
-            return individualRepository.findByCpfAndRg(cpf, rg);
+            return individualRepository.findByCpfAndRg(cpf, rg, pageable);
         }
         if (rg.isPresent()) {
-            return individualRepository.findByRg(rg);
+            return individualRepository.findByRg(rg, pageable);
         }
         if (cpf.isPresent()) {
-            return individualRepository.findByCpf(cpf);
+            return individualRepository.findByCpf(cpf, pageable);
         }
-        throw new HttpBadRequestException(PASSE_ALGUM_DADO_PARA_REALIZAR_A_BUSCA);
+        return individualRepository.findAll(pageable);
     }
-}
 
+    /**
+     * Metodo que valida se veio uma string vazia em cpf
+     */
+    private Optional<String> validationCpfIsEmpty(Optional<String> cpf) {
+        if (cpf.isPresent() && cpf.get().equals("")) {
+            cpf = Optional.empty();
+        }
+        return cpf;
+    }
+
+    /**
+     * Metodo que valida se veio uma string vazia em rg
+     */
+    private Optional<String> validationRgIsEmpty(Optional<String> rg) {
+        if (rg.isPresent() && rg.get().equals("")) {
+            rg = Optional.empty();
+        }
+        return rg;
+    }
+
+    /**
+     * Metodo que valida se veio uma string vazia em name
+     */
+    private Optional<String> validationNameIsEmpty(Optional<String> name) {
+        if (name.isPresent() && name.get().equals("")) {
+            name = Optional.empty();
+        }
+        return name;
+    }
+
+    /**
+     * Metodo que valida se veio uma string vazia em lastName
+     */
+    private Optional<String> validationLastNameIsEmpty(Optional<String> lastName) {
+        if (lastName.isPresent() && lastName.get().equals("")) {
+            lastName = Optional.empty();
+        }
+        return lastName;
+    }
+
+}
