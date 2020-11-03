@@ -25,4 +25,9 @@ public class ServiceConstants {
      */
     public static final String CAMPOS_OBRIGATORIOS = "Campos obrigatórios vazios";
 
+    /**
+     * Defines IndividualService properties
+     */
+    public static final String PASSE_ALGUM_DADO_PARA_REALIZAR_A_BUSCA = "Passe algum Dado para Realizar a Busca";
+
 }

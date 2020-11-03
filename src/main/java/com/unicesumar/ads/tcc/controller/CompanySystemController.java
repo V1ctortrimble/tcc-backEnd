@@ -1,13 +1,10 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.unicesumar.ads.tcc.converter.CompanyPartnerEntityConverter;
 import com.unicesumar.ads.tcc.converter.companyPartner.CompanyPartnerEntityGetConverter;
 import com.unicesumar.ads.tcc.data.entity.CompanyPartnerEntity;
 import com.unicesumar.ads.tcc.data.entity.CompanySystemEntity;
-import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import com.unicesumar.ads.tcc.dto.CompanyPartnerDTO;
-import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.companyDTO.CompanyPartnerGetDTO;
 import com.unicesumar.ads.tcc.dto.companyDTO.CompanySystemDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
@@ -19,7 +16,6 @@ import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.PESSOA_NAO_CADASTRADA;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.PESSOA_NAO_LOCALIZADA;
 
 @Api(tags = {"visualization of CompanySystem"})
 @RestController
@@ -62,7 +58,7 @@ public class CompanySystemController {
             companySystemService.postCompanySystem(companySystem);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpBadRequestException(PESSOA_NAO_CADASTRADA);
+        throw new HttpBadRequestException(PESSOA_NAO_LOCALIZADA);
     }
 
     @ApiOperation(value = "URL to add Company Partner")
@@ -78,7 +74,7 @@ public class CompanySystemController {
             companyPartnerService.postCompanyPartner(companyPartner);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpBadRequestException(PESSOA_NAO_CADASTRADA);
+        throw new HttpBadRequestException(PESSOA_NAO_LOCALIZADA);
     }
 
     @ApiOperation(value = "URL to active Company Partner")
@@ -91,7 +87,7 @@ public class CompanySystemController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else{
-            throw new HttpNotFoundException(PESSOA_NAO_CADASTRADA);
+            throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
         }
     }
 
@@ -107,7 +103,7 @@ public class CompanySystemController {
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
         else{
-            throw new HttpNotFoundException(PESSOA_NAO_CADASTRADA);
+            throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
         }
     }
 }

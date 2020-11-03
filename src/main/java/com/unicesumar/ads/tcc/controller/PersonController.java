@@ -35,6 +35,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
@@ -137,7 +138,7 @@ public class PersonController {
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         }
-        throw new HttpNotFoundException(PESSOA_NAO_CADASTRADA);
+        throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
     }
 
     @ApiOperation(value = "Return person by cpf")
@@ -148,4 +149,24 @@ public class PersonController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Return person by cpf, name, last name or birth date")
+    @GetMapping(path = "/persons/individual/filter")
+    public ResponseEntity<Page<IndividualDTO>> getPersonIndividualFilter(Pageable pageable,
+                                                                         @RequestParam(value = "cpf", required = false)
+                                                                                 Optional<String> cpf,
+                                                                         @RequestParam(value = "rg", required = false)
+                                                                                 Optional<String> rg,
+                                                                         @RequestParam(value = "name", required = false)
+                                                                                 Optional<String> name,
+                                                                         @RequestParam(value = "lastname",
+                                                                                 required = false)
+                                                                                 Optional<String> lastName) {
+        List<IndividualEntity> entities = individualService.getIndividualFilter(cpf, rg, name, lastName);
+        if (entities.size() != 0) {
+            List<IndividualDTO> dtos = individualEntityConverter.toDTOList(entities);
+            Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
+            return new ResponseEntity<>(pages, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
+    }
 }

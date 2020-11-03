@@ -7,6 +7,7 @@ public class ControllerConstants {
      */
     public static final String PESSOA_JA_CADASTRADA = "Pessoa já cadastrada";
     public static final String DOCUMENTO_INVALIDO = "Documento inválido";
+    public static final String NENHUMA_PESSOA_FOI_LOCALIZADA = "Nenhuma Pessoa Foi Localizada";
 
     /**
      * Define RecoveryPassController properties
@@ -26,7 +27,7 @@ public class ControllerConstants {
     /**
      * Define general properties
      */
-    public static final String PESSOA_NAO_CADASTRADA = "Pessoa não cadastrada";
+    public static final String PESSOA_NAO_LOCALIZADA = "Pessoa não Localizada";
     public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
     public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
 
