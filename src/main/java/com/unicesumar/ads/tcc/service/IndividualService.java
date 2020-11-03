@@ -33,6 +33,7 @@ public class IndividualService {
                                                        Optional<String> name,
                                                        Optional<String> lastName) {
 
+
         if (name.isPresent() && !lastName.isPresent()){
             return individualRepository.findByNameIndividualIgnoreCaseContaining(name);
         }
