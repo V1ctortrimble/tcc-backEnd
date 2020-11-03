@@ -37,7 +37,7 @@ public class IndividualService {
     }
 
     /**
-     * Seleciona find de acordo com parametros passados na URL
+     * Select find according to parameters passed in the URL
      */
     private Page<IndividualEntity> getIndividualByFilters(Optional<String> cpf, Optional<String> rg,
                                                           Optional<String> name, Optional<String> lastName,
@@ -71,7 +71,7 @@ public class IndividualService {
     }
 
     /**
-     * Metodo que valida se veio uma string vazia em cpf
+     * Method that validates if an empty string in cpf
      */
     private Optional<String> validationCpfIsEmpty(Optional<String> cpf) {
         if (cpf.isPresent() && cpf.get().equals("")) {
@@ -81,7 +81,7 @@ public class IndividualService {
     }
 
     /**
-     * Metodo que valida se veio uma string vazia em rg
+     * Method that validates if an empty string in rg
      */
     private Optional<String> validationRgIsEmpty(Optional<String> rg) {
         if (rg.isPresent() && rg.get().equals("")) {
@@ -91,7 +91,7 @@ public class IndividualService {
     }
 
     /**
-     * Metodo que valida se veio uma string vazia em name
+     * Method that validates if an empty string in name
      */
     private Optional<String> validationNameIsEmpty(Optional<String> name) {
         if (name.isPresent() && name.get().equals("")) {
@@ -101,7 +101,7 @@ public class IndividualService {
     }
 
     /**
-     * Metodo que valida se veio uma string vazia em lastName
+     * Method that validates if an empty string in lastName
      */
     private Optional<String> validationLastNameIsEmpty(Optional<String> lastName) {
         if (lastName.isPresent() && lastName.get().equals("")) {
