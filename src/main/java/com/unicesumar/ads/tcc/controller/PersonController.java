@@ -156,6 +156,19 @@ public class PersonController {
         throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
     }
 
+    @ApiOperation(value = "URL to update persons individual", authorizations =  { @Authorization(value="jwtToken") })
+    @PutMapping(path = "/persons/individual")
+    public ResponseEntity<?> putPersonIndividual(@RequestParam(value = "cpf") String cpf, @Validated @RequestBody PersonIndividualDTO dto) {
+        PersonEntity entity = personService.getPersonByCpf(cpf);
+        if (entity != null){
+            personService.putPerson(entity, dto);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        }
+        else {
+            throw new HttpBadRequestException(USUARIO_NAO_LOCALIZADO);
+        }
+    }
+
     @ApiOperation(value = "URL to get Bank Details by document")
     @GetMapping(path = "/persons/bankDetails")
     public ResponseEntity<List<?>> getBankDetails(@RequestParam(value = "document") String document) {
@@ -225,47 +238,6 @@ public class PersonController {
         throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
     }
 
-    @ApiOperation(value = "Return person by cpf")
-    @GetMapping(path = "/persons/individual")
-    public ResponseEntity<PersonGetDTO> getPersonIndividual(@RequestParam(value = "cpf") String cpf) {
-        PersonEntity entity = personService.getPersonByCpf(cpf);
-        PersonGetDTO dto = personGetEntityConverter.toDTO(entity);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
 
-    @ApiOperation(value = "Return person by cpf, name, last name, rg or return all individuals")
-    @GetMapping(path = "/persons/individual/filter")
-    public ResponseEntity<Page<IndividualDTO>> getPersonIndividualAllAndFilter(Pageable pageable,
-                                                                               @RequestParam(value = "cpf", required = false)
-                                                                                 Optional<String> cpf,
-                                                                               @RequestParam(value = "rg", required = false)
-                                                                                 Optional<String> rg,
-                                                                               @RequestParam(value = "name", required = false)
-                                                                                 Optional<String> name,
-                                                                               @RequestParam(value = "lastname",
-                                                                                 required = false)
-                                                                                 Optional<String> lastName) {
-        Page<IndividualEntity> entities = individualService.getIndividualFilter(cpf, rg, name, lastName, pageable);
-        if (entities.getTotalPages() != 0) {
-            List<IndividualEntity> individualEntities = new ArrayList<>(entities.toList());
-            List<IndividualDTO> dtos = individualEntityConverter.toDTOList(individualEntities);
-            Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
-            return new ResponseEntity<>(pages, HttpStatus.OK);
-        }
-        throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
-    }
-
-    @ApiOperation(value = "URL to update persons individual", authorizations =  { @Authorization(value="jwtToken") })
-    @PutMapping(path = "/persons/individual")
-    public ResponseEntity<?> putPersonIndividual(@RequestParam(value = "cpf") String cpf, @Validated @RequestBody PersonIndividualDTO dto) {
-        PersonEntity entity = personService.getPersonByCpf(cpf);
-        if (entity != null){
-            personService.putPerson(entity, dto);
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
-        }
-        else {
-            throw new HttpBadRequestException(USUARIO_NAO_LOCALIZADO);
-        }
-    }
 
 }
