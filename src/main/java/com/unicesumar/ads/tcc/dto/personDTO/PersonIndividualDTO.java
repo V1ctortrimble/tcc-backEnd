@@ -18,9 +18,6 @@ import java.util.List;
 public class PersonIndividualDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean active;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private IndividualDTO individual;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

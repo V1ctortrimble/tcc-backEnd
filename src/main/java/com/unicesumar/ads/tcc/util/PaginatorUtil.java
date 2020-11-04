@@ -32,7 +32,8 @@ public class PaginatorUtil {
     public Page<IndividualDTO> convertDTOIndividualToPages(Optional<String> cpf, Optional<String> rg, Optional<String> name,
                                                            Optional<String> lastName,
                                                            Pageable pageable) {
-        Page<IndividualEntity> individualEntities = individualService.getIndividualFilter(cpf, rg, name, lastName, pageable);
+        Page<IndividualEntity> individualEntities = individualService.getIndividualFilter(cpf, rg, name, lastName,
+                true, pageable);
         long offSet = pageable.getOffset();
         long totElements = individualEntities.getTotalElements();
         long totPages = individualEntities.getTotalPages();

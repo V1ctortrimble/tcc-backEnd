@@ -114,8 +114,8 @@ public class PersonController {
         PersonEntity entityCpg = personService.getPersonByCpf(dto.getIndividual().getCpf());
         PersonEntity entityRg = personService.getPersonByRg(dto.getIndividual().getRg());
         if (entityCpg == null && entityRg == null) {
-            if (dto.getActive() == null) {
-                dto.setActive(true);
+            if (dto.getIndividual().getActive() == null) {
+                dto.getIndividual().setActive(true);
             }
             personService.postUsers(personIndividualEntityConverter.toEntity(dto));
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
@@ -143,7 +143,7 @@ public class PersonController {
                                                                    @Validated @RequestBody PersonIndividualDTO dto) {
         PersonEntity entity = personService.getPersonByCpf(cpf);
         if (entity != null){
-            personService.putPerson(entity, dto);
+            personService.putPersonIndividual(entity, dto);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);

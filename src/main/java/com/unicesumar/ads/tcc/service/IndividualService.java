@@ -28,12 +28,13 @@ public class IndividualService {
      */
     public Page<IndividualEntity> getIndividualFilter(Optional<String> cpf, Optional<String> rg, Optional<String> name,
                                                       Optional<String> lastName,
+                                                      Boolean active,
                                                       Pageable pageable) {
         cpf = validationCpfIsEmpty(cpf);
         rg = validationRgIsEmpty(rg);
         name = validationNameIsEmpty(name);
         lastName = validationLastNameIsEmpty(lastName);
-        return getIndividualByFilters(cpf, rg, name, lastName, pageable);
+        return getIndividualByFilters(cpf, rg, name, lastName, active, pageable);
     }
 
     /**
@@ -41,33 +42,34 @@ public class IndividualService {
      */
     private Page<IndividualEntity> getIndividualByFilters(Optional<String> cpf, Optional<String> rg,
                                                           Optional<String> name, Optional<String> lastName,
+                                                          Boolean active,
                                                           Pageable pageable) {
         if(cpf.isPresent() && name.isPresent()) {
-           return individualRepository.findByCpfAndNameIndividualIgnoreCaseContaining(cpf, name, pageable);
+           return individualRepository.findByCpfAndNameIndividualIgnoreCaseContainingAndActive(cpf, name, active, pageable);
         }
         if(cpf.isPresent() && lastName.isPresent()) {
-            return individualRepository.findByCpfAndLastNameIgnoreCaseContaining(cpf, lastName, pageable);
+            return individualRepository.findByCpfAndLastNameIgnoreCaseContainingAndActive(cpf, lastName, active, pageable);
         }
         if (name.isPresent() && lastName.isPresent()) {
-            return individualRepository.findByNameIndividualIgnoreCaseContainingAndLastNameIgnoreCaseContaining(name,
-                    lastName, pageable);
+            return individualRepository.findByNameIndividualIgnoreCaseContainingAndLastNameIgnoreCaseContainingAndActive(name,
+                    lastName, active, pageable);
         }
         if (name.isPresent()){
-            return individualRepository.findByNameIndividualIgnoreCaseContaining(name, pageable);
+            return individualRepository.findByNameIndividualIgnoreCaseContainingAndActive(name, active, pageable);
         }
         if (lastName.isPresent()) {
-            return individualRepository.findByLastNameIgnoreCaseContaining(lastName, pageable);
+            return individualRepository.findByLastNameIgnoreCaseContainingAndActive(lastName, active, pageable);
         }
         if (cpf.isPresent() && rg.isPresent()) {
-            return individualRepository.findByCpfAndRg(cpf, rg, pageable);
+            return individualRepository.findByCpfAndRgAndActive(cpf, rg, active, pageable);
         }
         if (rg.isPresent()) {
-            return individualRepository.findByRg(rg, pageable);
+            return individualRepository.findByRgAndActive(rg, active, pageable);
         }
         if (cpf.isPresent()) {
-            return individualRepository.findByCpf(cpf, pageable);
+            return individualRepository.findByCpfAndActive(cpf, active, pageable);
         }
-        return individualRepository.findAll(pageable);
+        return individualRepository.findAllByActive(active, pageable);
     }
 
     /**

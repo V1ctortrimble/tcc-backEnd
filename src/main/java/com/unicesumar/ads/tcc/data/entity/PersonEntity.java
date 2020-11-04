@@ -22,9 +22,6 @@ public class PersonEntity implements Serializable {
     @Column(name = "ID_PERSON")
     private Integer idPerson;
 
-    @Column(name = "ACTIVE")
-    private Boolean active;
-
     @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_INDIVIDUAL")
     private IndividualEntity individual;

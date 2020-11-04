@@ -15,22 +15,22 @@ import java.util.List;
 @Builder
 public class CompanyDTO {
 
+    @JsonProperty("cnpj")
+    private String cnpj;
+
+    @JsonProperty(value = "active")
+    private Boolean active;
+
     @JsonProperty("social_reason")
     private String socialReason;
 
     @JsonProperty("fantasy_name")
     private String fantasyName;
 
-    @JsonProperty("cnpj")
-    private String cnpj;
-
     @JsonProperty("state_regis")
     private String stateRegis;
 
     @JsonProperty("open_date")
     private LocalDate openDate;
-
-    @JsonProperty(value = "active")
-    private Boolean active;
 
 }

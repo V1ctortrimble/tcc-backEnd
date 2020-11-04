@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.data.entity.PassengerTravelContractEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
@@ -16,6 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class IndividualDTO {
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean active;
 
     @JsonProperty("cpf")
     private String cpf;

@@ -62,14 +62,13 @@ public class PersonService {
     /**
      * Update a Persons
      */
-    public void putPerson(PersonEntity person, PersonIndividualDTO dto) {
-
-        if (dto.getActive() != null) {
-            person.setActive(dto.getActive());
-        }
+    public void putPersonIndividual(PersonEntity person, PersonIndividualDTO dto) {
         if (dto.getIndividual() != null) {
             if (dto.getIndividual().getCpf() != null) {
                 person.getIndividual().setCpf(dto.getIndividual().getCpf());
+            }
+            if (dto.getIndividual().getActive() != null) {
+                person.getIndividual().setActive(dto.getIndividual().getActive());
             }
             if (dto.getIndividual().getNameIndividual() != null) {
                 person.getIndividual().setNameIndividual(dto.getIndividual().getNameIndividual());

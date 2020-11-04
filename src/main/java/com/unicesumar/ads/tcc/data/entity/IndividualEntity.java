@@ -22,6 +22,9 @@ public class IndividualEntity implements Serializable {
     @Column(name = "ID_INDIVIDUAL")
     private Integer idIndividual;
 
+    @Column(name = "ACTIVE")
+    private Boolean active;
+
     @Column(name = "CPF")
     private String cpf;
 
