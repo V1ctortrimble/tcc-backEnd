@@ -110,7 +110,7 @@ public class PersonController {
 
     @ApiOperation(value = "URL to add persons Individual", authorizations = { @Authorization(value="jwtToken") })
     @PostMapping(path = "/persons/individual")
-    public ResponseEntity<?> postPersonIndividual(@Validated @RequestBody PersonIndividualDTO dto) {
+    public ResponseEntity<PersonIndividualDTO> postPersonIndividual(@Validated @RequestBody PersonIndividualDTO dto) {
         PersonEntity entityCpg = personService.getPersonByCpf(dto.getIndividual().getCpf());
         PersonEntity entityRg = personService.getPersonByRg(dto.getIndividual().getRg());
         if (entityCpg == null && entityRg == null) {
@@ -125,7 +125,7 @@ public class PersonController {
 
     @ApiOperation(value = "URL to add persons Company", authorizations = { @Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/company")
-    public ResponseEntity<?> postPersonCompany(@Validated @RequestBody PersonCompanyDTO dto) {
+    public ResponseEntity<PersonCompanyDTO> postPersonCompany(@Validated @RequestBody PersonCompanyDTO dto) {
         PersonEntity entity = personService.getPersonByCnpj(dto.getCompany().getCnpj());
         if (entity == null) {
             if (dto.getActive() == null) {
@@ -139,20 +139,19 @@ public class PersonController {
 
     @ApiOperation(value = "URL to update persons individual", authorizations =  { @Authorization(value="jwtToken") })
     @PutMapping(path = "/persons/individual")
-    public ResponseEntity<?> putPersonIndividual(@RequestParam(value = "cpf") String cpf, @Validated @RequestBody PersonIndividualDTO dto) {
+    public ResponseEntity<PersonIndividualDTO> putPersonIndividual(@RequestParam(value = "cpf") String cpf,
+                                                                   @Validated @RequestBody PersonIndividualDTO dto) {
         PersonEntity entity = personService.getPersonByCpf(cpf);
         if (entity != null){
             personService.putPerson(entity, dto);
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        else {
-            throw new HttpBadRequestException(USUARIO_NAO_LOCALIZADO);
-        }
+        throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);
     }
 
     @ApiOperation(value = "URL to get Bank Details by document")
     @GetMapping(path = "/persons/bankDetails")
-    public ResponseEntity<List<?>> getBankDetails(@RequestParam(value = "document") String document) {
+    public ResponseEntity<List<BankDetailsDTO>> getBankDetails(@RequestParam(value = "document") String document) {
         PersonEntity entity;
         if (document.length() == 11){
             entity = personService.getPersonByCpf(document);
@@ -173,7 +172,7 @@ public class PersonController {
 
     @ApiOperation(value = "URL to add bank details", authorizations = { @Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/bankDetails")
-    public ResponseEntity<?> postBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
+    public ResponseEntity<PersonBankDetailsDTO> postBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
         PersonEntity entity;
         if (dto.getDocument().length() == 11){
             entity = personService.getPersonByCpf(dto.getDocument());
@@ -195,7 +194,7 @@ public class PersonController {
 
     @ApiOperation(value = "URL to update bank details")
     @PutMapping(path = "/persons/bankDetails")
-    public ResponseEntity<?> putBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
+    public ResponseEntity<PersonBankDetailsDTO> putBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
         PersonEntity entity;
         if (dto.getDocument().length() == 11){
             entity = personService.getPersonByCpf(dto.getDocument());
