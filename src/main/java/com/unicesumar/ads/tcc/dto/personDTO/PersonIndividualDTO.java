@@ -20,13 +20,15 @@ public class PersonIndividualDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean active;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private IndividualDTO individual;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ContactDTO> contacts;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<AdressDTO> adresses;
 
-    @JsonProperty("banks_details")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<BankDetailsDTO> banksDetails;
 
