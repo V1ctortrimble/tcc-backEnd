@@ -7,6 +7,7 @@ import com.unicesumar.ads.tcc.converter.person.PersonIndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonIndividualGetEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.BankDetailsEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
+import com.unicesumar.ads.tcc.dto.BankDetailsDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonBankDetailsDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
@@ -29,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
@@ -135,10 +137,43 @@ public class PersonController {
         throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
     }
 
-    @ApiOperation(value = "URL to add persons Company", authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to update persons individual", authorizations =  { @Authorization(value="jwtToken") })
+    @PutMapping(path = "/persons/individual")
+    public ResponseEntity<?> putPersonIndividual(@RequestParam(value = "cpf") String cpf, @Validated @RequestBody PersonIndividualDTO dto) {
+        PersonEntity entity = personService.getPersonByCpf(cpf);
+        if (entity != null){
+            personService.putPerson(entity, dto);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        }
+        else {
+            throw new HttpBadRequestException(USUARIO_NAO_LOCALIZADO);
+        }
+    }
+
+    @ApiOperation(value = "URL to get Bank Details by document")
+    @GetMapping(path = "/persons/bankDetails")
+    public ResponseEntity<List<?>> getBankDetails(@RequestParam(value = "document") String document) {
+        PersonEntity entity;
+        if (document.length() == 11){
+            entity = personService.getPersonByCpf(document);
+        }
+        else if (document.length() == 14){
+            entity = personService.getPersonByCnpj(document);
+        }
+        else {
+            throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
+        }
+        if (entity != null) {
+            List<BankDetailsDTO> bank = bankDetailsEntityConverter.toDTOList(entity.getBanksDetails());
+
+            return new ResponseEntity<>(bank, HttpStatus.CREATED);
+        }
+        throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
+    }
+
+    @ApiOperation(value = "URL to add bank details", authorizations = { @Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/bankDetails")
     public ResponseEntity<?> postBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
-
         PersonEntity entity;
         if (dto.getDocument().length() == 11){
             entity = personService.getPersonByCpf(dto.getDocument());
@@ -149,11 +184,31 @@ public class PersonController {
         else {
             throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
         }
-
         if (entity != null) {
             BankDetailsEntity bank = bankDetailsEntityConverter.toEntity(dto.getBanksDetails());
             bank.setPerson(entity);
             bankDetailsService.postBankDetails(bank);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        }
+        throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
+    }
+
+    @ApiOperation(value = "URL to update bank details")
+    @PutMapping(path = "/persons/bankDetails")
+    public ResponseEntity<?> putBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
+        PersonEntity entity;
+        if (dto.getDocument().length() == 11){
+            entity = personService.getPersonByCpf(dto.getDocument());
+        }
+        else if (dto.getDocument().length() == 14){
+            entity = personService.getPersonByCnpj(dto.getDocument());
+        }
+        else {
+            throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
+        }
+        if (entity != null) {
+            bankDetailsService.putBankDetails(dto, entity);
+
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         }
         throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
