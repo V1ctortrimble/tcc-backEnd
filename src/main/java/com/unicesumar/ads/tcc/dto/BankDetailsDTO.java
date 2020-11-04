@@ -15,6 +15,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BankDetailsDTO {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("id_bank_details")
+    private Integer IdBankDetails;
+
     private String bank;
 
     private String agency;
