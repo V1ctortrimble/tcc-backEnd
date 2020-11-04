@@ -93,7 +93,7 @@ public class PersonController {
     }
 
     @ApiOperation(value = "Return person by cpf", authorizations = { @Authorization(value="jwtToken")})
-    @GetMapping(path = "/persons/individual/cpf")
+    @GetMapping(path = "/persons/individual")
     public ResponseEntity<PersonIndividualGetDTO> getPersonIndividual(@RequestParam(value = "cpf") String cpf) {
         PersonEntity entity = personService.getPersonByCpf(cpf);
         PersonIndividualGetDTO dto = personIndividualGetEntityConverter.toDTO(entity);
@@ -101,7 +101,7 @@ public class PersonController {
     }
 
     @ApiOperation(value = "Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
-    @GetMapping(path = "/persons/company/cnpj")
+    @GetMapping(path = "/persons/company")
     public ResponseEntity<PersonCompanyGetDTO> getPersonCompany(@RequestParam(value = "cnpj") String cnpj) {
         PersonEntity entity = personService.getPersonByCnpj(cnpj);
         PersonCompanyGetDTO dto = personCompanyGetEntityConverter.toDTO(entity);
