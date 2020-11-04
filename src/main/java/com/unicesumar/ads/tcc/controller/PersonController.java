@@ -207,8 +207,7 @@ public class PersonController {
         }
         if (entity != null) {
             bankDetailsService.putBankDetails(dto, entity);
-
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
     }
