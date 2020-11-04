@@ -1,50 +1,65 @@
 package com.unicesumar.ads.tcc.util;
 
-import com.unicesumar.ads.tcc.dto.CompanyDTO;
+import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
-import com.unicesumar.ads.tcc.dto.companyDTO.CompanyPartnerGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
+import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
+import com.unicesumar.ads.tcc.service.IndividualService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.NENHUMA_PESSOA_FOI_LOCALIZADA;
 import static com.unicesumar.ads.tcc.util.constants.UtilsConstants.PAGINA_NAO_ENCONTRADA;
 
 /**
  * component to paginator of List All
  */
 @Component
+@RequiredArgsConstructor
 public class PaginatorUtil {
 
-    public Page<CompanyDTO> paginateCompanyDTO(Pageable pageable, List<CompanyDTO> dtos) {
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), dtos.size());
-        validateFinalPage(start, dtos.size());
-        return new PageImpl<>(dtos.subList(start, end), pageable, dtos.size());
+    private final IndividualService individualService;
+
+    /**
+     * Method that converts Entity to DTO so that the pagination does not change
+     */
+    public Page<IndividualDTO> convertDTOIndividualToPages(Optional<String> cpf, Optional<String> rg, Optional<String> name,
+                                                           Optional<String> lastName,
+                                                           Pageable pageable) {
+        Page<IndividualEntity> individualEntities = individualService.getIndividualFilter(cpf, rg, name, lastName, pageable);
+        long offSet = pageable.getOffset();
+        long totElements = individualEntities.getTotalElements();
+        long totPages = individualEntities.getTotalPages();
+        ValidateTotalPages(totPages);
+        validateFinalPage(offSet, totElements);
+        return individualEntities.map(new Function<IndividualEntity, IndividualDTO>() {
+            @Override
+            public IndividualDTO apply(IndividualEntity t) {
+                return new ModelMapper().map(t, IndividualDTO.class);
+            }
+        });
     }
 
-    public Page<IndividualDTO> paginateIndividualDTO(Pageable pageable, List<IndividualDTO> dtos) {
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), dtos.size());
-        validateFinalPage(start, dtos.size());
-        return new PageImpl<>(dtos.subList(start, end), pageable, dtos.size());
-    }
-
-    public Page<CompanyPartnerGetDTO> paginateCompanyPartnerDTO(Pageable pageable, List<CompanyPartnerGetDTO> dtos) {
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), dtos.size());
-        validateFinalPage(start, dtos.size());
-        return new PageImpl<>(dtos.subList(start, end), pageable, dtos.size());
+    /**
+     * Method to validate Total Pages
+     */
+    private void ValidateTotalPages(long totPages) {
+        if (totPages == 0) {
+            throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
+        }
     }
 
     /**
      * Method to validate if it is the last page
      */
-    private void validateFinalPage(int start, int size) {
-        if (start > size) {
+    private void validateFinalPage(long offSet, long totElements) {
+        if(offSet >= totElements) {
             throw new HttpBadRequestException(PAGINA_NAO_ENCONTRADA);
         }
     }

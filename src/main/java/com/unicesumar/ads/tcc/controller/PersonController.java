@@ -1,17 +1,12 @@
 package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.BankDetailsEntityConverter;
-import com.unicesumar.ads.tcc.converter.CompanyEntityConverter;
-import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonCompanyEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonCompanyGetEntityConverter;
-import com.unicesumar.ads.tcc.converter.person.PersonIndividualGetEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonIndividualEntityConverter;
+import com.unicesumar.ads.tcc.converter.person.PersonIndividualGetEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.BankDetailsEntity;
-import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
-import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
-import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonBankDetailsDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
@@ -21,8 +16,6 @@ import com.unicesumar.ads.tcc.dto.personGetDTO.PersonIndividualGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.BankDetailsService;
-import com.unicesumar.ads.tcc.service.CompanyService;
-import com.unicesumar.ads.tcc.service.IndividualService;
 import com.unicesumar.ads.tcc.service.PersonService;
 import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
@@ -36,8 +29,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
@@ -52,8 +43,6 @@ public class PersonController {
      * Services
      */
     private final PersonService personService;
-    private final IndividualService individualService;
-    private final CompanyService companyService;
     private final BankDetailsService bankDetailsService;
 
     /**
@@ -64,8 +53,6 @@ public class PersonController {
     private final BankDetailsEntityConverter bankDetailsEntityConverter;
     private final PersonIndividualGetEntityConverter personIndividualGetEntityConverter;
     private final PersonCompanyGetEntityConverter personCompanyGetEntityConverter;
-    private final IndividualEntityConverter individualEntityConverter;
-    private final CompanyEntityConverter companyEntityConverter;
 
     /**
      * Utils
@@ -73,16 +60,15 @@ public class PersonController {
     private final PaginatorUtil paginator;
 
     //TODO: vai virar Filter
-    @ApiOperation(value = "Returns company by cnpj, fantasy name, social reason, state regis  or return all companies",
-            authorizations = { @Authorization(value="jwtToken")})
-    @GetMapping(path = "/persons/company/all")
-    public ResponseEntity<Page<CompanyDTO>> getPersonsCompany(Pageable pageable) {
-        Page<CompanyEntity> entities = companyService.getCompanies(pageable);
-        List<CompanyEntity> companyEntities = new ArrayList<>(entities.toList());
-        List<CompanyDTO> dtos = companyEntityConverter.toDTOList(companyEntities);
-        Page<CompanyDTO> pages = paginator.paginateCompanyDTO(pageable, dtos);
-        return new ResponseEntity<>(pages, HttpStatus.OK);
-    }
+//    @ApiOperation(value = "Returns company by cnpj, fantasy name, social reason, state regis  or return all companies",
+//            authorizations = { @Authorization(value="jwtToken")})
+//    @GetMapping(path = "/persons/company/all")
+//    public ResponseEntity<Page<CompanyDTO>> getPersonsCompany(Pageable pageable) {
+//        Page<CompanyEntity> entities = companyService.getCompanies(pageable);
+//        List<CompanyEntity> companyEntities = new ArrayList<>(entities.toList());
+//        List<CompanyDTO> dtos = companyEntityConverter.toDTOList(companyEntities);
+//        return new ResponseEntity<>(pages, HttpStatus.OK);
+//    }
 
     @ApiOperation(value = "Return individual by cpf, name, last name, rg or return all individuals",
             authorizations = { @Authorization(value="jwtToken")})
@@ -100,14 +86,8 @@ public class PersonController {
                                                                                @RequestParam(value = "lastname",
                                                                                        required = false)
                                                                                        Optional<String> lastName) {
-        Page<IndividualEntity> entities = individualService.getIndividualFilter(cpf, rg, name, lastName, pageable);
-        if (entities.getTotalPages() != 0) {
-            List<IndividualEntity> individualEntities = new ArrayList<>(entities.toList());
-            List<IndividualDTO> dtos = individualEntityConverter.toDTOList(individualEntities);
-            Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
-            return new ResponseEntity<>(pages, HttpStatus.OK);
-        }
-        throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
+        Page<IndividualDTO> dtos = paginator.convertDTOIndividualToPages(cpf, rg, name, lastName, pageable);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Return person by cpf", authorizations = { @Authorization(value="jwtToken")})
