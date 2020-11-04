@@ -4,7 +4,8 @@ import com.unicesumar.ads.tcc.converter.BankDetailsEntityConverter;
 import com.unicesumar.ads.tcc.converter.CompanyEntityConverter;
 import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonCompanyEntityConverter;
-import com.unicesumar.ads.tcc.converter.person.PersonGetEntityConverter;
+import com.unicesumar.ads.tcc.converter.person.PersonCompanyGetEntityConverter;
+import com.unicesumar.ads.tcc.converter.person.PersonIndividualGetEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonIndividualEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.BankDetailsEntity;
 import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
@@ -15,7 +16,8 @@ import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonBankDetailsDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonIndividualDTO;
-import com.unicesumar.ads.tcc.dto.personGetDTO.PersonGetDTO;
+import com.unicesumar.ads.tcc.dto.personGetDTO.PersonCompanyGetDTO;
+import com.unicesumar.ads.tcc.dto.personGetDTO.PersonIndividualGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.BankDetailsService;
@@ -60,7 +62,8 @@ public class PersonController {
     private final PersonIndividualEntityConverter personIndividualEntityConverter;
     private final PersonCompanyEntityConverter personCompanyEntityConverter;
     private final BankDetailsEntityConverter bankDetailsEntityConverter;
-    private final PersonGetEntityConverter personGetEntityConverter;
+    private final PersonIndividualGetEntityConverter personIndividualGetEntityConverter;
+    private final PersonCompanyGetEntityConverter personCompanyGetEntityConverter;
     private final IndividualEntityConverter individualEntityConverter;
     private final CompanyEntityConverter companyEntityConverter;
 
@@ -69,18 +72,9 @@ public class PersonController {
      */
     private final PaginatorUtil paginator;
 
-
-//    @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
-//    @GetMapping(path = "/persons/individual/all")
-//    public ResponseEntity<Page<IndividualDTO>> getPersonsIndividual(Pageable pageable) {
-//        Page<IndividualEntity> entities = individualService.getIndividuals(pageable);
-//        List<IndividualEntity> list = new ArrayList<>(entities.toList());
-//        List<IndividualDTO> dtos = individualEntityConverter.toDTOList(list);
-//        Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
-//        return new ResponseEntity<>(pages, HttpStatus.OK);
-//    }
-
-    @ApiOperation(value = "Returns All persons", authorizations = { @Authorization(value="jwtToken") })
+    //TODO: vai virar Filter
+    @ApiOperation(value = "Returns company by cnpj, fantasy name, social reason, state regis  or return all companies",
+            authorizations = { @Authorization(value="jwtToken")})
     @GetMapping(path = "/persons/company/all")
     public ResponseEntity<Page<CompanyDTO>> getPersonsCompany(Pageable pageable) {
         Page<CompanyEntity> entities = companyService.getCompanies(pageable);
@@ -88,6 +82,48 @@ public class PersonController {
         List<CompanyDTO> dtos = companyEntityConverter.toDTOList(companyEntities);
         Page<CompanyDTO> pages = paginator.paginateCompanyDTO(pageable, dtos);
         return new ResponseEntity<>(pages, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Return individual by cpf, name, last name, rg or return all individuals",
+            authorizations = { @Authorization(value="jwtToken")})
+    @GetMapping(path = "/persons/individual/filter")
+    public ResponseEntity<Page<IndividualDTO>> getPersonIndividualAllAndFilter(Pageable pageable,
+                                                                               @RequestParam(value = "cpf",
+                                                                                       required = false)
+                                                                                       Optional<String> cpf,
+                                                                               @RequestParam(value = "rg",
+                                                                                       required = false)
+                                                                                       Optional<String> rg,
+                                                                               @RequestParam(value = "name",
+                                                                                       required = false)
+                                                                                       Optional<String> name,
+                                                                               @RequestParam(value = "lastname",
+                                                                                       required = false)
+                                                                                       Optional<String> lastName) {
+        Page<IndividualEntity> entities = individualService.getIndividualFilter(cpf, rg, name, lastName, pageable);
+        if (entities.getTotalPages() != 0) {
+            List<IndividualEntity> individualEntities = new ArrayList<>(entities.toList());
+            List<IndividualDTO> dtos = individualEntityConverter.toDTOList(individualEntities);
+            Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
+            return new ResponseEntity<>(pages, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
+    }
+
+    @ApiOperation(value = "Return person by cpf", authorizations = { @Authorization(value="jwtToken")})
+    @GetMapping(path = "/persons/individual/cpf")
+    public ResponseEntity<PersonIndividualGetDTO> getPersonIndividual(@RequestParam(value = "cpf") String cpf) {
+        PersonEntity entity = personService.getPersonByCpf(cpf);
+        PersonIndividualGetDTO dto = personIndividualGetEntityConverter.toDTO(entity);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
+    @GetMapping(path = "/persons/company/cnpj")
+    public ResponseEntity<PersonCompanyGetDTO> getPersonCompany(@RequestParam(value = "cnpj") String cnpj) {
+        PersonEntity entity = personService.getPersonByCnpj(cnpj);
+        PersonCompanyGetDTO dto = personCompanyGetEntityConverter.toDTO(entity);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @ApiOperation(value = "URL to add persons Individual", authorizations = { @Authorization(value="jwtToken") })
@@ -105,7 +141,7 @@ public class PersonController {
         throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
     }
 
-    @ApiOperation(value = "URL to add persons Company")
+    @ApiOperation(value = "URL to add persons Company", authorizations = { @Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/company")
     public ResponseEntity<?> postPersonCompany(@Validated @RequestBody PersonCompanyDTO dto) {
         PersonEntity entity = personService.getPersonByCnpj(dto.getCompany().getCnpj());
@@ -119,7 +155,7 @@ public class PersonController {
         throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
     }
 
-    @ApiOperation(value = "URL to add persons Company")
+    @ApiOperation(value = "URL to add persons Company", authorizations = { @Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/bankDetails")
     public ResponseEntity<?> postBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
 
@@ -138,40 +174,8 @@ public class PersonController {
             BankDetailsEntity bank = bankDetailsEntityConverter.toEntity(dto.getBanksDetails());
             bank.setPerson(entity);
             bankDetailsService.postBankDetails(bank);
-
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         }
         throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
     }
-
-    @ApiOperation(value = "Return person by cpf")
-    @GetMapping(path = "/persons/individual")
-    public ResponseEntity<PersonGetDTO> getPersonIndividual(@RequestParam(value = "cpf") String cpf) {
-        PersonEntity entity = personService.getPersonByCpf(cpf);
-        PersonGetDTO dto = personGetEntityConverter.toDTO(entity);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "Return person by cpf, name, last name, rg or return all individuals")
-    @GetMapping(path = "/persons/individual/filter")
-    public ResponseEntity<Page<IndividualDTO>> getPersonIndividualAllAndFilter(Pageable pageable,
-                                                                               @RequestParam(value = "cpf", required = false)
-                                                                                 Optional<String> cpf,
-                                                                               @RequestParam(value = "rg", required = false)
-                                                                                 Optional<String> rg,
-                                                                               @RequestParam(value = "name", required = false)
-                                                                                 Optional<String> name,
-                                                                               @RequestParam(value = "lastname",
-                                                                                 required = false)
-                                                                                 Optional<String> lastName) {
-        Page<IndividualEntity> entities = individualService.getIndividualFilter(cpf, rg, name, lastName, pageable);
-        if (entities.getTotalPages() != 0) {
-            List<IndividualEntity> individualEntities = new ArrayList<>(entities.toList());
-            List<IndividualDTO> dtos = individualEntityConverter.toDTOList(individualEntities);
-            Page<IndividualDTO> pages = paginator.paginateIndividualDTO(pageable, dtos);
-            return new ResponseEntity<>(pages, HttpStatus.OK);
-        }
-        throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
-    }
-
 }

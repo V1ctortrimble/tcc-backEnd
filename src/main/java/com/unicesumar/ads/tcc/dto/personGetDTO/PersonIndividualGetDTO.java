@@ -1,10 +1,6 @@
 package com.unicesumar.ads.tcc.dto.personGetDTO;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.dto.AdressDTO;
-import com.unicesumar.ads.tcc.dto.BankDetailsDTO;
-import com.unicesumar.ads.tcc.dto.ContactDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PersonGetDTO {
+public class PersonIndividualGetDTO {
 
     @JsonProperty("id_person")
     private int idPerson;
