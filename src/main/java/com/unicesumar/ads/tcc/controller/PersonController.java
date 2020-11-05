@@ -8,6 +8,7 @@ import com.unicesumar.ads.tcc.converter.person.PersonIndividualGetEntityConverte
 import com.unicesumar.ads.tcc.data.entity.BankDetailsEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import com.unicesumar.ads.tcc.dto.BankDetailsDTO;
+import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonBankDetailsDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
@@ -61,17 +62,10 @@ public class PersonController {
      */
     private final PaginatorUtil paginator;
 
-    //TODO: vai virar Filter
-//    @ApiOperation(value = "Returns company by cnpj, fantasy name, social reason, state regis  or return all companies",
-//            authorizations = { @Authorization(value="jwtToken")})
-//    @GetMapping(path = "/persons/company/all")
-//    public ResponseEntity<Page<CompanyDTO>> getPersonsCompany(Pageable pageable) {
-//        Page<CompanyEntity> entities = companyService.getCompanies(pageable);
-//        List<CompanyEntity> companyEntities = new ArrayList<>(entities.toList());
-//        List<CompanyDTO> dtos = companyEntityConverter.toDTOList(companyEntities);
-//        return new ResponseEntity<>(pages, HttpStatus.OK);
-//    }
 
+    /**
+     * GetsMapping
+     */
     @ApiOperation(value = "Return individual by cpf, name, last name, rg or return all individuals",
             authorizations = { @Authorization(value="jwtToken")})
     @GetMapping(path = "/persons/individual/filter")
@@ -92,7 +86,31 @@ public class PersonController {
                                                                                        defaultValue = "true",
                                                                                        required = false)
                                                                                        Boolean active) {
-        Page<IndividualDTO> dtos = paginator.convertDTOIndividualToPages(cpf, rg, name, lastName,active, pageable);
+        Page<IndividualDTO> dtos = paginator.convertDTOIndividualToPages(cpf, rg, name, lastName, active, pageable);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Returns company by cnpj, fantasy name, social reason, state regis  or return all companies",
+            authorizations = { @Authorization(value="jwtToken")})
+    @GetMapping(path = "/persons/company/filter")
+    public ResponseEntity<Page<CompanyDTO>> getPersonsCompanyAllAndFilter(Pageable pageable,
+                                                                          @RequestParam(value = "cnpj",
+                                                                                  required = false)
+                                                                                  Optional<String> cnpj,
+                                                                          @RequestParam(value = "socialreason",
+                                                                                  required = false)
+                                                                                      Optional<String> socialReason,
+                                                                          @RequestParam(value = "fantasyname",
+                                                                                  required = false)
+                                                                                      Optional<String> fantasyName,
+                                                                          @RequestParam(value = "stateregis",
+                                                                                  required = false)
+                                                                                      Optional<String> stateRegis,
+                                                                          @RequestParam(value = "active",
+                                                                                  defaultValue = "true",
+                                                                                  required = false) Boolean active) {
+        Page<CompanyDTO> dtos = paginator.convertDTOCompanyToPages(cnpj, socialReason, fantasyName, stateRegis,
+                active, pageable);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
@@ -110,47 +128,6 @@ public class PersonController {
         PersonEntity entity = personService.getPersonByCnpj(cnpj);
         PersonCompanyGetDTO dto = personCompanyGetEntityConverter.toDTO(entity);
         return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "URL to add persons Individual", authorizations = { @Authorization(value="jwtToken") })
-    @PostMapping(path = "/persons/individual")
-    public ResponseEntity<PersonIndividualDTO> postPersonIndividual(@Validated @RequestBody PersonIndividualDTO dto) {
-        PersonEntity entityCpg = personService.getPersonByCpf(dto.getIndividual().getCpf());
-        PersonEntity entityRg = personService.getPersonByRg(dto.getIndividual().getRg());
-        if (entityCpg == null && entityRg == null) {
-            if (dto.getIndividual().getActive() == null) {
-                dto.getIndividual().setActive(true);
-            }
-            personService.postUsers(personIndividualEntityConverter.toEntity(dto));
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
-        }
-        throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
-    }
-
-    @ApiOperation(value = "URL to add persons Company", authorizations = { @Authorization(value="jwtToken")})
-    @PostMapping(path = "/persons/company")
-    public ResponseEntity<PersonCompanyDTO> postPersonCompany(@Validated @RequestBody PersonCompanyDTO dto) {
-        PersonEntity entity = personService.getPersonByCnpj(dto.getCompany().getCnpj());
-        if (entity == null) {
-            if (dto.getActive() == null) {
-                dto.setActive(true);
-            }
-            personService.postUsers(personCompanyEntityConverter.toEntity(dto));
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
-        }
-        throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
-    }
-
-    @ApiOperation(value = "URL to update persons individual", authorizations =  { @Authorization(value="jwtToken") })
-    @PutMapping(path = "/persons/individual")
-    public ResponseEntity<PersonIndividualDTO> putPersonIndividual(@RequestParam(value = "cpf") String cpf,
-                                                                   @Validated @RequestBody PersonIndividualDTO dto) {
-        PersonEntity entity = personService.getPersonByCpf(cpf);
-        if (entity != null){
-            personService.putPersonIndividual(entity, dto);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);
     }
 
     @ApiOperation(value = "URL to get Bank Details by document")
@@ -174,6 +151,38 @@ public class PersonController {
         throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
     }
 
+    /**
+     * PostsMapping
+     */
+    @ApiOperation(value = "URL to add persons Individual", authorizations = { @Authorization(value="jwtToken") })
+    @PostMapping(path = "/persons/individual")
+    public ResponseEntity<PersonIndividualDTO> postPersonIndividual(@Validated @RequestBody PersonIndividualDTO dto) {
+        PersonEntity entityCpg = personService.getPersonByCpf(dto.getIndividual().getCpf());
+        PersonEntity entityRg = personService.getPersonByRg(dto.getIndividual().getRg());
+        if (entityCpg == null && entityRg == null) {
+            if (dto.getIndividual().getActive() == null) {
+                dto.getIndividual().setActive(true);
+            }
+            personService.postUsers(personIndividualEntityConverter.toEntity(dto));
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        }
+        throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
+    }
+
+    @ApiOperation(value = "URL to add persons Company", authorizations = { @Authorization(value="jwtToken")})
+    @PostMapping(path = "/persons/company")
+    public ResponseEntity<PersonCompanyDTO> postPersonCompany(@Validated @RequestBody PersonCompanyDTO dto) {
+        PersonEntity entity = personService.getPersonByCnpj(dto.getCompany().getCnpj());
+        if (entity == null) {
+            if (dto.getCompany().getActive() == null) {
+                dto.getCompany().setActive(true);
+            }
+            personService.postUsers(personCompanyEntityConverter.toEntity(dto));
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        }
+        throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
+    }
+
     @ApiOperation(value = "URL to add bank details", authorizations = { @Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/bankDetails")
     public ResponseEntity<PersonBankDetailsDTO> postBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
@@ -194,6 +203,21 @@ public class PersonController {
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         }
         throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
+    }
+
+    /**
+     * PutsMapping
+     */
+    @ApiOperation(value = "URL to update persons individual", authorizations =  { @Authorization(value="jwtToken") })
+    @PutMapping(path = "/persons/individual")
+    public ResponseEntity<PersonIndividualDTO> putPersonIndividual(@RequestParam(value = "cpf") String cpf,
+                                                                   @Validated @RequestBody PersonIndividualDTO dto) {
+        PersonEntity entity = personService.getPersonByCpf(cpf);
+        if (entity != null){
+            personService.putPersonIndividual(entity, dto);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);
     }
 
     @ApiOperation(value = "URL to update bank details")

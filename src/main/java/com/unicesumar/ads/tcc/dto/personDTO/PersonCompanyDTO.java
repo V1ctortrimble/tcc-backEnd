@@ -19,9 +19,6 @@ import java.util.List;
 @Builder
 public class PersonCompanyDTO {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean active;
-
     private CompanyDTO company;
 
     private List<ContactDTO> contacts;

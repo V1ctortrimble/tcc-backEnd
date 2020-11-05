@@ -1,9 +1,12 @@
 package com.unicesumar.ads.tcc.util;
 
+import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
 import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
+import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
+import com.unicesumar.ads.tcc.service.CompanyService;
 import com.unicesumar.ads.tcc.service.IndividualService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,11 +28,13 @@ import static com.unicesumar.ads.tcc.util.constants.UtilsConstants.PAGINA_NAO_EN
 public class PaginatorUtil {
 
     private final IndividualService individualService;
+    private final CompanyService companyService;
 
     /**
-     * Method that converts Entity to DTO so that the pagination does not change
+     * Method that converts Entity to DTO so that the pagination does not change IndividualDTO
      */
-    public Page<IndividualDTO> convertDTOIndividualToPages(Optional<String> cpf, Optional<String> rg, Optional<String> name,
+    public Page<IndividualDTO> convertDTOIndividualToPages(Optional<String> cpf, Optional<String> rg,
+                                                           Optional<String> name,
                                                            Optional<String> lastName,
                                                            Boolean active,
                                                            Pageable pageable) {
@@ -44,6 +49,29 @@ public class PaginatorUtil {
             @Override
             public IndividualDTO apply(IndividualEntity t) {
                 return new ModelMapper().map(t, IndividualDTO.class);
+            }
+        });
+    }
+
+    /**
+     * Method that converts Entity to DTO so that the pagination does not change CompanyDTO
+     */
+    public Page<CompanyDTO> convertDTOCompanyToPages(Optional<String> cnpj, Optional<String> socialReason,
+                                                     Optional<String> fantasyName,
+                                                     Optional<String> stateRegis,
+                                                     Boolean active,
+                                                     Pageable pageable) {
+        Page<CompanyEntity> individualEntities = companyService.getIndividualFilter(cnpj, socialReason, fantasyName,
+                stateRegis, active, pageable);
+        long offSet = pageable.getOffset();
+        long totElements = individualEntities.getTotalElements();
+        long totPages = individualEntities.getTotalPages();
+        ValidateTotalPages(totPages);
+        validateFinalPage(offSet, totElements);
+        return individualEntities.map(new Function<CompanyEntity, CompanyDTO>() {
+            @Override
+            public CompanyDTO apply(CompanyEntity t) {
+                return new ModelMapper().map(t, CompanyDTO.class);
             }
         });
     }
