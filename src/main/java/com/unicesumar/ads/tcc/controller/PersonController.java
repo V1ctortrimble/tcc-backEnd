@@ -87,8 +87,12 @@ public class PersonController {
                                                                                        Optional<String> name,
                                                                                @RequestParam(value = "lastname",
                                                                                        required = false)
-                                                                                       Optional<String> lastName) {
-        Page<IndividualDTO> dtos = paginator.convertDTOIndividualToPages(cpf, rg, name, lastName, pageable);
+                                                                                       Optional<String> lastName,
+                                                                               @RequestParam(value = "active",
+                                                                                       defaultValue = "true",
+                                                                                       required = false)
+                                                                                       Boolean active) {
+        Page<IndividualDTO> dtos = paginator.convertDTOIndividualToPages(cpf, rg, name, lastName,active, pageable);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
