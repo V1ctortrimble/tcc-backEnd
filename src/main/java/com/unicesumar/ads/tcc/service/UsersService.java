@@ -1,5 +1,7 @@
 package com.unicesumar.ads.tcc.service;
 
+import com.unicesumar.ads.tcc.data.entity.CompanySystemEntity;
+import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.data.repository.UsersRepository;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
@@ -43,9 +45,15 @@ public class UsersService {
             user.setUsername(dto.getUsername());
         }
         if (dto.getCompanySystemDTO() != null){
+            if (user.getCompanySystem() == null)
+                user.setCompanySystem(new CompanySystemEntity());
+
             user.getCompanySystem().setIdCompanySystem(dto.getCompanySystemDTO().getIdCompanySystem());
         }
         if (dto.getIndividual() != null){
+            if (user.getIndividual() == null)
+                user.setIndividual(new IndividualEntity());
+
             if (dto.getIndividual().getIdIndividual() != null) {
                 user.getIndividual().setIdIndividual(dto.getIndividual().getIdIndividual());
             }

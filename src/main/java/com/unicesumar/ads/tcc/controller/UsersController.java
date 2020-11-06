@@ -89,7 +89,7 @@ public class UsersController {
         throw new HttpBadRequestException(USUARIO_JA_CADASTRADO);
     }
 
-    @ApiOperation(value = "URL to update users", authorizations = { @Authorization(value="jwtToken") })
+    @ApiOperation(value = "URL to update users")
     @PutMapping(path = "/updateusers")
     public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,
                                       @Validated @RequestBody UsersDTO dto) {
@@ -98,7 +98,7 @@ public class UsersController {
         if (entity != null) {
             if (validatePassword.getMatcher(dto.getPassword())) {
                 usersService.putUsers(dto);
-                return new ResponseEntity<>(dto, HttpStatus.OK);
+                return new ResponseEntity<>(getUsersByUsername(username), HttpStatus.OK);
             }
             throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
         }
