@@ -1,23 +1,26 @@
 package com.unicesumar.ads.tcc.dto.companyDTO;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CompanySystemDTO {
+public class CompanySystemGetAllDTO {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("id_company_system")
     private Integer idCompanySystem;
 
+    @JsonProperty("social_reason")
+    private String socialReason;
+
+    @JsonProperty("fantasy_name")
+    private String fantasyName;
+
     @JsonProperty("cnpj")
     private String cnpj;
+
+
 }

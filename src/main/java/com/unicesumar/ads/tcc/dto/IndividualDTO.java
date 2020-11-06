@@ -19,6 +19,10 @@ import java.util.List;
 public class IndividualDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("id_individual")
+    private Integer idIndividual;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean active;
 
     @JsonProperty("cpf")

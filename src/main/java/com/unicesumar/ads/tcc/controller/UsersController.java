@@ -40,8 +40,6 @@ public class UsersController {
      * Converters
      */
     private final UsersEntityConverter usersEntityConverter;
-    private final IndividualEntityConverter individualEntityConverter;
-    private final CompanySystemEntityConverter companySystemEntityConverter;
 
     /**
      * Utils
@@ -99,12 +97,7 @@ public class UsersController {
         UsersEntity entity = usersService.getUserByLogin(username);
         if (entity != null) {
             if (validatePassword.getMatcher(dto.getPassword())) {
-                entity.setAdmin(dto.getAdmin());
-                entity.setUsername(dto.getUsername());
-                entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
-                entity.setCompanySystem(companySystemEntityConverter.toEntity(dto.getCompanySystemDTO()));
-                entity.setIndividual(individualEntityConverter.toEntity(dto.getIndividual()));
-                usersService.postUsers(entity);
+                usersService.putUsers(dto);
                 return new ResponseEntity<>(dto, HttpStatus.OK);
             }
             throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
