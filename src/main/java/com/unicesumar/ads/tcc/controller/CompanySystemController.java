@@ -7,6 +7,7 @@ import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import com.unicesumar.ads.tcc.dto.CompanyPartnerDTO;
 import com.unicesumar.ads.tcc.dto.companyDTO.CompanyPartnerGetDTO;
 import com.unicesumar.ads.tcc.dto.companyDTO.CompanySystemDTO;
+import com.unicesumar.ads.tcc.dto.companyDTO.CompanySystemGetAllDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.CompanyPartnerService;
@@ -109,5 +110,12 @@ public class CompanySystemController {
         else{
             throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
         }
+    }
+
+    @ApiOperation(value = "Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
+    @GetMapping(path = "/companySystem")
+    public ResponseEntity<List<CompanySystemGetAllDTO>> getCompanySystem() {
+        List<CompanySystemGetAllDTO> dtos = companySystemService.getAllCompanySystem();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }

@@ -41,8 +41,6 @@ public class UsersController {
      * Converters
      */
     private final UsersEntityConverter usersEntityConverter;
-    private final IndividualEntityConverter individualEntityConverter;
-    private final CompanySystemEntityConverter companySystemEntityConverter;
 
     /**
      * Utils
@@ -92,7 +90,7 @@ public class UsersController {
         throw new HttpBadRequestException(USUARIO_JA_CADASTRADO);
     }
 
-    @ApiOperation(value = "URL to update users", authorizations = { @Authorization(value="jwtToken") })
+    @ApiOperation(value = "URL to update users")
     @PutMapping(path = "/updateusers")
     public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,
                                       @Validated @RequestBody UsersDTO dto) {
@@ -100,13 +98,8 @@ public class UsersController {
         UsersEntity entity = usersService.getUserByLogin(username);
         if (entity != null) {
             if (validatePassword.getMatcher(dto.getPassword())) {
-                entity.setAdmin(dto.getAdmin());
-                entity.setUsername(dto.getUsername());
-                entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
-                entity.setCompanySystem(companySystemEntityConverter.toEntity(dto.getCompanySystemDTO()));
-                entity.setIndividual(individualEntityConverter.toEntity(dto.getIndividual()));
-                usersService.postUsers(entity);
-                return new ResponseEntity<>(dto, HttpStatus.OK);
+                usersService.putUsers(dto);
+                return new ResponseEntity<>(getUsersByUsername(username), HttpStatus.OK);
             }
             throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
         }
