@@ -33,6 +33,31 @@ public class UsersService {
         repository.save(entity);
     }
 
+    /**
+     * Find All Users
+     */
+    public List<UsersEntity> getUsers() {
+        return repository.findAll();
+    }
+
+    /**
+     * Validates that the password change code is valid
+     */
+    public UsersEntity getUserChangePass(String code) {
+        UsersEntity user = repository.findByCode(code);
+
+        if(user != null){
+            double horaAtual = LocalDateTime.now().getHour();
+            double horaToken = user.getDataCode().getHour();
+            if( horaAtual - horaToken > 1 ){
+                return null;
+            }
+            return user;
+        }
+        return null;
+    }
+
+    //TODO: Refatorar Metodo
     public void putUsers(UsersDTO dto) {
         UsersEntity user = getUserByLogin(dto.getUsername());
         if (dto.getAdmin() != null){
@@ -78,29 +103,5 @@ public class UsersService {
         }
 
         repository.save(user);
-    }
-
-    /**
-     * Find All Users
-     */
-    public List<UsersEntity> getUsers() {
-        return repository.findAll();
-    }
-
-    /**
-     * Validates that the password change code is valid
-     */
-    public UsersEntity getUserChangePass(String code) {
-        UsersEntity user = repository.findByCode(code);
-
-        if(user != null){
-            double horaAtual = LocalDateTime.now().getHour();
-            double horaToken = user.getDataCode().getHour();
-            if( horaAtual - horaToken > 1 ){
-                return null;
-            }
-            return user;
-        }
-        return null;
     }
 }

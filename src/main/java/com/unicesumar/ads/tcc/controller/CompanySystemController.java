@@ -112,6 +112,7 @@ public class CompanySystemController {
         }
     }
 
+    //TODO: Rever metodo e maneira que foi implementado
     @ApiOperation(value = "Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
     @GetMapping(path = "/companySystem")
     public ResponseEntity<List<CompanySystemGetAllDTO>> getCompanySystem() {

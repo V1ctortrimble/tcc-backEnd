@@ -39,6 +39,7 @@ public class CompanySystemService {
     /**
      * Find All CompanySystemEntity by active true
      */
+    //TODO: Rever metodo e maneira que foi implementado
     public List<CompanySystemGetAllDTO> getAllCompanySystem() {
         List<CompanySystemGetAllDTO> list = new ArrayList<>();
 

@@ -1,7 +1,5 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.unicesumar.ads.tcc.converter.CompanySystemEntityConverter;
-import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
@@ -19,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -90,7 +87,7 @@ public class UsersController {
         throw new HttpBadRequestException(USUARIO_JA_CADASTRADO);
     }
 
-    @ApiOperation(value = "URL to update users")
+    @ApiOperation(value = "URL to update users", authorizations = { @Authorization(value="jwtToken") })
     @PutMapping(path = "/updateusers")
     public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,
                                       @Validated @RequestBody UsersDTO dto) {
