@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.NENHUMA_PESSOA_FOI_LOCALIZADA;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 import static com.unicesumar.ads.tcc.util.constants.UtilsConstants.PAGINA_NAO_ENCONTRADA;
 
 /**
@@ -43,7 +43,7 @@ public class PaginatorUtil {
         long offSet = pageable.getOffset();
         long totElements = individualEntities.getTotalElements();
         long totPages = individualEntities.getTotalPages();
-        ValidateTotalPages(totPages);
+        ValidateTotalPagesIndividual(totPages);
         validateFinalPage(offSet, totElements);
         return individualEntities.map(new Function<IndividualEntity, IndividualDTO>() {
             @Override
@@ -66,7 +66,7 @@ public class PaginatorUtil {
         long offSet = pageable.getOffset();
         long totElements = individualEntities.getTotalElements();
         long totPages = individualEntities.getTotalPages();
-        ValidateTotalPages(totPages);
+        ValidateTotalPagesCompany(totPages);
         validateFinalPage(offSet, totElements);
         return individualEntities.map(new Function<CompanyEntity, CompanyDTO>() {
             @Override
@@ -77,11 +77,20 @@ public class PaginatorUtil {
     }
 
     /**
-     * Method to validate Total Pages
+     * Method to validate Total Pages Individual
      */
-    private void ValidateTotalPages(long totPages) {
+    private void ValidateTotalPagesIndividual(long totPages) {
         if (totPages == 0) {
             throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
+        }
+    }
+
+    /**
+     * Method to validate Total Pages Company
+     */
+    private void ValidateTotalPagesCompany(long totPages) {
+        if (totPages == 0) {
+            throw new HttpNotFoundException(NENHUMA_EMPRESA_LOCALIZADA);
         }
     }
 

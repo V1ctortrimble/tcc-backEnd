@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.configuration;
 
+import io.swagger.models.Swagger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -8,10 +9,12 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.ApiSelector;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Configuration class for implementing Swagger
@@ -31,7 +34,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.unicesumar.ads.tcc"))
                 .paths(PathSelectors.regex(".*"))
                 .build()
-                .securitySchemes(Arrays.asList(apiKey()))
+                .securitySchemes(Collections.singletonList(apiKey()))
                 .apiInfo(apiInfo());
     }
 

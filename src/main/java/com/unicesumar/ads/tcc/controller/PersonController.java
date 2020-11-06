@@ -28,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,7 @@ import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class PersonController {
 
     /**
@@ -66,8 +68,8 @@ public class PersonController {
     /**
      * GetsMapping
      */
-    @ApiOperation(value = "Return individual by cpf, name, last name, rg or return all individuals",
-            authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to return individual by cpf, name, last name, rg or return all individuals",
+            authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/persons/individual/filter")
     public ResponseEntity<Page<IndividualDTO>> getPersonIndividualAllAndFilter(Pageable pageable,
                                                                                @RequestParam(value = "cpf",
@@ -90,8 +92,9 @@ public class PersonController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Returns company by cnpj, fantasy name, social reason, state regis  or return all companies",
-            authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to returns company by cnpj, fantasy name, social reason, state regis or " +
+            "return all companies",
+            authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/persons/company/filter")
     public ResponseEntity<Page<CompanyDTO>> getPersonsCompanyAllAndFilter(Pageable pageable,
                                                                           @RequestParam(value = "cnpj",
@@ -114,7 +117,7 @@ public class PersonController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Return person by cpf", authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to return person by cpf", authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/persons/individual")
     public ResponseEntity<PersonIndividualGetDTO> getPersonIndividual(@RequestParam(value = "cpf") String cpf) {
         PersonEntity entity = personService.getPersonByCpf(cpf);
@@ -122,7 +125,7 @@ public class PersonController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to return person by cnpj", authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/persons/company")
     public ResponseEntity<PersonCompanyGetDTO> getPersonCompany(@RequestParam(value = "cnpj") String cnpj) {
         PersonEntity entity = personService.getPersonByCnpj(cnpj);
@@ -130,7 +133,7 @@ public class PersonController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "URL to get Bank Details by document")
+    @ApiOperation(value = "URL to get Bank Details by document", authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/persons/bankDetails")
     public ResponseEntity<List<BankDetailsDTO>> getBankDetails(@RequestParam(value = "document") String document) {
         PersonEntity entity;
@@ -154,7 +157,7 @@ public class PersonController {
     /**
      * PostsMapping
      */
-    @ApiOperation(value = "URL to add persons Individual", authorizations = { @Authorization(value="jwtToken") })
+    @ApiOperation(value = "URL to add persons Individual", authorizations = {@Authorization(value="jwtToken") })
     @PostMapping(path = "/persons/individual")
     public ResponseEntity<PersonIndividualDTO> postPersonIndividual(@Validated @RequestBody PersonIndividualDTO dto) {
         PersonEntity entityCpg = personService.getPersonByCpf(dto.getIndividual().getCpf());
@@ -169,7 +172,7 @@ public class PersonController {
         throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
     }
 
-    @ApiOperation(value = "URL to add persons Company", authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to add persons Company", authorizations = {@Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/company")
     public ResponseEntity<PersonCompanyDTO> postPersonCompany(@Validated @RequestBody PersonCompanyDTO dto) {
         PersonEntity entity = personService.getPersonByCnpj(dto.getCompany().getCnpj());
@@ -183,7 +186,7 @@ public class PersonController {
         throw new HttpBadRequestException(PESSOA_JA_CADASTRADA);
     }
 
-    @ApiOperation(value = "URL to add bank details", authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to add bank details", authorizations = {@Authorization(value="jwtToken")})
     @PostMapping(path = "/persons/bankDetails")
     public ResponseEntity<PersonBankDetailsDTO> postBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
         PersonEntity entity;
@@ -208,7 +211,7 @@ public class PersonController {
     /**
      * PutsMapping
      */
-    @ApiOperation(value = "URL to update persons individual", authorizations =  { @Authorization(value="jwtToken") })
+    @ApiOperation(value = "URL to update persons individual", authorizations = {@Authorization(value="jwtToken") })
     @PutMapping(path = "/persons/individual")
     public ResponseEntity<PersonIndividualDTO> putPersonIndividual(@RequestParam(value = "cpf") String cpf,
                                                                    @Validated @RequestBody PersonIndividualDTO dto) {
@@ -220,7 +223,19 @@ public class PersonController {
         throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);
     }
 
-    @ApiOperation(value = "URL to update bank details")
+    @ApiOperation(value = "URL to update persons company", authorizations = {@Authorization(value="jwtToken") })
+    @PutMapping(path = "/persons/company")
+    public ResponseEntity<PersonCompanyDTO> putPersonCompany(@RequestParam(value = "cnpj") String cnpj,
+                                                                   @Validated @RequestBody PersonCompanyDTO dto) {
+        PersonEntity entity = personService.getPersonByCnpj(cnpj);
+        if (entity != null){
+            personService.putPersonCompany(entity, dto);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);
+    }
+
+    @ApiOperation(value = "URL to update bank details", authorizations = {@Authorization(value="jwtToken") })
     @PutMapping(path = "/persons/bankDetails")
     public ResponseEntity<PersonBankDetailsDTO> putBankDetails(@Validated @RequestBody PersonBankDetailsDTO dto) {
         PersonEntity entity;
