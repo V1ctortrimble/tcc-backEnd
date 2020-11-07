@@ -31,11 +31,11 @@ public class UsersDTO {
     private Boolean admin;
 
     @JsonProperty("individual")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
     private IndividualDTO individual;
 
     @JsonProperty("company_system")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private CompanySystemDTO companySystemDTO;
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
+    private CompanySystemDTO companySystem;
 
 }

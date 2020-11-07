@@ -47,7 +47,7 @@ public class UsersController {
 
 
     @ApiOperation(value = "Returns All users", authorizations = { @Authorization(value="jwtToken") })
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/users/all")
     public ResponseEntity<List<UsersDTO>> getUsers() {
         List<UsersEntity> entities = usersService.getUsers();
         List<UsersDTO> dtos = usersEntityConverter.toDTOList(entities);
@@ -58,8 +58,7 @@ public class UsersController {
     @ApiOperation(value = "Returns users registered according to Username",
             authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(value = "/users/username")
-    public ResponseEntity<?> getUsersByUsername(@RequestParam(value = "username") String username) {
-
+    public ResponseEntity<UsersDTO> getUsersByUsername(@RequestParam(value = "username") String username) {
         UsersEntity entity = usersService.getUserByLogin(username);
         if (entity != null) {
             entity.setPassword(null);
@@ -69,9 +68,8 @@ public class UsersController {
     }
 
     @ApiOperation(value = "URL to add users", authorizations = { @Authorization(value="jwtToken") })
-    @PostMapping(path = "/addusers")
+    @PostMapping(path = "/users")
     public ResponseEntity<?> postUsers(@Validated @RequestBody UsersDTO dto) {
-
         UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
         if (entity == null) {
             if (dto.getPassword().equals(dto.getRepeatPassword())) {
@@ -87,6 +85,7 @@ public class UsersController {
         throw new HttpBadRequestException(USUARIO_JA_CADASTRADO);
     }
 
+    //TODO: Refatorar Metodo
     @ApiOperation(value = "URL to update users", authorizations = { @Authorization(value="jwtToken") })
     @PutMapping(path = "/updateusers")
     public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,

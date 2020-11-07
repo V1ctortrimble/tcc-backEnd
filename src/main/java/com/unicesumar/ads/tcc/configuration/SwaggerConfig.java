@@ -45,7 +45,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("TCC BACK-END REST API")
-                .description("Rest Back-end API documentation")
+                .description("Rest Back-end API documentation - By Go Horse Squad")
                 .version("1.0.0")
                 .build();
     }

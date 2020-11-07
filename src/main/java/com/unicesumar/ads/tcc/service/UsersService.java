@@ -69,11 +69,11 @@ public class UsersService {
         if (dto.getUsername() != null){
             user.setUsername(dto.getUsername());
         }
-        if (dto.getCompanySystemDTO() != null){
+        if (dto.getCompanySystem() != null){
             if (user.getCompanySystem() == null)
                 user.setCompanySystem(new CompanySystemEntity());
 
-            user.getCompanySystem().setIdCompanySystem(dto.getCompanySystemDTO().getIdCompanySystem());
+            user.getCompanySystem().setIdCompanySystem(dto.getCompanySystem().getIdCompanySystem());
         }
         if (dto.getIndividual() != null){
             if (user.getIndividual() == null)
