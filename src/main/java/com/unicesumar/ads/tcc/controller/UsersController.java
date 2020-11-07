@@ -87,7 +87,7 @@ public class UsersController {
 
     //TODO: Refatorar Metodo
     @ApiOperation(value = "URL to update users", authorizations = { @Authorization(value="jwtToken") })
-    @PutMapping(path = "/updateusers")
+    @PutMapping(path = "/user")
     public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,
                                       @Validated @RequestBody UsersDTO dto) {
 
