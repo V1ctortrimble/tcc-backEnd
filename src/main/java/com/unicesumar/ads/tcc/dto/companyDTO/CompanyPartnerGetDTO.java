@@ -3,6 +3,7 @@ package com.unicesumar.ads.tcc.dto.companyDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Getter
@@ -17,6 +18,8 @@ public class CompanyPartnerGetDTO {
 
     @JsonProperty("name_individual")
     private String nameIndividual;
+
+    private Boolean active;
 
     @JsonProperty("last_name")
     private String lastName;
