@@ -26,7 +26,7 @@ import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class UsersController {
 
     /**
@@ -57,7 +57,7 @@ public class UsersController {
 
     @ApiOperation(value = "Returns users registered according to Username",
             authorizations = { @Authorization(value="jwtToken") })
-    @GetMapping(value = "/users/username")
+    @GetMapping(value = "/user")
     public ResponseEntity<UsersDTO> getUsersByUsername(@RequestParam(value = "username") String username) {
         UsersEntity entity = usersService.getUserByLogin(username);
         if (entity != null) {
@@ -68,7 +68,7 @@ public class UsersController {
     }
 
     @ApiOperation(value = "URL to add users", authorizations = { @Authorization(value="jwtToken") })
-    @PostMapping(path = "/users")
+    @PostMapping(path = "/user")
     public ResponseEntity<?> postUsers(@Validated @RequestBody UsersDTO dto) {
         UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
         if (entity == null) {
