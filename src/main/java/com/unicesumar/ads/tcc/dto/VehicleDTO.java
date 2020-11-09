@@ -26,7 +26,4 @@ public class VehicleDTO {
     @JsonProperty("rntrc")
     private String rntrc;
 
-    @JsonProperty("travel_packges")
-    private List<TravelPackageDTO> travelPackageDTOS;
-
 }

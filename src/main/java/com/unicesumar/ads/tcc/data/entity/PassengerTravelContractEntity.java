@@ -1,15 +1,13 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,11 +19,11 @@ public class PassengerTravelContractEntity implements Serializable {
     @Column(name = "ID_PASSENGER_TRAVEL_CONTRACT")
     private Integer idPassengerTravelContract;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_INDIVIDUAL")
     private IndividualEntity individual;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_TRAVEL_CONTRACT")
     private TravelContractEntity travelContract;
 

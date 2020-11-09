@@ -1,16 +1,14 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,15 +20,15 @@ public class HostingEntity implements Serializable {
     @Column(name = "ID_HOSTING")
     private Integer idHosting;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_HOSTING_TYPE")
     private HostingTypeEntity hostingType;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_ADRESS")
     private AdressEntity adress;
 
@@ -43,7 +41,7 @@ public class HostingEntity implements Serializable {
     @Column(name = "FEATURES_HOSTING")
     private String featuresHosting;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostings")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostings", cascade=CascadeType.ALL)
     private List<TravelPackageEntity> travelPackages;
 
 }

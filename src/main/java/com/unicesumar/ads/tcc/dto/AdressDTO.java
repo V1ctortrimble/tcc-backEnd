@@ -1,6 +1,9 @@
 package com.unicesumar.ads.tcc.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
+import com.unicesumar.ads.tcc.dto.personDTO.PersonIndividualDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,27 +15,22 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AdressDTO {
 
-    @JsonProperty("id_adress")
-    private Integer idAdress;
-
-    @JsonProperty("adress")
     private String adress;
 
     @JsonProperty("adress_number")
     private Integer adressNumber;
 
-    @JsonProperty("additional")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String additional;
 
-    @JsonProperty("neighborhood")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String neighborhood;
 
-    @JsonProperty("city")
     private String city;
 
-    @JsonProperty("state")
     private String state;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("zip_code")
     private String zipCode;
 

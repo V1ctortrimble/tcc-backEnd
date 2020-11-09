@@ -1,7 +1,5 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.unicesumar.ads.tcc.converter.CompanySystemEntityConverter;
-import com.unicesumar.ads.tcc.converter.IndividualEntityConverter;
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
@@ -22,21 +20,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
+
 @Api(tags = {"visualization of Users"})
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class UsersController {
-
-    /**
-     * Constants
-     */
-    public static final String USUARIO_JA_CADASTRADO = "Usuário já cadastrado";
-    public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
-    public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
-    public static final String USUARIO_NAO_LOCALIZADO = "Usuário não localizado";
-    public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR = "Usuário não localizado para alterar";
 
     /**
      * Services
@@ -47,8 +38,6 @@ public class UsersController {
      * Converters
      */
     private final UsersEntityConverter usersEntityConverter;
-    private final IndividualEntityConverter individualEntityConverter;
-    private final CompanySystemEntityConverter companySystemEntityConverter;
 
     /**
      * Utils
@@ -58,7 +47,7 @@ public class UsersController {
 
 
     @ApiOperation(value = "Returns All users", authorizations = { @Authorization(value="jwtToken") })
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/users/all")
     public ResponseEntity<List<UsersDTO>> getUsers() {
         List<UsersEntity> entities = usersService.getUsers();
         List<UsersDTO> dtos = usersEntityConverter.toDTOList(entities);
@@ -68,11 +57,9 @@ public class UsersController {
 
     @ApiOperation(value = "Returns users registered according to Username",
             authorizations = { @Authorization(value="jwtToken") })
-    @GetMapping(value = "/users/username")
-    public ResponseEntity<?> getUsersByUsername(@RequestParam(value = "username") String username) {
-
+    @GetMapping(value = "/user")
+    public ResponseEntity<UsersDTO> getUsersByUsername(@RequestParam(value = "username") String username) {
         UsersEntity entity = usersService.getUserByLogin(username);
-
         if (entity != null) {
             entity.setPassword(null);
             return new ResponseEntity<>(usersEntityConverter.toDTO(entity), HttpStatus.OK);
@@ -81,11 +68,9 @@ public class UsersController {
     }
 
     @ApiOperation(value = "URL to add users", authorizations = { @Authorization(value="jwtToken") })
-    @PostMapping(path = "/addusers")
+    @PostMapping(path = "/user")
     public ResponseEntity<?> postUsers(@Validated @RequestBody UsersDTO dto) {
-
         UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
-
         if (entity == null) {
             if (dto.getPassword().equals(dto.getRepeatPassword())) {
                 if (validatePassword.getMatcher(dto.getPassword())) {
@@ -100,24 +85,17 @@ public class UsersController {
         throw new HttpBadRequestException(USUARIO_JA_CADASTRADO);
     }
 
+    //TODO: Refatorar Metodo
     @ApiOperation(value = "URL to update users", authorizations = { @Authorization(value="jwtToken") })
-    @PutMapping(path = "/updateusers")
+    @PutMapping(path = "/user")
     public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,
                                       @Validated @RequestBody UsersDTO dto) {
 
         UsersEntity entity = usersService.getUserByLogin(username);
-
         if (entity != null) {
             if (validatePassword.getMatcher(dto.getPassword())) {
-                entity.setAdmin(dto.getAdmin());
-                entity.setUsername(dto.getUsername());
-                entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
-
-                entity.setCompanySystem(companySystemEntityConverter.toEntity(dto.getCompanySystemDTO()));
-                entity.setIndividual(individualEntityConverter.toEntity(dto.getIndividualDTO()));
-
-                usersService.postUsers(entity);
-                return new ResponseEntity<>(dto, HttpStatus.OK);
+                usersService.putUsers(dto);
+                return new ResponseEntity<>(getUsersByUsername(username), HttpStatus.OK);
             }
             throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
         }

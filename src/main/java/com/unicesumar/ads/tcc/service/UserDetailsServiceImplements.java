@@ -14,16 +14,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.*;
+
 /**
  * UserDetailsService implementation class to find the request user
  */
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImplements implements UserDetailsService {
-
-    public static final String USER_NOT_FOUND = "User not found!";
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
     private final UsersRepository repository;
 

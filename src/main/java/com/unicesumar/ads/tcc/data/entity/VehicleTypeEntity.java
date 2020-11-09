@@ -1,16 +1,14 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,7 +44,7 @@ public class VehicleTypeEntity implements Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicleType")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicleType", cascade=CascadeType.ALL)
     private List<VehicleEntity> vehicles;
 
 }

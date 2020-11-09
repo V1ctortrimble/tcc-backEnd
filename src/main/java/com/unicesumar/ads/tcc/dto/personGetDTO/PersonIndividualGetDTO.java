@@ -1,4 +1,4 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.personGetDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,24 +12,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PersonDTO {
+public class PersonIndividualGetDTO {
 
     @JsonProperty("id_person")
-    private Integer idPerson;
+    private int idPerson;
 
     @JsonProperty("active")
     private Boolean active;
 
-    @JsonProperty("contacts")
-    private List<ContactDTO> contactDTOS;
+    @JsonProperty("individual")
+    private IndividualGetDTO individual;
 
-    @JsonProperty("Adresses")
-    private List<AdressDTO> adressDTOS;
+    @JsonProperty("contacts")
+    private List<ContactGetDTO> contacts;
+
+    @JsonProperty("adresses")
+    private List<AdressGetDTO> adresses;
 
     @JsonProperty("banks_details")
-    private List<BankDetailsDTO> bankDetailsDTOS;
-
-    @JsonProperty("hostings")
-    private List<HostingDTO> hostingDTOS;
-
+    private List<BankDetailsGetDTO> banksDetails;
 }

@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.data.entity.PassengerTravelContractEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
@@ -17,11 +18,12 @@ import java.util.List;
 @Builder
 public class IndividualDTO {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("id_individual")
     private Integer idIndividual;
 
-    @JsonProperty("person")
-    private PersonDTO personDTO;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Boolean active;
 
     @JsonProperty("cpf")
     private String cpf;
@@ -38,11 +40,11 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @JsonProperty("company_partners")
-    private List<CompanyPartnerDTO> companyPartnerDTOS;
 
-    @JsonProperty("passenger_travel_contracts" )
-    private List<PassengerTravelContractDTO> passengerTravelContractDTOS;
-
+//    @JsonProperty("company_partners")
+//    private CompanyPartnerDTO companyPartners;
+//
+//    @JsonProperty("passenger_travel_contracts")
+//    private PassengerTravelContractDTO passengerTravelContracts;
 
 }

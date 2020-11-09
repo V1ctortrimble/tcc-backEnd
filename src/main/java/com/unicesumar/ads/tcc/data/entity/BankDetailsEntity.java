@@ -1,16 +1,14 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
 @Entity
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "BANK_DETAILS")
@@ -20,6 +18,7 @@ public class BankDetailsEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_BANK_DETAILS")
     private Integer idBankDetails;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PERSON")

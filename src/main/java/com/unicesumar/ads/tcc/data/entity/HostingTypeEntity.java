@@ -1,16 +1,14 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,7 +23,7 @@ public class HostingTypeEntity implements Serializable {
     @Column(name = "NAME_HOSTING_TYPE")
     private String nameHostingType;
 
-    @OneToMany (fetch = FetchType.LAZY, mappedBy = "hostingType")
+    @OneToMany (fetch = FetchType.LAZY, mappedBy = "hostingType", cascade=CascadeType.ALL)
     private List<HostingEntity> hostingEntities;
 
 }

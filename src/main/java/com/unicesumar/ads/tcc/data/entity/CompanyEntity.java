@@ -1,17 +1,15 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,9 +21,8 @@ public class CompanyEntity implements Serializable {
     @Column(name = "ID_COMPANY")
     private Integer idCompany;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PERSON")
-    private PersonEntity person;
+    @Column(name = "ACTIVE")
+    private Boolean active;
 
     @Column(name = "SOCIAL_REASON")
     private String socialReason;
@@ -41,9 +38,6 @@ public class CompanyEntity implements Serializable {
 
     @Column(name = "OPEN_DATE")
     private LocalDate openDate;
-
-    @Column(name = "ACTIVE")
-    private Boolean active;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     private List<VehicleEntity> vehicles;

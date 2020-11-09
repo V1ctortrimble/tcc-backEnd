@@ -1,12 +1,12 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.companyDTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,13 +14,10 @@ import java.util.List;
 @Builder
 public class CompanySystemDTO {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("id_company_system")
     private Integer idCompanySystem;
 
-    @JsonProperty("company")
-    private CompanyDTO companyDTO;
-
-    @JsonProperty("Companies")
-    private List<CompanyPartnerDTO> companyPartnerDTOS;
-
+    @JsonProperty("cnpj")
+    private String cnpj;
 }

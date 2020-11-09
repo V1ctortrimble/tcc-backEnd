@@ -1,9 +1,6 @@
 package com.unicesumar.ads.tcc.data.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,8 +11,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +25,7 @@ public class UsersEntity implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
 
-    @NotEmpty(message = "Usuário não pode ser vazio")
+    @NotEmpty(message = "Nome de usuário não pode ser vazio")
     @Email(message = "Campo deve ser um e-mail válido")
     @Column(name = "LOGIN")
     private String username;
@@ -39,18 +37,18 @@ public class UsersEntity implements Serializable, UserDetails {
     @Column(name = "ADMIN")
     private Boolean admin;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_INDIVIDUAL")
     private IndividualEntity individual;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_COMPANY_SYSTEM")
     private CompanySystemEntity companySystem;
 
-    @Column(name = "CODE")
+    @Column(name = "RESET_PASS_CODE")
     private String code;
 
-    @Column(name = "DATE_CODE")
+    @Column(name = "RESET_PASS_DATE")
     private LocalDateTime dataCode;
 
     /**
@@ -88,6 +86,7 @@ public class UsersEntity implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
+
 }
