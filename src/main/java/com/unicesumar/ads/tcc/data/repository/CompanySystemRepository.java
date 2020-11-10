@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface CompanySystemRepository extends JpaRepository<CompanySystemEntity, Integer> {
     CompanySystemEntity findByCompanyCnpj(String cnpj);
+    CompanySystemEntity findByIdCompanySystem(Integer idCompanySystem);
     List<CompanySystemEntity> findByCompanyActive(Boolean active);
 }

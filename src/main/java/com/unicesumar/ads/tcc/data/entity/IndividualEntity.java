@@ -40,6 +40,12 @@ public class IndividualEntity implements Serializable {
     @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
+    @OneToOne(mappedBy = "individual", cascade=CascadeType.ALL)
+    private PersonEntity personEntity;
+
+    @OneToOne(mappedBy = "individual", cascade=CascadeType.ALL)
+    private UsersEntity usersEntity;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "individual")
     private List<CompanyPartnerEntity> companyPartners;
 

@@ -1,7 +1,9 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.usersPostDTO;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.dto.ContactDTO;
+import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.companyDTO.CompanySystemDTO;
 import com.unicesumar.ads.tcc.dto.personGetDTO.ContactGetDTO;
 import lombok.AllArgsConstructor;
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UsersDTO {
+public class UsersPostDTO {
 
     @JsonProperty("username")
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,7 +39,7 @@ public class UsersDTO {
 
     @JsonProperty("individual")
     //@JsonInclude(JsonInclude.Include.NON_NULL)
-    private IndividualDTO individual;
+    private IndividualPostDTO individual;
 
     @JsonProperty("company_system")
     //@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -45,5 +47,5 @@ public class UsersDTO {
 
     @JsonProperty("contact")
     //@JsonInclude(JsonInclude.Include.NON_NULL)
-    private ContactGetDTO contact;
+    private ContactDTO contactDTO;
 }

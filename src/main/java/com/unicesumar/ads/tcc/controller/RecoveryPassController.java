@@ -1,6 +1,7 @@
 package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
+import com.unicesumar.ads.tcc.converter.UsersEntityPostConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
@@ -35,7 +36,7 @@ public class RecoveryPassController {
      * Converters
      */
     private final UsersEntityConverter usersEntityConverter;
-
+    private final UsersEntityPostConverter usersEntityPostConverter;
     /**
      * Utils
      */
@@ -66,7 +67,7 @@ public class RecoveryPassController {
                 if (validatePassword.getMatcher(dto.getPassword())) {
                     entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
                     entity.setCode(null);
-                    usersService.postUsers(entity);
+                    usersService.postUsers(usersEntityPostConverter.toDTO(entity));
                     return new ResponseEntity<>(SENHA_ALTERADA_COM_SUCESSO, HttpStatus.OK);
                 }
                 throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);

@@ -9,17 +9,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ContactEntityConverter extends DTOEntityConverter<ContactGetDTO, ContactEntity>{
+public class ContactEntityPostConverter extends DTOEntityConverter<ContactDTO, ContactEntity>{
 
     private final MapperUtil mapperUtil;
 
     @Override
-    protected ContactGetDTO toDTOImp(ContactEntity entity){
-        return mapperUtil.use().map(entity, ContactGetDTO.class);
+    protected ContactDTO toDTOImp(ContactEntity entity){
+        return mapperUtil.use().map(entity, ContactDTO.class);
     }
 
     @Override
-    protected ContactEntity toEntityImp(ContactGetDTO dto){
+    protected ContactEntity toEntityImp(ContactDTO dto){
         return mapperUtil.use().map(dto, ContactEntity.class);
     }
 

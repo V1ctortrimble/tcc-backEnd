@@ -3,6 +3,7 @@ package com.unicesumar.ads.tcc.controller;
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
+import com.unicesumar.ads.tcc.dto.usersPostDTO.UsersPostDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.UsersService;
@@ -49,8 +50,7 @@ public class UsersController {
     @ApiOperation(value = "Returns All users", authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(path = "/users/all")
     public ResponseEntity<List<UsersDTO>> getUsers() {
-        List<UsersEntity> entities = usersService.getUsers();
-        List<UsersDTO> dtos = usersEntityConverter.toDTOList(entities);
+        List<UsersDTO> dtos = usersService.getUsers();
         for (UsersDTO dto : dtos) { dto.setPassword(null); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
@@ -59,23 +59,23 @@ public class UsersController {
             authorizations = { @Authorization(value="jwtToken") })
     @GetMapping(value = "/user")
     public ResponseEntity<UsersDTO> getUsersByUsername(@RequestParam(value = "username") String username) {
-        UsersEntity entity = usersService.getUserByLogin(username);
-        if (entity != null) {
-            entity.setPassword(null);
-            return new ResponseEntity<>(usersEntityConverter.toDTO(entity), HttpStatus.OK);
+        UsersDTO dto = usersService.getUserByUserName(username);
+        if (dto != null) {
+            dto.setPassword(null);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO);
     }
 
     @ApiOperation(value = "URL to add users", authorizations = { @Authorization(value="jwtToken") })
     @PostMapping(path = "/user")
-    public ResponseEntity<?> postUsers(@Validated @RequestBody UsersDTO dto) {
+    public ResponseEntity<?> postUsers(@Validated @RequestBody UsersPostDTO dto) {
         UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
         if (entity == null) {
             if (dto.getPassword().equals(dto.getRepeatPassword())) {
                 if (validatePassword.getMatcher(dto.getPassword())) {
                     dto.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
-                    usersService.postUsers(usersEntityConverter.toEntity(dto));
+                    usersService.postUsers(dto);
                     return new ResponseEntity<>(dto, HttpStatus.CREATED);
                 }
                 throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
@@ -90,14 +90,10 @@ public class UsersController {
     @PutMapping(path = "/user")
     public ResponseEntity<?> putUsers(@RequestParam(value = "username") String username,
                                       @Validated @RequestBody UsersDTO dto) {
-
         UsersEntity entity = usersService.getUserByLogin(username);
         if (entity != null) {
-            if (validatePassword.getMatcher(dto.getPassword())) {
-                usersService.putUsers(dto);
-                return new ResponseEntity<>(getUsersByUsername(username), HttpStatus.OK);
-            }
-            throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
+           usersService.putUsers(dto);
+           return new ResponseEntity<>(getUsersByUsername(username), HttpStatus.OK);
         }
         throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO_PARA_ALTERAR);
     }
