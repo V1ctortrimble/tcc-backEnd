@@ -23,6 +23,7 @@ public class ServiceConstants {
     /**
      * Defines General properties
      */
+    public static final String USUARIO_SEM_CONTATO = "Usuario sem contato";
     public static final String CAMPOS_OBRIGATORIOS = "Campos obrigatórios vazios";
 
 }

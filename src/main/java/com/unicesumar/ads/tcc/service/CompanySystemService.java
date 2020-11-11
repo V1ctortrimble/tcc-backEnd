@@ -2,12 +2,10 @@ package com.unicesumar.ads.tcc.service;
 
 import com.unicesumar.ads.tcc.data.entity.CompanySystemEntity;
 import com.unicesumar.ads.tcc.data.repository.CompanySystemRepository;
-import com.unicesumar.ads.tcc.dto.companyDTO.CompanySystemGetAllDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_OBRIGATORIOS;
@@ -16,14 +14,14 @@ import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_O
 @RequiredArgsConstructor
 public class CompanySystemService {
 
-    private final CompanySystemRepository repository;
+    private final CompanySystemRepository companySystemRepository;
 
     /**
-     * Save or update a PersonEntity
+     * Save a PersonEntity
      */
     public void postCompanySystem(CompanySystemEntity entity) {
         try {
-            repository.save(entity);
+            companySystemRepository.save(entity);
         }catch (NullPointerException e) {
             throw new HttpBadRequestException(CAMPOS_OBRIGATORIOS);
         }
@@ -33,24 +31,13 @@ public class CompanySystemService {
      * Find CompanySystemEntity by cpf
      */
     public CompanySystemEntity getCompanySystemByCnpj(String cnpj) {
-        return repository.findByCompanyCnpj(cnpj);
+        return companySystemRepository.findByCompanyCnpj(cnpj);
     }
 
     /**
      * Find All CompanySystemEntity by active true
      */
-    //TODO: Rever metodo e maneira que foi implementado
-    public List<CompanySystemGetAllDTO> getAllCompanySystem() {
-        List<CompanySystemGetAllDTO> list = new ArrayList<>();
-
-        for (CompanySystemEntity company : repository.findByCompanyActive(true)){
-            CompanySystemGetAllDTO dto = new CompanySystemGetAllDTO();
-            dto.setIdCompanySystem(company.getIdCompanySystem());
-            dto.setCnpj(company.getCompany().getCnpj());
-            dto.setFantasyName(company.getCompany().getFantasyName());
-            dto.setSocialReason(company.getCompany().getSocialReason());
-            list.add(dto);
-        }
-        return list;
+    public List<CompanySystemEntity> getAllCompanySystem(Boolean active) {
+         return companySystemRepository.findAllByCompanyActive(active);
     }
 }

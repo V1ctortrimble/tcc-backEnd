@@ -2,12 +2,15 @@ package com.unicesumar.ads.tcc.util;
 
 import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
 import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
+import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.CompanyService;
 import com.unicesumar.ads.tcc.service.IndividualService;
+import com.unicesumar.ads.tcc.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -29,6 +32,7 @@ public class PaginatorUtil {
 
     private final IndividualService individualService;
     private final CompanyService companyService;
+    private final UsersService usersService;
 
     /**
      * Method that converts Entity to DTO so that the pagination does not change IndividualDTO
@@ -76,12 +80,37 @@ public class PaginatorUtil {
         });
     }
 
+    public Page<UsersDTO> convertDTOUserToPages(Optional<String> username, Optional<String> name, Optional<String> lastName,
+                                                Optional<String> cpf, Boolean active, Pageable pageable) {
+        Page<UsersEntity> usersEntities = usersService.getUsersFilter(username, name, lastName, cpf, active, pageable);
+        long offSet = pageable.getOffset();
+        long totElements = usersEntities.getTotalElements();
+        long totPages = usersEntities.getTotalPages();
+        ValidateTotalPagesUsers(totPages);
+        validateFinalPage(offSet, totElements);
+        return usersEntities.map(new Function<UsersEntity, UsersDTO>() {
+            @Override
+            public UsersDTO apply(UsersEntity t) {
+                return new ModelMapper().map(t, UsersDTO.class);
+            }
+        });
+    }
+
     /**
      * Method to validate Total Pages Individual
      */
     private void ValidateTotalPagesIndividual(long totPages) {
         if (totPages == 0) {
             throw new HttpNotFoundException(NENHUMA_PESSOA_FOI_LOCALIZADA);
+        }
+    }
+
+    /**
+     * Method to validate Total Pages Users
+     */
+    private void ValidateTotalPagesUsers(long totPages) {
+        if (totPages == 0) {
+            throw new HttpNotFoundException(NENHUM_USUARIO_LOCALIZADO);
         }
     }
 

@@ -27,6 +27,8 @@ public class ControllerConstants {
     /**
      * Define general properties
      */
+    public static final String NENHUM_USUARIO_LOCALIZADO = "Nenhum Usuário Localizado";
+    public static final String EMPRESA_DO_SISTEMA_NAO_LOCALIZADA = "Empresa do sistema não localizada";
     public static final String PESSOA_NAO_LOCALIZADA = "Pessoa não Localizada";
     public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
     public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";

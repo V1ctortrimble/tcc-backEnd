@@ -43,7 +43,11 @@ public class RecoveryPassController {
     private final PasswordEncoderUtil passwordEncoder;
     private final ValidatePasswordUtil validatePassword;
 
-    @ApiOperation(value = "Recovers user to change password")
+
+    /**
+     * GetsMapping
+     */
+    @ApiOperation(value = "URL to recovers user to change password")
     @GetMapping(path = "/recoverypassword/{code}")
     public ResponseEntity<UsersDTO> getCodeRecoveryPass(@PathVariable("code") String code) {
         UsersEntity entity = usersService.getUserChangePass(code);
@@ -56,11 +60,29 @@ public class RecoveryPassController {
         throw new HttpNotFoundException(CODIGO_EXPIRADO_OU_INEXISTENTE);
     }
 
+    /**
+     * PostsMapping
+     */
+    @ApiOperation(value = "URL to send password recovery email")
+    @PostMapping(path = "/sendemail")
+    public ResponseEntity<?> sendRecoveryEmail(@Validated @RequestBody UsersDTO dto) {
+        try {
+            recoveryPassService.recoveryPass(dto.getUsername());
+            return new ResponseEntity<>(EMAIL_ENVIADO_COM_SUCESSO, HttpStatus.OK);
+        }
+        catch (Exception e){
+            throw new HttpBadRequestException(e.getMessage());
+        }
+    }
+
+    /**
+     * PutsMapping
+     */
     @ApiOperation(value = "URL to change user password")
     @PutMapping(path = "/changepassword")
     public ResponseEntity<?> putPassword(@Validated @RequestBody UsersDTO dto) {
 
-        UsersEntity entity = usersService.getUserByLogin(dto.getUsername());
+        UsersEntity entity = usersService.getUserByUsername(dto.getUsername());
 
         if (entity != null) {
             if (dto.getPassword().equals(dto.getRepeatPassword())) {
@@ -75,17 +97,5 @@ public class RecoveryPassController {
             throw new HttpBadRequestException(SENHAS_INFORMADAS_NAO_CONFEREM);
         }
         throw new HttpNotFoundException(USUARIO_NAO_LOCALIZADO_PARA_ALTERAR_SENHA);
-    }
-
-    @ApiOperation(value = "Send password recovery email")
-    @PostMapping(path = "/sendemail")
-    public ResponseEntity<?> sendRecoveryEmail(@Validated @RequestBody UsersDTO dto) {
-        try {
-            recoveryPassService.recoveryPass(dto.getUsername());
-            return new ResponseEntity<>(EMAIL_ENVIADO_COM_SUCESSO, HttpStatus.OK);
-        }
-        catch (Exception e){
-            throw new HttpBadRequestException(e.getMessage());
-        }
     }
 }

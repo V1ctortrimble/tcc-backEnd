@@ -13,7 +13,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class IndividualService {
 
-
     private final IndividualRepository individualRepository;
 
     /**
@@ -24,7 +23,7 @@ public class IndividualService {
     }
 
     /**
-     * Find Persons by  cpf, name, last name or birth date
+     * Find Persons by  cpf, name, last name or rg
      */
     public Page<IndividualEntity> getIndividualFilter(Optional<String> cpf, Optional<String> rg, Optional<String> name,
                                                       Optional<String> lastName,

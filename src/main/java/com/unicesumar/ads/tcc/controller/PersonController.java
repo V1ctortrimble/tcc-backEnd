@@ -19,6 +19,7 @@ import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.BankDetailsService;
 import com.unicesumar.ads.tcc.service.PersonService;
+import com.unicesumar.ads.tcc.service.UsersService;
 import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

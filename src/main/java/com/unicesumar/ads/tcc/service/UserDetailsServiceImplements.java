@@ -23,7 +23,7 @@ import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.*;
 @RequiredArgsConstructor
 public class UserDetailsServiceImplements implements UserDetailsService {
 
-    private final UsersRepository repository;
+    private final UsersRepository usersRepository;
 
     /**
      * User search method informed in the request
@@ -32,7 +32,7 @@ public class UserDetailsServiceImplements implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UsersEntity user = Optional.ofNullable(repository.findByUsername(username))
+        UsersEntity user = Optional.ofNullable(usersRepository.findByUsername(username))
                 .orElseThrow(()-> new UsernameNotFoundException(USER_NOT_FOUND));
         List<GrantedAuthority> authorityListAdmin = AuthorityUtils
                 .createAuthorityList(ROLE_USER, ROLE_ADMIN);

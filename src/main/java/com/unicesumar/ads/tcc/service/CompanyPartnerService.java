@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_OBRIGATORIOS;
 
@@ -15,15 +14,14 @@ import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_O
 @RequiredArgsConstructor
 public class CompanyPartnerService {
 
-
-    private final CompanyPartnerRepository repository;
+    private final CompanyPartnerRepository companyPartnerRepository;
 
     /**
-     * Save or update a CompanyPartnerEntity
+     * Save a CompanyPartnerEntity
      */
     public void postCompanyPartner(CompanyPartnerEntity entity) {
         try {
-            repository.save(entity);
+            companyPartnerRepository.save(entity);
         }catch (NullPointerException e) {
             throw new HttpBadRequestException(CAMPOS_OBRIGATORIOS);
         }
@@ -33,13 +31,13 @@ public class CompanyPartnerService {
     * Find CompanyPartnerEntity by id
     */
     public CompanyPartnerEntity getCompanyPartnerByCpfIndividual(String cpf) {
-        return repository.getByIndividualCpf(cpf);
+        return companyPartnerRepository.getByIndividualCpf(cpf);
     }
 
     /**
      * * Find CompanyPartnerEntity by active
      */
     public List<CompanyPartnerEntity> getCompanyPartners(String cnpj) {
-        return repository.getByActiveAndCompanySystemCompanyCnpj(true, cnpj);
+        return companyPartnerRepository.getByActiveAndCompanySystemCompanyCnpj(true, cnpj);
     }
 }

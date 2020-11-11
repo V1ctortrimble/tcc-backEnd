@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.controller;
 
+import com.unicesumar.ads.tcc.converter.CompanySystemGetAllEntityConverter;
 import com.unicesumar.ads.tcc.converter.companyPartner.CompanyPartnerEntityGetConverter;
 import com.unicesumar.ads.tcc.data.entity.CompanyPartnerEntity;
 import com.unicesumar.ads.tcc.data.entity.CompanySystemEntity;
@@ -13,7 +14,6 @@ import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.CompanyPartnerService;
 import com.unicesumar.ads.tcc.service.CompanySystemService;
 import com.unicesumar.ads.tcc.service.PersonService;
-import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -28,13 +28,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.EMPRESA_DO_SISTEMA_NAO_LOCALIZADA;
 import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.PESSOA_NAO_LOCALIZADA;
 
 @Api(tags = {"visualization of CompanySystem"})
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
-//@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class CompanySystemController {
 
     /**
@@ -44,14 +45,48 @@ public class CompanySystemController {
     private final CompanyPartnerService companyPartnerService;
     private final PersonService personService;
 
+    /**
+     * Converters
+     */
     private final CompanyPartnerEntityGetConverter companyPartnerEntityConverter;
+    private final CompanySystemGetAllEntityConverter companySystemGetAllEntityConverter;
+
 
     /**
-     * Utils
+     * GetsMapping
      */
-    private final PaginatorUtil paginator;
+    @ApiOperation(value = "URL to get all Company Partner", authorizations = {@Authorization(value="jwtToken")})
+    @GetMapping(path = "/companyPartner")
+    public ResponseEntity<List<CompanyPartnerGetDTO>> getCompanyPartner(Pageable pageable,
+                                                                        @RequestParam(value = "cnpj") String cnpj) {
+        List<CompanyPartnerEntity> entities = companyPartnerService.getCompanyPartners(cnpj);
+        if (entities != null){
+            List<CompanyPartnerGetDTO> dtos = new ArrayList<>();
+            for (CompanyPartnerEntity entity : entities ){
+                dtos.add(companyPartnerEntityConverter.toDTO(entity.getIndividual()));
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
+    }
 
+    @ApiOperation(value = "URL to Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
+    @GetMapping(path = "/companySystem")
+    public ResponseEntity<List<CompanySystemGetAllDTO>> getCompanySystem(@RequestParam(value = "active",
+            defaultValue = "true",
+            required = false) Boolean active) {
 
+        List<CompanySystemEntity> entities = companySystemService.getAllCompanySystem(active);
+        if(entities.size() != 0) {
+            List<CompanySystemGetAllDTO> dtos = companySystemGetAllEntityConverter.toDTOList(entities);
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(EMPRESA_DO_SISTEMA_NAO_LOCALIZADA);
+    }
+
+    /**
+     * PostsMapping
+     */
     @ApiOperation(value = "URL to add Company System", authorizations = {@Authorization(value="jwtToken")})
     @PostMapping(path = "/companySystem")
     public ResponseEntity<CompanySystemDTO> PostCompanySystem(@Validated @RequestBody CompanySystemDTO dto) {
@@ -81,7 +116,10 @@ public class CompanySystemController {
         throw new HttpBadRequestException(PESSOA_NAO_LOCALIZADA);
     }
 
-    @ApiOperation(value = "URL to active Company Partner", authorizations = {@Authorization(value="jwtToken")})
+    /**
+     * PutsMapping
+     */
+    @ApiOperation(value = "URL to update Company Partner", authorizations = {@Authorization(value="jwtToken")})
     @PutMapping(path = "/companyPartner")
     public ResponseEntity<CompanyPartnerDTO> PutCompanyPartner(@RequestParam(value = "cpf") String cpf){
         CompanyPartnerEntity entity = companyPartnerService.getCompanyPartnerByCpfIndividual(cpf);
@@ -93,30 +131,5 @@ public class CompanySystemController {
         else{
             throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
         }
-    }
-
-    @ApiOperation(value = "URL to get all Company Partner", authorizations = {@Authorization(value="jwtToken")})
-    @GetMapping(path = "/companyPartner")
-    public ResponseEntity<List<CompanyPartnerGetDTO>> getCompanyPartner(Pageable pageable,
-                                                                        @RequestParam(value = "cnpj") String cnpj) {
-        List<CompanyPartnerEntity> entities = companyPartnerService.getCompanyPartners(cnpj);
-        if (entities != null){
-            List<CompanyPartnerGetDTO> dtos = new ArrayList<>();
-            for (CompanyPartnerEntity entity : entities ){
-                dtos.add(companyPartnerEntityConverter.toDTO(entity.getIndividual()));
-            }
-            return new ResponseEntity<>(dtos, HttpStatus.OK);
-        }
-        else{
-            throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
-        }
-    }
-
-    //TODO: Rever metodo e maneira que foi implementado
-    @ApiOperation(value = "Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
-    @GetMapping(path = "/companySystem")
-    public ResponseEntity<List<CompanySystemGetAllDTO>> getCompanySystem() {
-        List<CompanySystemGetAllDTO> dtos = companySystemService.getAllCompanySystem();
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }

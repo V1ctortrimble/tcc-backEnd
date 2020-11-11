@@ -3,7 +3,6 @@ package com.unicesumar.ads.tcc.service;
 import com.unicesumar.ads.tcc.data.entity.BankDetailsEntity;
 import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import com.unicesumar.ads.tcc.data.repository.BankDetailsRepository;
-import com.unicesumar.ads.tcc.dto.BankDetailsDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonBankDetailsDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +14,14 @@ import static com.unicesumar.ads.tcc.service.constants.ServiceConstants.CAMPOS_O
 @RequiredArgsConstructor
 public class BankDetailsService {
 
-    private final BankDetailsRepository repository;
+    private final BankDetailsRepository bankDetailsRepository;
 
     /**
-     * Save or update a BankDetails
+     * Save a BankDetails
      */
     public void postBankDetails(BankDetailsEntity entity) {
         try {
-            repository.save(entity);
+            bankDetailsRepository.save(entity);
         }catch (NullPointerException e) {
             throw new HttpBadRequestException(CAMPOS_OBRIGATORIOS);
         }
@@ -59,7 +58,7 @@ public class BankDetailsService {
             }
         }
         try {
-            repository.save(bank);
+            bankDetailsRepository.save(bank);
         }catch (NullPointerException e) {
             throw new HttpBadRequestException(CAMPOS_OBRIGATORIOS);
         }
