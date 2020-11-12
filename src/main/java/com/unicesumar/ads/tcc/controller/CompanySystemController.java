@@ -70,7 +70,7 @@ public class CompanySystemController {
         throw new HttpNotFoundException(PESSOA_NAO_LOCALIZADA);
     }
 
-    @ApiOperation(value = "URL to Return person by cnpj", authorizations = { @Authorization(value="jwtToken")})
+    @ApiOperation(value = "URL to Return All Company", authorizations = { @Authorization(value="jwtToken")})
     @GetMapping(path = "/companySystem")
     public ResponseEntity<List<CompanySystemGetAllDTO>> getCompanySystem(@RequestParam(value = "active",
             defaultValue = "true",
@@ -78,7 +78,15 @@ public class CompanySystemController {
 
         List<CompanySystemEntity> entities = companySystemService.getAllCompanySystem(active);
         if(entities.size() != 0) {
-            List<CompanySystemGetAllDTO> dtos = companySystemGetAllEntityConverter.toDTOList(entities);
+            List<CompanySystemGetAllDTO> dtos = new ArrayList<>();
+            for (CompanySystemEntity company : entities){
+                CompanySystemGetAllDTO dto = new CompanySystemGetAllDTO();
+                dto.setIdCompanySystem(company.getIdCompanySystem());
+                dto.setSocialReason(company.getCompany().getSocialReason());
+                dto.setFantasyName(company.getCompany().getFantasyName());
+                dto.setCnpj(company.getCompany().getCnpj());
+                dtos.add(dto);
+            }
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
         throw new HttpNotFoundException(EMPRESA_DO_SISTEMA_NAO_LOCALIZADA);

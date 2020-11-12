@@ -98,9 +98,9 @@ public class UsersController {
                     dto.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
                     if (dto.getActive() == null) {
                         dto.setActive(true);
-                        usersService.postUsers(dto);
-                        return new ResponseEntity<>(dto, HttpStatus.CREATED);
                     }
+                    usersService.postUsers(dto);
+                    return new ResponseEntity<>(dto, HttpStatus.CREATED);
                 }
                 throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
             }
