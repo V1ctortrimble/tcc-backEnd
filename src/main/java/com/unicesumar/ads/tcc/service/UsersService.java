@@ -189,6 +189,10 @@ public class UsersService {
         personRepository.save(person);
     }
 
+    public void postChangePassword(UsersEntity entity){
+        usersRepository.save(entity);
+    }
+
     /**
      * Method for setting up Contact object within user
      */

@@ -1,12 +1,13 @@
 package com.unicesumar.ads.tcc.util.constants;
 
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class UtilsConstants {
 
     /**
      * Define CORS properties
      */
-    public static final String ALLOW_ORIGIN = "http://localhost:3000";
     public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
     public static final String ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
     public static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
