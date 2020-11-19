@@ -6,6 +6,7 @@ import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class RecoveryPassService {
     private JavaMailSender mailSender;
     @Autowired
     private UsersRepository usersRepository;
+    @Value("${api.key}")
+    private String LINK;
 
     /**
      * validation method for email forwarding
@@ -36,7 +39,7 @@ public class RecoveryPassService {
         try {
             if(user != null){
                 UUID code = createCode();
-                String link = LINK + code;
+                String link = LINK + "/recoverypassword/" + code;
                 user.setCode(code.toString());
                 user.setDataCode(LocalDateTime.now());
 

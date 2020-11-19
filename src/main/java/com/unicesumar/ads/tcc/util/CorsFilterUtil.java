@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ import static com.unicesumar.ads.tcc.util.constants.UtilsConstants.*;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilterUtil implements Filter {
 
+    @Value("${api.key}")
+    private String ALLOW_ORIGIN;
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {

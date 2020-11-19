@@ -6,7 +6,6 @@ public class ServiceConstants {
     /**
      * Defines RecoveryPass properties
      */
-    public static final String LINK = "http://localhost:3000/recoverPassword/";
     public static final String RESPONSE = "Usuário não encontrado!!!";
     public static final String TEXT = "Você solicitou a recuperação de senha, clique no link para " +
             "realizar o cadastro de uma nova senha: ";

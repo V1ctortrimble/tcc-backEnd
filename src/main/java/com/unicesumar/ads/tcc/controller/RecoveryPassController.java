@@ -89,7 +89,7 @@ public class RecoveryPassController {
                 if (validatePassword.getMatcher(dto.getPassword())) {
                     entity.setPassword(passwordEncoder.encodePassword(dto.getPassword()));
                     entity.setCode(null);
-                    usersService.postUsers(usersEntityPostConverter.toDTO(entity));
+                    usersService.postChangePassword(entity);
                     return new ResponseEntity<>(SENHA_ALTERADA_COM_SUCESSO, HttpStatus.OK);
                 }
                 throw new HttpBadRequestException(SENHA_NAO_ATENDE_OS_REQUISITOS);
