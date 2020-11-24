@@ -34,4 +34,6 @@ public interface CompanyRepository extends PagingAndSortingRepository<CompanyEnt
                                                                                Optional<String> socialReason,
                                                                                Boolean active,
                                                                                Pageable pageable);
+
+    CompanyEntity findByCnpj(String cnpj);
 }

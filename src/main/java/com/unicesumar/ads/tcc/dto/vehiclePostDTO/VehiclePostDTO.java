@@ -1,24 +1,23 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.vehiclePostDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class VehicleDTO {
+public class VehiclePostDTO {
 
-    @JsonProperty("company")
-    private CompanyDTO companyDTO;
+    @JsonProperty("cnpj")
+    private String cnpj;
 
-    @JsonProperty("vehicle_type")
-    private VehicleTypeDTO vehicleTypeDTO;
+    @JsonProperty("id_vehicle_type")
+    private Integer idVehicleType;
 
     @JsonProperty("rntrc")
     private String rntrc;

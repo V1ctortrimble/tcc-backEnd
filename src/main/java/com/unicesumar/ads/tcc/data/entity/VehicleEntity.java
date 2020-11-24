@@ -31,6 +31,9 @@ public class VehicleEntity implements Serializable {
     @Column(name = "RNTRC")
     private String rntrc;
 
+    @Column(name = "ACTIVE")
+    private Boolean active;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "vehicles", cascade=CascadeType.ALL)
     private List<TravelPackageEntity> travelPackages;
 
