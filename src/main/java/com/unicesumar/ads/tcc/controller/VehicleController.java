@@ -1,9 +1,7 @@
 package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.*;
-import com.unicesumar.ads.tcc.converter.person.PersonCompanyEntityConverter;
-import com.unicesumar.ads.tcc.data.entity.CompanySystemEntity;
-import com.unicesumar.ads.tcc.data.entity.PersonEntity;
+import com.unicesumar.ads.tcc.converter.vehicle.*;
 import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
 import com.unicesumar.ads.tcc.data.entity.VehicleTypeEntity;
 import com.unicesumar.ads.tcc.data.repository.CompanyRepository;
@@ -164,7 +162,8 @@ public class VehicleController {
     @GetMapping(path = "/vehicles/cnpj")
     public ResponseEntity<List<VehicleGetDTO>> getTypeVehicleByCnpj(@RequestParam(value = "cnpj") String cnpj)
     {
-       // List<VehicleEntity> entities = vehicleService.getAllTypeVehicleByCnpj(cnpj);
+        //apagar
+        List<VehicleEntity> entities = vehicleService.getAllTypeVehicleByCnpj(cnpj);
         List<VehicleGetDTO> dtos = vehicleGetEntityConverter.toDTOList(vehicleService.getAllTypeVehicleByCnpj(cnpj));
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);

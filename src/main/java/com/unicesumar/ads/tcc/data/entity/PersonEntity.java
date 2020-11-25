@@ -39,7 +39,7 @@ public class PersonEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.ALL)
     private List<BankDetailsEntity> banksDetails;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.ALL)
     private List<HostingEntity> hostings;
 
     @PostPersist

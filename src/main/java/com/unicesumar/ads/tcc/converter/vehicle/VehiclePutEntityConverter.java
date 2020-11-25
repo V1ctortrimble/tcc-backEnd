@@ -1,7 +1,8 @@
-package com.unicesumar.ads.tcc.converter;
+package com.unicesumar.ads.tcc.converter.vehicle;
 
+import com.unicesumar.ads.tcc.converter.DTOEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
-import com.unicesumar.ads.tcc.dto.vehicleGetDTO.VehicleGetDTO;
+import com.unicesumar.ads.tcc.dto.VehicleDTO;
 import com.unicesumar.ads.tcc.dto.vehiclePutDTO.VehiclePutDTO;
 import com.unicesumar.ads.tcc.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
@@ -9,17 +10,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class VehicleGetEntityConverter extends DTOEntityConverter<VehicleGetDTO, VehicleEntity> {
+public class VehiclePutEntityConverter extends DTOEntityConverter<VehiclePutDTO, VehicleEntity> {
 
     private final MapperUtil mapperUtil;
 
     @Override
-    protected VehicleGetDTO toDTOImp(VehicleEntity entity){
-        return mapperUtil.use().map(entity, VehicleGetDTO.class);
+    protected VehiclePutDTO toDTOImp(VehicleEntity entity){
+        return mapperUtil.use().map(entity, VehiclePutDTO.class);
     }
 
     @Override
-    protected VehicleEntity toEntityImp(VehicleGetDTO dto){
+    protected VehicleEntity toEntityImp(VehiclePutDTO dto){
         return mapperUtil.use().map(dto, VehicleEntity.class);
     }
 
