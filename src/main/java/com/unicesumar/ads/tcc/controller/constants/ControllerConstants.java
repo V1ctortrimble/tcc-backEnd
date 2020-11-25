@@ -25,6 +25,13 @@ public class ControllerConstants {
     public static final String USUARIO_NAO_LOCALIZADO_PARA_ALTERAR = "Usuário não localizado para alterar";
 
     /**
+     * Define VehicleController properties
+     */
+    public static final String VEICULO_VAZIO = "O objeto enviado está nulo!!!";
+    public static final String VEICULO_NAO_ENCONTRADO = "Veiculo não encontrado para alteração!!!";
+
+
+    /**
      * Define general properties
      */
     public static final String NENHUM_USUARIO_LOCALIZADO = "Nenhum Usuário Localizado";

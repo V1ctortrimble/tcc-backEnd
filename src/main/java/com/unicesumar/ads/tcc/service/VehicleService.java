@@ -8,6 +8,8 @@ import com.unicesumar.ads.tcc.dto.VehicleTypeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class VehicleService {
@@ -32,5 +34,16 @@ public class VehicleService {
         vehicleTypeRepository.save(entity);
     }
 
+    public List<VehicleEntity> getAllVehicleByActive(){
+        return vehicleRepository.getByActive(true);
+    }
+
+    public List<VehicleEntity> getAllTypeVehicleByCnpj(String cnpj){
+        return vehicleRepository.getByCompanyCnpjStartsWithAndActive(cnpj, true);
+    }
+
+    public List<VehicleTypeEntity> getAllVehicleType(){
+        return vehicleTypeRepository.findAll();
+    }
 
 }

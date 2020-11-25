@@ -10,6 +10,8 @@ import com.unicesumar.ads.tcc.data.repository.CompanyRepository;
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.VehicleDTO;
 import com.unicesumar.ads.tcc.dto.VehicleTypeDTO;
+import com.unicesumar.ads.tcc.dto.vehicleGetDTO.VehicleGetDTO;
+import com.unicesumar.ads.tcc.dto.vehicleGetDTO.VehicleTypeGetDTO;
 import com.unicesumar.ads.tcc.dto.vehiclePostDTO.VehiclePostDTO;
 import com.unicesumar.ads.tcc.dto.vehiclePostDTO.VehicleTypePostDTO;
 import com.unicesumar.ads.tcc.dto.vehiclePutDTO.VehiclePutDTO;
@@ -28,7 +30,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.unicesumar.ads.tcc.service.VehicleService;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.SENHA_NAO_ATENDE_OS_REQUISITOS;
+import java.util.List;
+
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
 
 @Api(tags = {"visualization of Vehicles"})
@@ -53,6 +57,8 @@ public class VehicleController {
     private final VehicleEntityConverter vehicleEntityConverter;
     private final VehiclePutEntityConverter vehiclePutEntityConverter;
     private final CompanyEntityConverter companyEntityConverter;
+    private final VehicleGetEntityConverter vehicleGetEntityConverter;
+    private final VehicleTypeGetEntityConverter vehicleTypeGetEntityConverter;
 
     /**
      * Post Vechile Type
@@ -65,7 +71,7 @@ public class VehicleController {
             vehicleService.postTypeVehicle(vehicleTypePostConverter.toEntity(dto));
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpBadRequestException("VAZIO!!!");
+        throw new HttpBadRequestException(VEICULO_VAZIO);
     }
 
     /**
@@ -85,7 +91,7 @@ public class VehicleController {
             vehicleService.PostVehicle(vehicleEntityConverter.toEntity(vehicle));
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpBadRequestException("VAZIO!!!");
+        throw new HttpBadRequestException(VEICULO_VAZIO);
     }
 
     /**
@@ -97,10 +103,9 @@ public class VehicleController {
         VehicleTypeEntity entity = vehicleService.getVehicleTypeById(dto.getIdVehicleType());
         if (entity != null){
             vehicleService.putVehicleType(entity);
-
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpNotFoundException("Veiculo não encontrado!!!");
+        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
     }
 
     /**
@@ -121,7 +126,64 @@ public class VehicleController {
             vehicleService.PostVehicle(vehiclePutEntityConverter.toEntity(vehicle));
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpBadRequestException("VAZIO!!!");
+        throw new HttpBadRequestException(VEICULO_VAZIO);
+    }
+
+    /**
+     * Deactive Vechile - Company
+     */
+    @ApiOperation(value = "URL to deactive vehicles", authorizations = {@Authorization(value="jwtToken") })
+    @DeleteMapping(path = "/vehicles")
+    public ResponseEntity<VehiclePutDTO> deleteVehicle(@Validated @RequestBody VehiclePutDTO dto)
+    {
+        if (dto != null){
+            vehicleService.PostVehicle(vehiclePutEntityConverter.toEntity(dto));
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        throw new HttpBadRequestException(VEICULO_VAZIO);
+    }
+
+    /**
+     * Get Vechile - Company activated
+     */
+    @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
+    @GetMapping(path = "/vehicles")
+    public ResponseEntity<List<VehicleGetDTO>> getVehicle()
+    {
+        List<VehicleGetDTO> dtos = vehicleGetEntityConverter.toDTOList(vehicleService.getAllVehicleByActive());
+        if (dtos.size() > 0){
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException("Nenhum veiculo encontrado!");
+    }
+
+    /**
+     * Get Vechile type activated and by cnpj
+     */
+    @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
+    @GetMapping(path = "/vehicles/cnpj")
+    public ResponseEntity<List<VehicleGetDTO>> getTypeVehicleByCnpj(@RequestParam(value = "cnpj") String cnpj)
+    {
+       // List<VehicleEntity> entities = vehicleService.getAllTypeVehicleByCnpj(cnpj);
+        List<VehicleGetDTO> dtos = vehicleGetEntityConverter.toDTOList(vehicleService.getAllTypeVehicleByCnpj(cnpj));
+        if (dtos.size() > 0){
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException("Nenhum veiculo encontrado!");
+    }
+
+    /**
+     * Get Vechile type activated and by cnpj
+     */
+    @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
+    @GetMapping(path = "/vehiclesType")
+    public ResponseEntity<List<VehicleTypeGetDTO>> getAllTypeVehicle()
+    {
+        List<VehicleTypeGetDTO> dtos = vehicleTypeGetEntityConverter.toDTOList(vehicleService.getAllVehicleType());
+        if (dtos.size() > 0){
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException("Nenhum veiculo encontrado!");
     }
 
 }
