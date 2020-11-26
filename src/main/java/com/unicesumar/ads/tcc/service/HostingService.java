@@ -21,6 +21,6 @@ public class HostingService {
     }
 
     public List<HostingEntity> getAllByCpf(String cpf){
-        return hostingRepository.findAllByPersonCompanyCnpj(cpf);
+        return hostingRepository.findAllByPersonIndividualCpf(cpf);
     }
 }

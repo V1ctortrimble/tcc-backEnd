@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.DOCUMENTO_INVALIDO;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
 @Api(tags = {"visualization of Hostings"})
 @RestController
@@ -61,7 +61,7 @@ public class HostingController {
             hostingService.postHost(hostingPostEntityConverter.toEntity(dto));
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpBadRequestException("HOSTING VAZIO!!!");
+        throw new HttpBadRequestException(HOSTING_VAZIO);
     }
 
     /**
@@ -86,11 +86,11 @@ public class HostingController {
             hostingService.postHost(hostingPutEntityConverter.toEntity(dto));
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
-        throw new HttpBadRequestException("HOSTING VAZIO!!!");
+        throw new HttpBadRequestException(HOSTING_VAZIO);
     }
 
     /**
-     * Put Hosting
+     * get Hosting
      */
     @ApiOperation(value = "URL to hosting get by document ", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/hosting")
@@ -109,7 +109,7 @@ public class HostingController {
         if(dtos.size() > 0){
             return  new ResponseEntity<>(dtos, HttpStatus.OK);
         }
-        throw new HttpNotFoundException("Nenhuma hospedagem encontrada!");
+        throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
     }
 
 

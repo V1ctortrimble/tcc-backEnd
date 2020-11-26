@@ -140,7 +140,7 @@ public class VehicleController {
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
-        throw new HttpNotFoundException("Nenhum veiculo encontrado!");
+        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
     }
 
     /**
@@ -154,7 +154,7 @@ public class VehicleController {
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
-        throw new HttpNotFoundException("Nenhum veiculo encontrado!");
+        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
     }
 
     /**
@@ -168,7 +168,7 @@ public class VehicleController {
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
-        throw new HttpNotFoundException("Nenhum veiculo encontrado!");
+        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
     }
 
 }
