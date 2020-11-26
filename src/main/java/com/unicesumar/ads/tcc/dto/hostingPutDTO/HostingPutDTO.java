@@ -1,10 +1,9 @@
-package com.unicesumar.ads.tcc.dto.hostingPostDTO;
+package com.unicesumar.ads.tcc.dto.hostingPutDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.AdressDTO;
-import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
+import com.unicesumar.ads.tcc.dto.hostingPostDTO.PersonPostDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HostingPostDTO {
+public class HostingPutDTO {
+
+    @JsonProperty("id_hosting")
+    private Integer idHosting;
 
     @JsonProperty("document")
     private String document;
@@ -23,10 +25,10 @@ public class HostingPostDTO {
     private PersonPostDTO person;
 
     @JsonProperty("adress")
-    private AdressDTO adressDTO;
+    private AdressDTO adress;
 
     @JsonProperty("hosting_type")
-    private HostingTypePostDTO hostingType;
+    private HostingTypePutDTO hostingType;
 
     @JsonProperty("tourism_regis")
     private String tourismRegis;

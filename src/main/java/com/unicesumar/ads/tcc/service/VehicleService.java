@@ -42,8 +42,8 @@ public class VehicleService {
         return vehicleRepository.getByCompanyCnpjStartsWithAndActive(cnpj, true);
     }
 
-    public List<VehicleTypeEntity> getAllVehicleType(){
-        return vehicleTypeRepository.findAll();
+    public List<VehicleTypeEntity> getAllVehicleType(String name){
+        return vehicleTypeRepository.findByNameVehicleTypeContains(name);
     }
 
 }

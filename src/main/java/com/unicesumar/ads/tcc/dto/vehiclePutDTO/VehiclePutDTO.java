@@ -30,9 +30,12 @@ public class VehiclePutDTO {
     private CompanyDTO companyDTO;
 
     @JsonProperty("vehicle_type")
-    private VehicleTypeDTO vehicleTypeDTO;
+    private VehicleTypeDTO vehicleType;
 
     @JsonProperty("rntrc")
     private String rntrc;
+
+    @JsonProperty("active")
+    private Boolean active;
 
 }

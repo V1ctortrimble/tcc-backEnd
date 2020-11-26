@@ -16,11 +16,14 @@ public class VehicleGetDTO {
     @JsonProperty("id_vehicle")
     private Integer idVehicle;
 
+    @JsonProperty("active")
+    private Boolean active;
+
     @JsonProperty("company")
-    private CompanyGetDTO companyDTO;
+    private CompanyGetDTO company;
 
     @JsonProperty("vehicle_type")
-    private VehicleTypeGetDTO vehicleTypeGetDTO;
+    private VehicleTypeGetDTO vehicleType;
 
     @JsonProperty("rntrc")
     private String rntrc;

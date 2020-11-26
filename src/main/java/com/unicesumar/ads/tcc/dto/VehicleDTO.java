@@ -17,6 +17,9 @@ public class VehicleDTO {
     @JsonProperty("company")
     private CompanyDTO companyDTO;
 
+    @JsonProperty("active")
+    private Boolean active;
+
     @JsonProperty("vehicle_type")
     private VehicleTypeDTO vehicleTypeDTO;
 

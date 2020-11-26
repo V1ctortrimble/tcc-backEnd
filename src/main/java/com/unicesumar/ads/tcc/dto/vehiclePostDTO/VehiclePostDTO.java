@@ -16,6 +16,9 @@ public class VehiclePostDTO {
     @JsonProperty("cnpj")
     private String cnpj;
 
+    @JsonProperty("active")
+    private Boolean active;
+
     @JsonProperty("id_vehicle_type")
     private Integer idVehicleType;
 

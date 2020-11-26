@@ -12,6 +12,6 @@ public interface VehicleTypeRepository extends JpaRepository<VehicleTypeEntity, 
 
     VehicleTypeEntity getByIdVehicleType(Integer id);
 
-    List<VehicleTypeEntity> findAll();
+    List<VehicleTypeEntity> findByNameVehicleTypeContains(String nameVehicleType);
 
 }

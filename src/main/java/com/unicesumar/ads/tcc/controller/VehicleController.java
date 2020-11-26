@@ -85,6 +85,7 @@ public class VehicleController {
         vehicle.setCompanyDTO(company);
         vehicle.setRntrc(dto.getRntrc());
         vehicle.setVehicleTypeDTO(vehicleType);
+        vehicle.setActive(true);
         if (dto != null){
             vehicleService.PostVehicle(vehicleEntityConverter.toEntity(vehicle));
             return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -118,24 +119,11 @@ public class VehicleController {
         VehiclePutDTO vehicle = new VehiclePutDTO();
         vehicle.setCompanyDTO(company);
         vehicle.setRntrc(dto.getRntrc());
-        vehicle.setVehicleTypeDTO(vehicleType);
+        vehicle.setVehicleType(vehicleType);
         vehicle.setIdVehicle(dto.getIdVehicle());
+        vehicle.setActive(dto.getActive());
         if (dto != null){
             vehicleService.PostVehicle(vehiclePutEntityConverter.toEntity(vehicle));
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        throw new HttpBadRequestException(VEICULO_VAZIO);
-    }
-
-    /**
-     * Deactive Vechile - Company
-     */
-    @ApiOperation(value = "URL to deactive vehicles", authorizations = {@Authorization(value="jwtToken") })
-    @DeleteMapping(path = "/vehicles")
-    public ResponseEntity<VehiclePutDTO> deleteVehicle(@Validated @RequestBody VehiclePutDTO dto)
-    {
-        if (dto != null){
-            vehicleService.PostVehicle(vehiclePutEntityConverter.toEntity(dto));
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         throw new HttpBadRequestException(VEICULO_VAZIO);
@@ -162,8 +150,6 @@ public class VehicleController {
     @GetMapping(path = "/vehicles/cnpj")
     public ResponseEntity<List<VehicleGetDTO>> getTypeVehicleByCnpj(@RequestParam(value = "cnpj") String cnpj)
     {
-        //apagar
-        List<VehicleEntity> entities = vehicleService.getAllTypeVehicleByCnpj(cnpj);
         List<VehicleGetDTO> dtos = vehicleGetEntityConverter.toDTOList(vehicleService.getAllTypeVehicleByCnpj(cnpj));
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);
@@ -176,9 +162,9 @@ public class VehicleController {
      */
     @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/vehiclesType")
-    public ResponseEntity<List<VehicleTypeGetDTO>> getAllTypeVehicle()
+    public ResponseEntity<List<VehicleTypeGetDTO>> getAllTypeVehicle(@RequestParam(value = "name") String name)
     {
-        List<VehicleTypeGetDTO> dtos = vehicleTypeGetEntityConverter.toDTOList(vehicleService.getAllVehicleType());
+        List<VehicleTypeGetDTO> dtos = vehicleTypeGetEntityConverter.toDTOList(vehicleService.getAllVehicleType(name));
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
