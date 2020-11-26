@@ -63,13 +63,13 @@ public class TravelPackageDTO {
     @JsonProperty("registration_date")
     private LocalDate registrationDate;
 
-    @JsonProperty("travel_contracts")
-    private List<TravelContractDTO> travelContractDTOS;
-
-    @JsonProperty("hostings")
-    private List<HostingDTO> hostingDTOS;
-
-    @JsonProperty("vehicles")
-    private List<VehicleDTO> vehicleDTOS;
+//    @JsonProperty("travel_contracts")
+//    private List<TravelContractDTO> travelContractDTOS;
+//
+//    @JsonProperty("hostings")
+//    private List<HostingDTO> hostingDTOS;
+//
+//    @JsonProperty("vehicles")
+//    private List<VehicleDTO> vehicleDTOS;
 
 }
