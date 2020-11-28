@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class HostingPostDTO {
 
     @JsonProperty("document")
-    private String document;
+    private String cnpj;
 
     @JsonIgnore
     private PersonPostDTO person;
@@ -37,4 +37,5 @@ public class HostingPostDTO {
     @JsonProperty("features_hosting")
     private Integer featuresHosting;
 
+    private Boolean active;
 }

@@ -1,7 +1,5 @@
 package com.unicesumar.ads.tcc.dto.hostingPostDTO;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.vehicleGetDTO.CompanyGetDTO;
 import lombok.AllArgsConstructor;

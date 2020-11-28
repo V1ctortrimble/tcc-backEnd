@@ -26,12 +26,4 @@ public class HostingService {
     public List<HostingEntity> getAllHostingsByCnpj(String cnpj){
         return hostingRepository.findAllByPersonCompanyCnpj(cnpj);
     }
-
-    /**
-     * Find Hosting By cpf
-     */
-    public List<HostingEntity> getAllHostingsByCpf(String cpf){
-        return hostingRepository.findAllByPersonIndividualCpf(cpf);
-    }
-
 }

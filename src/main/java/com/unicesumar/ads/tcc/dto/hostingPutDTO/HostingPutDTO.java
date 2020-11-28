@@ -19,7 +19,7 @@ public class HostingPutDTO {
     private Integer idHosting;
 
     @JsonProperty("document")
-    private String document;
+    private String cnpj;
 
     @JsonIgnore
     private PersonPostDTO person;
@@ -38,5 +38,7 @@ public class HostingPutDTO {
 
     @JsonProperty("features_hosting")
     private Integer featuresHosting;
+
+    private Boolean active;
 
 }
