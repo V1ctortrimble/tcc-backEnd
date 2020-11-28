@@ -23,6 +23,13 @@ public class CompanyService {
     }
 
     /**
+     * Find Company by cnpj
+     */
+    public CompanyEntity getCompanyByCnpj(String cnpj) {
+        return  companyRepository.findByCnpj(cnpj);
+    }
+
+    /**
      * Find Persons by  cpf, name, last name or birth date
      */
     public Page<CompanyEntity> getIndividualFilter(Optional<String> cnpj, Optional<String> socialReason,

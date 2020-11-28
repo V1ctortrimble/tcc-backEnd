@@ -20,4 +20,7 @@ public class CompanySystemDTO {
 
     @JsonProperty("cnpj")
     private String cnpj;
+
+    @JsonProperty("active")
+    private Boolean active;
 }

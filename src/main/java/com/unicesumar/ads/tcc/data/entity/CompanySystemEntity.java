@@ -20,6 +20,9 @@ public class CompanySystemEntity implements Serializable {
     @Column(name = "ID_COMPANY_SYSTEM")
     private Integer idCompanySystem;
 
+    @Column(name = "ACTIVE")
+    private Boolean active;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companySystem")
     private List<CompanyPartnerEntity> companyPartners;
 
