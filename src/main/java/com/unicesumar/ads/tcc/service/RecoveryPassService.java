@@ -32,19 +32,15 @@ public class RecoveryPassService {
      * @return response
      */
     public String recoveryPass(String mail){
-
         UsersEntity user = usersRepository.findByUsername(mail);
         String response = "";
-
         try {
             if(user != null){
                 UUID code = createCode();
                 String link = LINK + "/recoverpassword/" + code;
                 user.setCode(code.toString());
                 user.setDataCode(LocalDateTime.now());
-
                 usersRepository.save(user);
-
                 response = sendMail(mail, link);
             }
             else{
@@ -54,7 +50,6 @@ public class RecoveryPassService {
         catch (Exception e){
             throw new HttpBadRequestException(ERRO_AO_ENVIAR_EMAIL);
         }
-
         return response;
     }
 

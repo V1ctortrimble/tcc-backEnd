@@ -177,7 +177,7 @@ public class UsersService {
      * Save a Users
      */
     public void postUsers(UsersPostDTO dto) {
-        List<ContactEntity> contacts = new ArrayList<ContactEntity>();
+        List<ContactEntity> contacts = new ArrayList<>();
         contacts.add(contactEntityPostConverter.toEntity(dto.getContactDTO()));
         PersonEntity person = new PersonEntity();
         UsersEntity entity = usersEntityPostConverter.toEntity(dto);
@@ -189,6 +189,9 @@ public class UsersService {
         personRepository.save(person);
     }
 
+    /**
+     * Update a Users to password
+     */
     public void postChangePassword(UsersEntity entity){
         usersRepository.save(entity);
     }
