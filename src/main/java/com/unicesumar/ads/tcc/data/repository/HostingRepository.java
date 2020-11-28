@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface HostingRepository extends JpaRepository<HostingEntity, Integer> {
     List<HostingEntity> findAllByActiveAndPersonCompanyCnpj(Boolean active, String cnpj);
+
 }
