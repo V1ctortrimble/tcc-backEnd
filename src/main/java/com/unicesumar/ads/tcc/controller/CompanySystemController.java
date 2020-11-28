@@ -85,6 +85,8 @@ public class CompanySystemController {
                 dto.setSocialReason(company.getCompany().getSocialReason());
                 dto.setFantasyName(company.getCompany().getFantasyName());
                 dto.setCnpj(company.getCompany().getCnpj());
+                dto.setActive(company.getActive());
+                dto.setOpenDate(company.getCompany().getOpenDate());
                 dtos.add(dto);
             }
             return new ResponseEntity<>(dtos, HttpStatus.OK);

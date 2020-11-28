@@ -38,6 +38,6 @@ public class CompanySystemService {
      * Find All CompanySystemEntity by active true
      */
     public List<CompanySystemEntity> getAllCompanySystem(Boolean active) {
-         return companySystemRepository.findAllByCompanyActive(active);
+         return companySystemRepository.findAllByActive(active);
     }
 }
