@@ -62,14 +62,18 @@ public class PersonService {
      * Update a Persons Individual
      */
     public void putPersonIndividual(PersonEntity person, PersonIndividualDTO dto) {
-        validationIndividualToPut(person, dto.getIndividual());
-        validationContactToPut(person, dto.getContacts());
-        validationAdresessesToPut(person, dto.getAdresses());
-        validationBankDetailsToPut(person, dto.getBanksDetails());
+        try{
+            validationIndividualToPut(person, dto.getIndividual());
+            validationContactToPut(person, dto.getContacts());
+            validationAdresessesToPut(person, dto.getAdresses());
+            validationBankDetailsToPut(person, dto.getBanksDetails());
+        }catch (IndexOutOfBoundsException e) {
+            throw new HttpBadRequestException(e.getMessage());
+        }
         try {
             this.personRepository.save(person);
             this.personRepository.findByIndividualCpf(dto.getIndividual().getCpf());
-        } catch (Exception e) {
+        }catch (Exception e) {
             throw new HttpBadRequestException(e.getMessage());
         }
     }
@@ -78,10 +82,14 @@ public class PersonService {
      * Update a Persons Company
      */
     public void putPersonCompany(PersonEntity person, PersonCompanyDTO dto) {
-        validationCompanyToPut(person, dto.getCompany());
-        validationContactToPut(person, dto.getContacts());
-        validationAdresessesToPut(person, dto.getAdresses());
-        validationBankDetailsToPut(person, dto.getBanksDetails());
+        try {
+            validationCompanyToPut(person, dto.getCompany());
+            validationContactToPut(person, dto.getContacts());
+            validationAdresessesToPut(person, dto.getAdresses());
+            validationBankDetailsToPut(person, dto.getBanksDetails());
+        }catch (IndexOutOfBoundsException e) {
+            throw new HttpBadRequestException(e.getMessage());
+        }
         try {
             this.personRepository.save(person);
             this.personRepository.findByCompanyCnpj(dto.getCompany().getCnpj());
