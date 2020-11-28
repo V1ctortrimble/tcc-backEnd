@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface VehicleRepository extends JpaRepository<VehicleEntity, Integer> {
-    List<VehicleEntity> getByActive(Boolean active);
+    List<VehicleEntity> findAllByActive(Boolean active);
 
-    List<VehicleEntity> getByCompanyCnpjStartsWithAndActive(String cnpj, Boolean active);
+    List<VehicleEntity> findAllByCompanyCnpjStartsWithAndActive(String cnpj, Boolean active);
 }

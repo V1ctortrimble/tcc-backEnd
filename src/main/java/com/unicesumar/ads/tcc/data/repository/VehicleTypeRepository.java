@@ -8,10 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+
+//TODO: Realizar code review
+
 public interface VehicleTypeRepository extends JpaRepository<VehicleTypeEntity, Integer> {
 
-    VehicleTypeEntity getByIdVehicleType(Integer id);
+    VehicleTypeEntity findByIdVehicleType(Integer id);
 
-    List<VehicleTypeEntity> findByNameVehicleTypeContains(String nameVehicleType);
+    List<VehicleTypeEntity> findAllByNameVehicleTypeContains(String nameVehicleType);
 
 }

@@ -10,17 +10,28 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class HostingService {
+
     private final HostingRepository hostingRepository;
 
-    public void postHost(HostingEntity entity){
+    /**
+     * Save or update Hosting
+     */
+    public void postHosting(HostingEntity entity){
         hostingRepository.save(entity);
     }
 
-    public List<HostingEntity> getAllByCnpj(String cnpj){
+    /**
+     * Find Hosting By cnpj
+     */
+    public List<HostingEntity> getAllHostingsByCnpj(String cnpj){
         return hostingRepository.findAllByPersonCompanyCnpj(cnpj);
     }
 
-    public List<HostingEntity> getAllByCpf(String cpf){
+    /**
+     * Find Hosting By cpf
+     */
+    public List<HostingEntity> getAllHostingsByCpf(String cpf){
         return hostingRepository.findAllByPersonIndividualCpf(cpf);
     }
+
 }

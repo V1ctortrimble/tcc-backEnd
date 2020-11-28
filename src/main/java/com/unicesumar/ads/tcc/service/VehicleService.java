@@ -4,7 +4,6 @@ import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
 import com.unicesumar.ads.tcc.data.entity.VehicleTypeEntity;
 import com.unicesumar.ads.tcc.data.repository.VehicleRepository;
 import com.unicesumar.ads.tcc.data.repository.VehicleTypeRepository;
-import com.unicesumar.ads.tcc.dto.VehicleTypeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,33 +16,47 @@ public class VehicleService {
     private final VehicleTypeRepository vehicleTypeRepository;
     private final VehicleRepository vehicleRepository;
 
-    public void postTypeVehicle(VehicleTypeEntity entity)
+    /**
+     * Find Vehicle type By id
+     */
+    public VehicleTypeEntity getVehicleTypeById(Integer id){
+        return vehicleTypeRepository.findByIdVehicleType(id);
+    }
+
+    /**
+     * Find all Vehicle By active
+     */
+    public List<VehicleEntity> getAllVehicleByActive(){
+        return vehicleRepository.findAllByActive(true);
+    }
+
+    /**
+     * Find all Vehicle type By cnpj
+     */
+    public List<VehicleEntity> getAllVehicleTypeByCnpj(String cnpj){
+        return vehicleRepository.findAllByCompanyCnpjStartsWithAndActive(cnpj, true);
+    }
+
+    /**
+     * Find all Vehicle type
+     */
+    public List<VehicleTypeEntity> getAllByNameVehicleType(String name){
+        return vehicleTypeRepository.findAllByNameVehicleTypeContains(name);
+    }
+
+    /**
+     * Save or update Vehicle type
+     */
+    public void postVehicleType(VehicleTypeEntity entity)
     {
         vehicleTypeRepository.save(entity);
     }
 
-    public VehicleTypeEntity getVehicleTypeById(Integer id){
-        return vehicleTypeRepository.getByIdVehicleType(id);
-    }
-
+    /**
+     * Save or update Vehicle
+     */
     public void PostVehicle(VehicleEntity entity){
         vehicleRepository.save(entity);
-    }
-
-    public void putVehicleType(VehicleTypeEntity entity){
-        vehicleTypeRepository.save(entity);
-    }
-
-    public List<VehicleEntity> getAllVehicleByActive(){
-        return vehicleRepository.getByActive(true);
-    }
-
-    public List<VehicleEntity> getAllTypeVehicleByCnpj(String cnpj){
-        return vehicleRepository.getByCompanyCnpjStartsWithAndActive(cnpj, true);
-    }
-
-    public List<VehicleTypeEntity> getAllVehicleType(String name){
-        return vehicleTypeRepository.findByNameVehicleTypeContains(name);
     }
 
 }
