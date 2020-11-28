@@ -55,6 +55,7 @@ public class VehicleController {
     private final CompanyEntityConverter companyEntityConverter;
     private final VehicleGetEntityConverter vehicleGetEntityConverter;
     private final VehicleTypeGetEntityConverter vehicleTypeGetEntityConverter;
+    private final VehicleTypePutEntityConverter vehicleTypePutEntityConverter;
 
     /**
      * PostsMapping
@@ -96,7 +97,7 @@ public class VehicleController {
     public ResponseEntity<VehicleTypePutDTO> putTypeVehicle(@Validated @RequestBody VehicleTypePutDTO dto){
         VehicleTypeEntity entity = vehicleService.getVehicleTypeById(dto.getIdVehicleType());
         if (entity != null){
-            vehicleService.postVehicleType(entity);
+            vehicleService.postVehicleType(vehicleTypePutEntityConverter.toEntity(dto));
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
