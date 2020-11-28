@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface HostingRepository extends JpaRepository<HostingEntity, Integer> {
-    List<HostingEntity> findAllByPersonIndividualCpf(String cpf);
     List<HostingEntity> findAllByPersonCompanyCnpj(String cnpj);
 }

@@ -3,6 +3,7 @@ package com.unicesumar.ads.tcc.controller;
 import com.unicesumar.ads.tcc.converter.hosting.HostingPostEntityConverter;
 import com.unicesumar.ads.tcc.converter.hosting.HostingPutEntityConverter;
 import com.unicesumar.ads.tcc.converter.hosting.PersonHostingEntityConverter;
+import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.dto.hostingPostDTO.HostingPostDTO;
 import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingPutDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
@@ -50,21 +51,15 @@ public class HostingController {
     @PostMapping(path = "/hosting")
     public ResponseEntity<HostingPostDTO> postHosting(@Validated @RequestBody HostingPostDTO dto){
 
-        if (dto.getDocument() != null){
-            if (dto.getDocument().length() == 14) {
-                dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCnpj(dto.getDocument())));
+        if (dto.getCnpj() != null){
+            if (dto.getCnpj().length() == 14) {
+                dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCnpj(dto.getCnpj())));
                 hostingService.postHosting(hostingPostEntityConverter.toEntity(dto));
                 return new ResponseEntity<>(dto, HttpStatus.OK);
             }
-            else if (dto.getDocument().length() == 11){
-                dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCpf(dto.getDocument())));
-                hostingService.postHosting(hostingPostEntityConverter.toEntity(dto));
-                return new ResponseEntity<>(dto, HttpStatus.OK);
-            }else {
-                throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
-            }
+            throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
         }
-        throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
+        throw new HttpBadRequestException(HOSTING_VAZIO);
     }
 
     /**
@@ -73,21 +68,15 @@ public class HostingController {
     @ApiOperation(value = "URL to update hosting", authorizations = {@Authorization(value="jwtToken") })
     @PutMapping(path = "/hosting")
     public ResponseEntity<HostingPutDTO> putHosting(@Validated @RequestBody HostingPutDTO dto){
-        if (dto.getDocument() != null){
-            if (dto.getDocument().length() == 14) {
-                dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCnpj(dto.getDocument())));
+        if (dto.getCnpj() != null){
+            if (dto.getCnpj().length() == 14) {
+                dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCnpj(dto.getCnpj())));
                 hostingService.postHosting(hostingPutEntityConverter.toEntity(dto));
                 return new ResponseEntity<>(dto, HttpStatus.OK);
             }
-            else if (dto.getDocument().length() == 11) {
-                dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCpf(dto.getDocument())));
-                hostingService.postHosting(hostingPutEntityConverter.toEntity(dto));
-                return new ResponseEntity<>(dto, HttpStatus.OK);
-            }else {
-                throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
-            }
+            throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
         }
-        throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
+        throw new HttpBadRequestException(HOSTING_VAZIO);
     }
 
     /**
@@ -95,21 +84,15 @@ public class HostingController {
      */
     @ApiOperation(value = "URL to hosting get by document ", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/hosting")
-    public ResponseEntity<List<HostingPutDTO>> getAllByDocument(@RequestParam(value = "document") String document){
-        List<HostingPutDTO> dtos;
-        if (document.length() == 14) {
-            dtos = hostingPutEntityConverter.toDTOList(hostingService.getAllHostingsByCnpj(document));
-        }
-        else if (document.length() == 11){
-            dtos = hostingPutEntityConverter.toDTOList(hostingService.getAllHostingsByCpf(document));
-        }
-        else {
+    public ResponseEntity<List<HostingPutDTO>> getAllByDocument(@RequestParam(value = "cnpj") String cnpj){
+        List<HostingEntity> entities = hostingService.getAllHostingsByCnpj(cnpj);
+        if(entities.size() > 0){
+            List<HostingPutDTO> dtos = hostingPutEntityConverter.toDTOList(entities);
+            if (cnpj.length() == 14) {
+                return  new ResponseEntity<>(dtos, HttpStatus.OK);
+            }
             throw new HttpBadRequestException(DOCUMENTO_INVALIDO);
-        }
-        if(dtos.size() > 0){
-            return  new ResponseEntity<>(dtos, HttpStatus.OK);
         }
         throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
     }
-
 }

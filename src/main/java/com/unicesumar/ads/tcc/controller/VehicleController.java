@@ -1,9 +1,8 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.unicesumar.ads.tcc.converter.*;
+import com.unicesumar.ads.tcc.converter.CompanyEntityConverter;
 import com.unicesumar.ads.tcc.converter.vehicle.*;
 import com.unicesumar.ads.tcc.data.entity.VehicleTypeEntity;
-import com.unicesumar.ads.tcc.data.repository.CompanyRepository;
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.VehicleDTO;
 import com.unicesumar.ads.tcc.dto.VehicleTypeDTO;
@@ -16,7 +15,7 @@ import com.unicesumar.ads.tcc.dto.vehiclePutDTO.VehicleTypePutDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.CompanyService;
-import com.unicesumar.ads.tcc.service.PersonService;
+import com.unicesumar.ads.tcc.service.VehicleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -26,11 +25,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.unicesumar.ads.tcc.service.VehicleService;
 
 import java.util.List;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.VEICULO_NAO_ENCONTRADO;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.VEICULO_VAZIO;
 
 
 @Api(tags = {"visualization of Vehicles"})
@@ -45,7 +44,6 @@ public class VehicleController {
      */
     private final VehicleService vehicleService;
     private final CompanyService companyService;
-
 
     /**
      * Converters

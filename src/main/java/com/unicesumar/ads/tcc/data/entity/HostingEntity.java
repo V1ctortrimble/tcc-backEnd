@@ -44,4 +44,7 @@ public class HostingEntity implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "hostings", cascade=CascadeType.ALL)
     private List<TravelPackageEntity> travelPackages;
 
+    @Column(name = "ACTIVE")
+    private Boolean active;
+
 }

@@ -42,9 +42,7 @@ public class RecoveryPassService {
                 String link = LINK + "/recoverpassword/" + code;
                 user.setCode(code.toString());
                 user.setDataCode(LocalDateTime.now());
-
                 usersRepository.save(user);
-
                 response = sendMail(mail, link);
             }
             else{
