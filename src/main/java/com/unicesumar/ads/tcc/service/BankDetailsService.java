@@ -33,7 +33,7 @@ public class BankDetailsService {
     public void putBankDetails(PersonBankDetailsDTO dto, PersonEntity person) {
         BankDetailsEntity bank = new BankDetailsEntity();
         for (BankDetailsEntity listBank : person.getBanksDetails()){
-            if (dto.getBanksDetails().getIdBankDetails() == listBank.getIdBankDetails()){
+            if (dto.getBanksDetails().getIdBankDetails().equals(listBank.getIdBankDetails())){
                 bank.setIdBankDetails(listBank.getIdBankDetails());
                 bank.setPerson(person);
                 if (dto.getBanksDetails() != null){
