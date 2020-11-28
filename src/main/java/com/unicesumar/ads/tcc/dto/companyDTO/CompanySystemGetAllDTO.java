@@ -3,6 +3,8 @@ package com.unicesumar.ads.tcc.dto.companyDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,6 +23,12 @@ public class CompanySystemGetAllDTO {
 
     @JsonProperty("cnpj")
     private String cnpj;
+
+    @JsonProperty("active")
+    private Boolean active;
+
+    @JsonProperty("open_date")
+    private LocalDate openDate;
 
 
 }

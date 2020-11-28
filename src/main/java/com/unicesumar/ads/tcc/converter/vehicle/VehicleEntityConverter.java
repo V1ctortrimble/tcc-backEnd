@@ -1,5 +1,6 @@
-package com.unicesumar.ads.tcc.converter;
+package com.unicesumar.ads.tcc.converter.vehicle;
 
+import com.unicesumar.ads.tcc.converter.DTOEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
 import com.unicesumar.ads.tcc.dto.VehicleDTO;
 import com.unicesumar.ads.tcc.util.MapperUtil;
