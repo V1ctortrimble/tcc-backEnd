@@ -39,10 +39,10 @@ public class CompanyEntity implements Serializable {
     @Column(name = "OPEN_DATE")
     private LocalDate openDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     private List<VehicleEntity> vehicles;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company", cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     private List<TravelContractEntity> travelContracts;
 
 }

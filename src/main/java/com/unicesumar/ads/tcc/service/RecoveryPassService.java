@@ -37,7 +37,7 @@ public class RecoveryPassService {
         try {
             if(user != null){
                 UUID code = createCode();
-                String link = LINK + "/recoverpassword/" + code;
+                String link = LINK + "/recoverypassword/" + code;
                 user.setCode(code.toString());
                 user.setDataCode(LocalDateTime.now());
                 usersRepository.save(user);

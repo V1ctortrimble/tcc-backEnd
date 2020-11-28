@@ -20,7 +20,7 @@ public class HostingEntity implements Serializable {
     @Column(name = "ID_HOSTING")
     private Integer idHosting;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "ID_PERSON")
     private PersonEntity person;
 

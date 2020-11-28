@@ -14,11 +14,11 @@ import java.util.List;
 @Builder
 public class VehicleDTO {
 
+    @JsonProperty("id_vehicle")
+    private Integer idVehicle;
+
     @JsonProperty("company")
     private CompanyDTO companyDTO;
-
-    @JsonProperty("active")
-    private Boolean active;
 
     @JsonProperty("vehicle_type")
     private VehicleTypeDTO vehicleTypeDTO;
