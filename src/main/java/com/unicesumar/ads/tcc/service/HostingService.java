@@ -23,7 +23,7 @@ public class HostingService {
     /**
      * Find Hosting By cnpj
      */
-    public List<HostingEntity> getAllHostingsByCnpj(String cnpj){
-        return hostingRepository.findAllByPersonCompanyCnpj(cnpj);
+    public List<HostingEntity> getAllHostingsByCnpj(String cnpj, Boolean active){
+        return hostingRepository.findAllByActiveAndPersonCompanyCnpj(active,cnpj);
     }
 }

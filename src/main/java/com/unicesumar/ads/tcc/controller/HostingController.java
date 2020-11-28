@@ -85,7 +85,7 @@ public class HostingController {
     @ApiOperation(value = "URL to hosting get by document ", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/hosting")
     public ResponseEntity<List<HostingPutDTO>> getAllByDocument(@RequestParam(value = "cnpj") String cnpj){
-        List<HostingEntity> entities = hostingService.getAllHostingsByCnpj(cnpj);
+        List<HostingEntity> entities = hostingService.getAllHostingsByCnpj(cnpj, true);
         if(entities.size() > 0){
             List<HostingPutDTO> dtos = hostingPutEntityConverter.toDTOList(entities);
             if (cnpj.length() == 14) {
