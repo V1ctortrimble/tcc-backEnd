@@ -171,9 +171,9 @@ public class VehicleController {
     /**
      * GetsMapping
      */
-    @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
+    @ApiOperation(value = "URL to get vehicles by name", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/vehicles/type")
-    public ResponseEntity<List<VehicleTypeGetDTO>> getAllTypeVehicle(@RequestParam(value = "name") String name)
+    public ResponseEntity<List<VehicleTypeGetDTO>> getAllTypeVehicleByName(@RequestParam(value = "name") String name)
     {
         List<VehicleTypeGetDTO> dtos = vehicleTypeGetEntityConverter.toDTOList(vehicleService.getAllByNameVehicleType(name));
         if (dtos.size() > 0){
@@ -181,4 +181,19 @@ public class VehicleController {
         }
         throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
     }
+
+    /**
+     * GetsMapping
+     */
+    @ApiOperation(value = "URL to get vehicles by name", authorizations = {@Authorization(value="jwtToken") })
+    @GetMapping(path = "/vehicles/type/all")
+    public ResponseEntity<List<VehicleTypeGetDTO>> getAllTypeVehicle()
+    {
+        List<VehicleTypeGetDTO> dtos = vehicleTypeGetEntityConverter.toDTOList(vehicleService.getAllVehicleType());
+        if (dtos.size() > 0){
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
+    }
+
 }

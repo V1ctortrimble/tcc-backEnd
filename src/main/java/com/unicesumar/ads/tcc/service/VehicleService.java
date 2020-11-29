@@ -52,6 +52,13 @@ public class VehicleService {
     }
 
     /**
+     * Find all Vehicle type
+     */
+    public List<VehicleTypeEntity> getAllVehicleType(){
+        return vehicleTypeRepository.findAll();
+    }
+
+    /**
      * Save or update Vehicle type
      */
     public void postVehicleType(VehicleTypeEntity entity)
