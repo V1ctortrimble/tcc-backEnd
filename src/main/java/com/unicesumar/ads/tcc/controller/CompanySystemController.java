@@ -28,8 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.EMPRESA_DO_SISTEMA_NAO_LOCALIZADA;
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.PESSOA_NAO_LOCALIZADA;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
 @Api(tags = {"visualization of CompanySystem"})
 @RestController
@@ -109,7 +108,25 @@ public class CompanySystemController {
         }
         throw new HttpBadRequestException(PESSOA_NAO_LOCALIZADA);
     }
+    
+    /**
+     * PutsMapping
+     */
+    @ApiOperation(value = "URL to add Company System", authorizations = {@Authorization(value="jwtToken")})
+    @PutMapping(path = "/companySystem")
+    public ResponseEntity<CompanySystemDTO> PutCompanySystem(@Validated @RequestBody CompanySystemDTO dto) {
+        CompanySystemEntity entity = companySystemService.getCompanySystemByCnpj(dto.getCnpj());
+        if (entity != null){
+            entity.setActive(dto.getActive());
+            companySystemService.postCompanySystem(entity);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        throw new HttpBadRequestException(NENHUMA_EMPRESA_LOCALIZADA);
+    }
 
+    /**
+     * PostsMapping
+     */
     @ApiOperation(value = "URL to add Company Partner", authorizations = {@Authorization(value="jwtToken")})
     @PostMapping(path = "/companyPartner")
     public ResponseEntity<CompanyPartnerDTO> PostCompanyPartner(@Validated @RequestBody CompanyPartnerDTO dto) {

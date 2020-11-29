@@ -35,6 +35,13 @@ public class CompanySystemService {
     }
 
     /**
+     * Find CompanySystem by Id
+     */
+    public CompanySystemEntity getCompanySystemById(Integer id) {
+        return  companySystemRepository.findByIdCompanySystem(id);
+    }
+
+    /**
      * Find All CompanySystemEntity by active true
      */
     public List<CompanySystemEntity> getAllCompanySystem(Boolean active) {

@@ -1,7 +1,9 @@
 package com.unicesumar.ads.tcc.service;
 
 import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
+import com.unicesumar.ads.tcc.data.entity.CompanySystemEntity;
 import com.unicesumar.ads.tcc.data.repository.CompanyRepository;
+import com.unicesumar.ads.tcc.data.repository.CompanySystemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
