@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.AdressDTO;
+import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingTypePutDTO;
 import com.unicesumar.ads.tcc.dto.personDTO.PersonCompanyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,7 @@ public class HostingPostDTO {
     private AdressDTO adressDTO;
 
     @JsonProperty("hosting_type")
-    private HostingTypePostDTO hostingType;
+    private HostingTypePutDTO hostingType;
 
     @JsonProperty("tourism_regis")
     private String tourismRegis;

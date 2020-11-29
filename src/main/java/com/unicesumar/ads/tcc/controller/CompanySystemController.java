@@ -71,11 +71,9 @@ public class CompanySystemController {
 
     @ApiOperation(value = "URL to Return All Company", authorizations = { @Authorization(value="jwtToken")})
     @GetMapping(path = "/companySystem")
-    public ResponseEntity<List<CompanySystemGetAllDTO>> getCompanySystem(@RequestParam(value = "active",
-            defaultValue = "true",
-            required = false) Boolean active) {
+    public ResponseEntity<List<CompanySystemGetAllDTO>> getCompanySystem() {
 
-        List<CompanySystemEntity> entities = companySystemService.getAllCompanySystem(active);
+        List<CompanySystemEntity> entities = companySystemService.getAllCompanySystem();
         if(entities.size() != 0) {
             List<CompanySystemGetAllDTO> dtos = new ArrayList<>();
             for (CompanySystemEntity company : entities){

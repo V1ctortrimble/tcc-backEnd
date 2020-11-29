@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class HostingTypePostDTO {
 
-    @JsonProperty("id_hosting_type")
-    private Integer idHostingType;
-
     @JsonProperty("name_hosting_type")
     private String nameHostingType;
 
