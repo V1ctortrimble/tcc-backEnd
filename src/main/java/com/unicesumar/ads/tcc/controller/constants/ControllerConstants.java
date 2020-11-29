@@ -9,6 +9,7 @@ public class ControllerConstants {
     public static final String DOCUMENTO_INVALIDO = "Documento inválido";
     public static final String NENHUMA_PESSOA_FOI_LOCALIZADA = "Nenhuma Pessoa Foi Localizada";
     public static final String NENHUMA_EMPRESA_LOCALIZADA = "Nenhuma Empresa Foi Localizada";
+    public static final String NECESSARIO_ENVIAR_ID = "Nenhum id enviado para busca";
     /**
      * Define RecoveryPassController properties
      */

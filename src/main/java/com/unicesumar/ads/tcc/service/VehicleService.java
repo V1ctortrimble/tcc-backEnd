@@ -24,6 +24,13 @@ public class VehicleService {
     }
 
     /**
+     * Find Vehicle type By id
+     */
+    public VehicleEntity getVehicleById(Integer id){
+        return vehicleRepository.getOne(id);
+    }
+
+    /**
      * Find all Vehicle By active
      */
     public List<VehicleEntity> getAllVehicleByActive(){

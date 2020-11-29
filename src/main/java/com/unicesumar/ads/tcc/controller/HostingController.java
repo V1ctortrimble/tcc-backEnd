@@ -100,6 +100,23 @@ public class HostingController {
     }
 
     /**
+     * GetsMapping
+     */
+    @ApiOperation(value = "URL to hosting get by ID ", authorizations = {@Authorization(value="jwtToken") })
+    @GetMapping(path = "/hosting/id")
+    public ResponseEntity<HostingPutDTO> getById(@RequestParam(value = "id") Integer id){
+        if(id != null){
+            HostingEntity entity = hostingService.getHostingById(id);
+            if( entity != null ){
+                HostingPutDTO dto = hostingPutEntityConverter.toDTO(entity);
+                return  new ResponseEntity<>(dto, HttpStatus.OK);
+            }
+            throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
+        }
+        throw new HttpNotFoundException(NECESSARIO_ENVIAR_ID);
+    }
+
+    /**
      * PostsMapping
      */
     @ApiOperation(value = "URL to add hosting type", authorizations = {@Authorization(value="jwtToken") })

@@ -1,6 +1,7 @@
 package com.unicesumar.ads.tcc.dto.hostingPutDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.AdressDTO;
 import com.unicesumar.ads.tcc.dto.hostingPostDTO.PersonPostDTO;
@@ -18,6 +19,7 @@ public class HostingPutDTO {
     @JsonProperty("id_hosting")
     private Integer idHosting;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("document")
     private String cnpj;
 

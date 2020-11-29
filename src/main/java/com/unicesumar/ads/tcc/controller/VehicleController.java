@@ -2,6 +2,7 @@ package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.CompanyEntityConverter;
 import com.unicesumar.ads.tcc.converter.vehicle.*;
+import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
 import com.unicesumar.ads.tcc.data.entity.VehicleTypeEntity;
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.VehicleDTO;
@@ -28,8 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.VEICULO_NAO_ENCONTRADO;
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.VEICULO_VAZIO;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
 
 @Api(tags = {"visualization of Vehicles"})
@@ -136,7 +136,28 @@ public class VehicleController {
         throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
     }
 
-    @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
+    /**
+     * GetsMapping
+     */
+    @ApiOperation(value = "URL to get vehicle by id", authorizations = {@Authorization(value="jwtToken") })
+    @GetMapping(path = "/vehicles/id")
+    public ResponseEntity<VehicleGetDTO> getVehicleById(@RequestParam(value = "id") Integer id)
+    {
+        if (id != null){
+            VehicleEntity entity = vehicleService.getVehicleById(id);
+            if (entity != null){
+                VehicleGetDTO dto = vehicleGetEntityConverter.toDTO(entity);
+                return new ResponseEntity<>(dto, HttpStatus.OK);
+            }
+            throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
+        }
+        throw new HttpNotFoundException(NECESSARIO_ENVIAR_ID);
+    }
+
+    /**
+     * GetsMapping
+     */
+    @ApiOperation(value = "URL to get vehicles by cnpj", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/vehicles/cnpj")
     public ResponseEntity<List<VehicleGetDTO>> getTypeVehicleByCnpj(@RequestParam(value = "cnpj") String cnpj)
     {
@@ -147,6 +168,9 @@ public class VehicleController {
         throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
     }
 
+    /**
+     * GetsMapping
+     */
     @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/vehicles/type")
     public ResponseEntity<List<VehicleTypeGetDTO>> getAllTypeVehicle(@RequestParam(value = "name") String name)
