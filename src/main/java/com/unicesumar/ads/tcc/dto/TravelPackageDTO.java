@@ -63,6 +63,8 @@ public class TravelPackageDTO {
     @JsonProperty("registration_date")
     private LocalDate registrationDate;
 
+    private Boolean active;
+
 //    @JsonProperty("travel_contracts")
 //    private List<TravelContractDTO> travelContractDTOS;
 //

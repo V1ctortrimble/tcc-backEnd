@@ -2,14 +2,17 @@ package com.unicesumar.ads.tcc.util;
 
 import com.unicesumar.ads.tcc.data.entity.CompanyEntity;
 import com.unicesumar.ads.tcc.data.entity.IndividualEntity;
+import com.unicesumar.ads.tcc.data.entity.TravelPackageEntity;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.CompanyService;
 import com.unicesumar.ads.tcc.service.IndividualService;
+import com.unicesumar.ads.tcc.service.TravelPackageService;
 import com.unicesumar.ads.tcc.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -33,6 +36,7 @@ public class PaginatorUtil {
     private final IndividualService individualService;
     private final CompanyService companyService;
     private final UsersService usersService;
+    private final TravelPackageService travelPackageService;
 
     /**
      * Method that converts Entity to DTO so that the pagination does not change IndividualDTO
@@ -56,6 +60,33 @@ public class PaginatorUtil {
             }
         });
     }
+
+    /**
+     * Method that converts Entity to DTO so that the pagination does not change IndividualDTO
+     */
+    public Page<TravelPackageDTO> convertDTOTravelPackageToPages(Integer idTravelPackge,
+                                                                  Optional<String> nameTravelPackge,
+                                                                  Optional<String> originName,
+                                                                  Optional<String> destinationName,
+                                                                  Boolean active,
+                                                                  Pageable pageable) {
+        Page<TravelPackageEntity> travelPackageEntities = travelPackageService.getTravelPackageFilter(idTravelPackge, nameTravelPackge,
+                originName, destinationName, active, pageable);
+        long offSet = pageable.getOffset();
+        long totElements = travelPackageEntities.getTotalElements();
+        long totPages = travelPackageEntities.getTotalPages();
+        ValidateTotalPagesTravelPackage(totPages);
+        validateFinalPage(offSet, totElements);
+        return travelPackageEntities.map(new Function<TravelPackageEntity, TravelPackageDTO>() {
+            @Override
+            public TravelPackageDTO apply(TravelPackageEntity t) {
+                return new ModelMapper().map(t, TravelPackageDTO.class);
+            }
+        });
+    }
+
+
+
 
     /**
      * Method that converts Entity to DTO so that the pagination does not change CompanyDTO
@@ -94,6 +125,17 @@ public class PaginatorUtil {
                 return new ModelMapper().map(t, UsersDTO.class);
             }
         });
+    }
+
+
+
+    /**
+     * Method to validate Total Pages Individual
+     */
+    private void ValidateTotalPagesTravelPackage(long totPages) {
+        if (totPages == 0) {
+            throw new HttpNotFoundException("Nenhuma Viagem localizada");
+        }
     }
 
     /**

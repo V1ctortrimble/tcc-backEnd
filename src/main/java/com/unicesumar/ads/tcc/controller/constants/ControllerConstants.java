@@ -44,5 +44,7 @@ public class ControllerConstants {
     public static final String PESSOA_NAO_LOCALIZADA = "Pessoa não Localizada";
     public static final String SENHA_NAO_ATENDE_OS_REQUISITOS = "senha não atende os requisitos";
     public static final String SENHAS_INFORMADAS_NAO_CONFEREM = "Senhas Informadas não conferem";
+    public static final String PDF_SALVO = "PDF Salvo com sucesso na pasta Dowloads";
+    public static final String FALHA_AO_SALVAR_PDF = "Falha ao salvar PDF";
 
 }

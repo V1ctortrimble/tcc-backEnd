@@ -65,6 +65,9 @@ public class TravelPackageEntity implements Serializable {
     @Column(name = "REGISTRATION_DATE")
     private LocalDate registrationDate;
 
+    @Column(name = "ACCTIVE")
+    private Boolean active;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelPackage", cascade=CascadeType.ALL)
     private List<TravelContractEntity> travelContracts;
 
