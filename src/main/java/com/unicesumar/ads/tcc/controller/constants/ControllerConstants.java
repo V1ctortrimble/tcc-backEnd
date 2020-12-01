@@ -30,6 +30,7 @@ public class ControllerConstants {
      */
     public static final String VEICULO_VAZIO = "Nenhum veículo cadastrado encontrado";
     public static final String VEICULO_NAO_ENCONTRADO = "Veiculo não encontrado para alteração!!!";
+    public static final String NENHUM_TIPO_VEICULO_ENCONTRADO = "Nenhum tipo de veículo encontrado.";
 
     /**
     * Define VehicleController properties
