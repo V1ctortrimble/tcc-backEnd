@@ -39,7 +39,7 @@ public class HostingPutDTO {
     private Integer quantityPerson;
 
     @JsonProperty("features_hosting")
-    private Integer featuresHosting;
+    private String featuresHosting;
 
     private Boolean active;
 
