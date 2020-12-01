@@ -24,7 +24,7 @@ public class HostingPostDTO {
     private PersonPostDTO person;
 
     @JsonProperty("adress")
-    private AdressDTO adressDTO;
+    private AdressDTO adress;
 
     @JsonProperty("hosting_type")
     private HostingTypePutDTO hostingType;
