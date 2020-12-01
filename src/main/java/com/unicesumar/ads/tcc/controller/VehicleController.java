@@ -193,7 +193,7 @@ public class VehicleController {
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
-        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
+        throw new HttpNotFoundException(NENHUM_TIPO_VEICULO_ENCONTRADO);
     }
 
 }
