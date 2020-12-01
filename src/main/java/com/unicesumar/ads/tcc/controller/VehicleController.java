@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unicesumar.ads.tcc.converter.CompanyEntityConverter;
 import com.unicesumar.ads.tcc.converter.vehicle.*;
 import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
@@ -114,7 +115,6 @@ public class VehicleController {
             vehicle.setCompanyDTO(company);
             vehicle.setRntrc(dto.getRntrc());
             vehicle.setVehicleType(vehicleType);
-            vehicle.setIdVehicle(dto.getIdVehicle());
             vehicle.setActive(dto.getActive());
             vehicleService.PostVehicle(vehiclePutEntityConverter.toEntity(vehicle));
             return new ResponseEntity<>(dto, HttpStatus.OK);

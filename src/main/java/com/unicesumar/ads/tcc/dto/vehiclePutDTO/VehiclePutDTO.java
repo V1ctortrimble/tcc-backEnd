@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.dto.vehiclePutDTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
@@ -26,10 +27,10 @@ public class VehiclePutDTO {
     @JsonProperty("id_vehicle_type")
     private Integer idVehicleType;
 
-    @JsonProperty("company")
+    @JsonIgnore
     private CompanyDTO companyDTO;
 
-    @JsonProperty("vehicle_type")
+    @JsonIgnore
     private VehicleTypeDTO vehicleType;
 
     @JsonProperty("rntrc")
