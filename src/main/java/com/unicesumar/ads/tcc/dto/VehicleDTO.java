@@ -1,6 +1,7 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.dto.vehiclePutDTO.CompanyPutDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,13 +16,13 @@ import java.util.List;
 public class VehicleDTO {
 
     @JsonProperty("company")
-    private CompanyDTO companyDTO;
+    private CompanyPutDTO company;
 
     @JsonProperty("active")
     private Boolean active;
 
     @JsonProperty("vehicle_type")
-    private VehicleTypeDTO vehicleTypeDTO;
+    private VehicleTypeDTO vehicleType;
 
     @JsonProperty("rntrc")
     private String rntrc;

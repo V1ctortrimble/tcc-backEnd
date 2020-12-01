@@ -28,7 +28,7 @@ public class VehiclePutDTO {
     private Integer idVehicleType;
 
     @JsonIgnore
-    private CompanyDTO companyDTO;
+    private CompanyPutDTO company;
 
     @JsonIgnore
     private VehicleTypeDTO vehicleType;
