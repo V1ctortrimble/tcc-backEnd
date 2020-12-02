@@ -19,6 +19,9 @@ public class TravelPackageService {
     public List<TravelPackageEntity> getTravelPackage() {
         return travelPackageRepository.findAll();
     }
+    public TravelPackageEntity getTravelPackageById(Integer idTravelPackge) {
+        return travelPackageRepository.findByIdTravelPackge(idTravelPackge);
+    }
 
     public Page<TravelPackageEntity> getTravelPackageFilter(Integer idTravelPackge, Optional<String> nameTravelPackge,
                                                          Optional<String> originName,

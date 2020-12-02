@@ -3,9 +3,8 @@ package com.unicesumar.ads.tcc.controller;
 import com.unicesumar.ads.tcc.converter.TravelPackageEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.TravelPackageEntity;
 import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
-import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
+import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.TravelPackageService;
-import com.unicesumar.ads.tcc.util.PDFGenerator;
 import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.FALHA_AO_SALVAR_PDF;
-import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.PDF_SALVO;
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
 @Api(tags = {"visualization of Travel Package"})
 @RestController
@@ -48,7 +46,6 @@ public class TravelPackageController {
      * Utils
      */
     private final PaginatorUtil paginator;
-    private final PDFGenerator pdfGenerator;
 
     /**
      * GetsMapping
@@ -91,16 +88,28 @@ public class TravelPackageController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "URL to return PDF List of Passengers",
+    @ApiOperation(value = "URL to return by idtravelpackge travelpackage",
             authorizations = {@Authorization(value="jwtToken")})
-    @GetMapping(path = "/list/pdf")
-    public ResponseEntity<?> getListPdf() {
-        try {
-            pdfGenerator.createPdfReport(travelPackageEntityConverter.toDTOList(travelPackageService.getTravelPackage()));
-            return new ResponseEntity<>(PDF_SALVO, HttpStatus.OK);
-        } catch (final Exception e) {
-            e.printStackTrace();
-            throw new HttpBadRequestException(FALHA_AO_SALVAR_PDF);
+    @GetMapping(path = "/travelpackage/id")
+    public ResponseEntity<TravelPackageDTO> getTravelPackageById(@RequestParam(value = "idtravelpackge",
+                                                                                required = false)
+                                                                                Integer idTravelPackge) {
+        TravelPackageEntity entity = travelPackageService.getTravelPackageById(idTravelPackge);
+        if(entity != null) {
+            TravelPackageDTO dto = travelPackageEntityConverter.toDTO(entity);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
+        throw new HttpNotFoundException(NENHUM_PACOTE_DE_VIAGEM_LOCALIZADO);
     }
+
+    /**
+     * PostsMapping
+     */
+    //TODO:Fazer Post de TravelPackage
+
+
+    /**
+     * PutsMapping
+     */
+    //TODO:Fazer Put de TravelPackage
 }

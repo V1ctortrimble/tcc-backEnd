@@ -128,7 +128,7 @@ public class HostingController {
             return new ResponseEntity<>(dto, HttpStatus.OK);
             }
         throw new HttpBadRequestException(HOSTING_VAZIO);
-        }
+    }
 
 
     /**
