@@ -58,6 +58,7 @@ public class VehicleController {
     private final VehicleGetEntityConverter vehicleGetEntityConverter;
     private final VehicleTypeGetEntityConverter vehicleTypeGetEntityConverter;
     private final VehicleTypePutEntityConverter vehicleTypePutEntityConverter;
+    private final VehiclePostEntityConverter vehiclePostEntityConverter;
 
     /**
      * PostsMapping
@@ -78,14 +79,12 @@ public class VehicleController {
     public ResponseEntity<VehiclePostDTO> postVehicle(@Validated @RequestBody VehiclePostDTO dto)
     {
         if (dto != null){
-            CompanyPutDTO company = companyEntityConverter.toDTO(companyService.getCompanyByCnpj(dto.getCnpj()));
-            VehicleTypeDTO vehicleType = vehicleTypeEntityConverter.toDTO(vehicleService.getVehicleTypeById(dto.getIdVehicleType()));
-            VehicleDTO vehicle = new VehicleDTO();
-            vehicle.setCompany(company);
-            vehicle.setRntrc(dto.getRntrc());
-            vehicle.setVehicleType(vehicleType);
-            vehicle.setActive(true);
-            vehicleService.PostVehicle(vehicleEntityConverter.toEntity(vehicle));
+            VehicleEntity entity = new VehicleEntity();
+            entity.setCompany(companyService.getCompanyByCnpj(dto.getCnpj()));
+            entity.setVehicleType(vehicleService.getVehicleTypeById(dto.getIdVehicleType()));
+            entity.setActive(dto.getActive());
+            entity.setRntrc(dto.getRntrc());
+            vehicleService.PostVehicle(entity);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         throw new HttpBadRequestException(VEICULO_VAZIO);

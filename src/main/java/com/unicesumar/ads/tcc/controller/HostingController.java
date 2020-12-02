@@ -1,6 +1,8 @@
 package com.unicesumar.ads.tcc.controller;
 
+import com.unicesumar.ads.tcc.converter.AdressEntityConverter;
 import com.unicesumar.ads.tcc.converter.hosting.*;
+import com.unicesumar.ads.tcc.data.entity.AdressEntity;
 import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.data.entity.HostingTypeEntity;
 import com.unicesumar.ads.tcc.dto.hostingPostDTO.HostingPostDTO;
@@ -40,6 +42,7 @@ public class HostingController {
     private final PersonHostingEntityConverter personHostingEntityConverter;
     private final HostingTypePutEntityConverter hostingTypePutEntityConverter;
     private final HostingTypePostEntityConverter hostingTypePostEntityConverter;
+    private final AdressEntityConverter adressEntityConverter;
 
     /**
      * Services
@@ -56,8 +59,18 @@ public class HostingController {
 
         if (dto.getCnpj() != null){
             if (dto.getCnpj().length() == 14) {
-                dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCnpj(dto.getCnpj())));
-                hostingService.postHosting(hostingPostEntityConverter.toEntity(dto));
+                //dto.setPerson(personHostingEntityConverter.toDTO(personService.getPersonByCnpj(dto.getCnpj())));
+                //hostingPostEntityConverter.toEntity(dto);
+                HostingEntity entity = new HostingEntity();
+                entity.setActive(dto.getActive());
+                entity.setAdress(adressEntityConverter.toEntity(dto.getAdress()));
+                entity.setHostingType(hostingService.getHostingTypeById(dto.getHostingType().getIdHostingType()));
+                entity.setFeaturesHosting(dto.getFeaturesHosting());
+                entity.setPerson(personService.getPersonByCnpj(dto.getCnpj()));
+                entity.setQuantityPerson(dto.getQuantityPerson());
+                entity.setTourismRegis(dto.getTourismRegis());
+                hostingService.postHosting(entity);
+
                 return new ResponseEntity<>(dto, HttpStatus.OK);
             }
             throw new HttpBadRequestException(DOCUMENTO_INVALIDO);

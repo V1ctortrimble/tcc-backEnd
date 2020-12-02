@@ -24,6 +24,13 @@ public class HostingService {
     }
 
     /**
+     * Find Hosting By id
+     */
+    public HostingTypeEntity getHostingTypeById(Integer id){
+        return hostingTypeRepository.getOne(id);
+    }
+
+    /**
      * Find Hosting By cnpj
      */
     public List<HostingEntity> getAllHostingsByCnpj(String cnpj, Boolean active){
