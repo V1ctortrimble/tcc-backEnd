@@ -126,10 +126,13 @@ public class VehicleController {
      * GetsMapping
      */
     @ApiOperation(value = "URL to get vehicles activated", authorizations = {@Authorization(value="jwtToken") })
-    @GetMapping(path = "/vehicles")
-    public ResponseEntity<List<VehicleGetDTO>> getVehicle()
+    @GetMapping(path = "/vehicles/all")
+    public ResponseEntity<List<VehicleGetDTO>> getVehicle(@RequestParam(value = "active",
+                                                                        defaultValue = "true",
+                                                                        required = false)
+                                                                      Boolean active)
     {
-        List<VehicleGetDTO> dtos = vehicleGetEntityConverter.toDTOList(vehicleService.getAllVehicleByActive());
+        List<VehicleGetDTO> dtos = vehicleGetEntityConverter.toDTOList(vehicleService.getAllVehicleByActive(active));
         if (dtos.size() > 0){
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }

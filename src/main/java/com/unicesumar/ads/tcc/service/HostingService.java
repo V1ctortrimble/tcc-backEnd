@@ -23,6 +23,10 @@ public class HostingService {
         hostingRepository.save(entity);
     }
 
+    public List<HostingEntity> getAllHostings(Boolean active){
+        return hostingRepository.findAllByActive(active);
+    }
+
     /**
      * Find Hosting By cnpj
      */
