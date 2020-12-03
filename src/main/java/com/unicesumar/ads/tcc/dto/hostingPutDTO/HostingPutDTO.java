@@ -5,15 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.AdressDTO;
 import com.unicesumar.ads.tcc.dto.hostingPostDTO.PersonPostDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class HostingPutDTO {
 
     @JsonProperty("id_hosting")

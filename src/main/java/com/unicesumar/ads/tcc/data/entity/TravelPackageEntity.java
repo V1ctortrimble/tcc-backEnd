@@ -21,13 +21,13 @@ public class TravelPackageEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TRAVEL_PACKAGE")
-    private Integer idTravelPackge;
+    private Integer idTravelPackage;
 
     @Column(name = "NAME_TRAVEL_PACKAGE")
-    private String nameTravelPackge;
+    private String nameTravelPackage;
 
     @Column(name = "DESCR_TRAVEL_PACKAGE")
-    private String descrTravelPackge;
+    private String descrTravelPackage;
 
     @Column(name = "DESTINATION_NAME")
     private String destinationName;
@@ -65,19 +65,22 @@ public class TravelPackageEntity implements Serializable {
     @Column(name = "REGISTRATION_DATE")
     private LocalDate registrationDate;
 
+    @Column(name = "ACCTIVE")
+    private Boolean active;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "travelPackage", cascade=CascadeType.ALL)
     private List<TravelContractEntity> travelContracts;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "HOSTING_TRAVEL_PACKAGE", joinColumns =
-            {@JoinColumn( name = "ID_HOSTING")}, inverseJoinColumns =
-            {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )})
+            {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )},
+            inverseJoinColumns = {@JoinColumn( name = "ID_HOSTING")})
     private List<HostingEntity> hostings;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "VEHICLE_TRAVEL_PACKAGE", joinColumns =
-            {@JoinColumn( name = "ID_VEHICLE")}, inverseJoinColumns =
-            {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )})
+            {@JoinColumn(name = "ID_TRAVEL_PACKAGE" )}, inverseJoinColumns =
+            {@JoinColumn( name = "ID_VEHICLE")})
     private List<VehicleEntity> vehicles;
 
 }

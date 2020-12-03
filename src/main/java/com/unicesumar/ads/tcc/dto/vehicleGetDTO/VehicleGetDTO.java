@@ -2,15 +2,13 @@ package com.unicesumar.ads.tcc.dto.vehicleGetDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.CompanyDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class VehicleGetDTO {
 
     @JsonProperty("id_vehicle")

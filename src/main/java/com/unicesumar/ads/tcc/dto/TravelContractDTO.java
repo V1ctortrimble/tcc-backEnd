@@ -1,17 +1,15 @@
 package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -33,15 +31,15 @@ public class TravelContractDTO {
     private BigDecimal totalContractAmount;
 
     @JsonProperty("travel_Packge")
-    private TravelPackageDTO travelPackageDTO;
+    private TravelPackageDTO travelPackage;
 
     @JsonProperty("company")
-    private CompanyDTO companyDTO;
+    private CompanyDTO company;
 
     @JsonProperty("passenger_travel_contracts")
-    private List<PassengerTravelContractDTO> passengerTravelContractDTOS;
+    private List<PassengerTravelContractDTO> passengerTravelContracts;
 
     @JsonProperty("financials")
-    private List<FinancialDTO> financialDTOS;
+    private List<FinancialDTO> financials;
 
 }

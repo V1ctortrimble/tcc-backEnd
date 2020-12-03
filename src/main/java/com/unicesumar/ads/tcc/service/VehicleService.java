@@ -33,8 +33,8 @@ public class VehicleService {
     /**
      * Find all Vehicle By active
      */
-    public List<VehicleEntity> getAllVehicleByActive(){
-        return vehicleRepository.findAllByActive(true);
+    public List<VehicleEntity> getAllVehicleByActive(Boolean active){
+        return vehicleRepository.findAllByActive(active);
     }
 
     /**

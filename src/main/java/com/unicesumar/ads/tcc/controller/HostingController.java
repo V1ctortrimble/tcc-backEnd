@@ -115,6 +115,23 @@ public class HostingController {
     /**
      * GetsMapping
      */
+    @ApiOperation(value = "URL to hosting get by document ", authorizations = {@Authorization(value="jwtToken") })
+    @GetMapping(path = "/hosting/all")
+    public ResponseEntity<List<HostingPutDTO>> getAllBActive(@RequestParam(value = "active",
+                                                                        defaultValue = "true",
+                                                                        required = false)
+                                                                        Boolean active){
+        List<HostingEntity> entities = hostingService.getAllHostings(active);
+        if(entities.size() > 0){
+            List<HostingPutDTO> dtos = hostingPutEntityConverter.toDTOList(entities);
+            return  new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
+    }
+
+    /**
+     * GetsMapping
+     */
     @ApiOperation(value = "URL to hosting get by ID ", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/hosting/id")
     public ResponseEntity<HostingPutDTO> getById(@RequestParam(value = "id") Integer id){
@@ -129,6 +146,7 @@ public class HostingController {
         throw new HttpNotFoundException(NECESSARIO_ENVIAR_ID);
     }
 
+
     /**
      * PostsMapping
      */
@@ -141,7 +159,7 @@ public class HostingController {
             return new ResponseEntity<>(dto, HttpStatus.OK);
             }
         throw new HttpBadRequestException(HOSTING_VAZIO);
-        }
+    }
 
 
     /**
