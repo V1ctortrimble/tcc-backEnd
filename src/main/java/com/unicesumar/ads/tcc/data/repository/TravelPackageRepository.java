@@ -10,26 +10,26 @@ import java.util.Optional;
 
 @Repository
 public interface TravelPackageRepository extends JpaRepository<TravelPackageEntity, Integer> {
-    TravelPackageEntity findByIdTravelPackge(Integer idTravelPackge);
+    TravelPackageEntity findByIdTravelPackage(Integer idTravelPackage);
     Page<TravelPackageEntity> findAllByActive(Boolean active, Pageable pageable);
-    Page<TravelPackageEntity> findByIdTravelPackgeAndActive(Integer idTravelPackge,Boolean active, Pageable pageable);
-    Page<TravelPackageEntity> findByIdTravelPackgeAndNameTravelPackgeIgnoreCaseContainingAndActive(Integer idTravelPackge,
-                                                                                                 Optional<String> nameTravelPackge,
+    Page<TravelPackageEntity> findByIdTravelPackageAndActive(Integer idTravelPackage,Boolean active, Pageable pageable);
+    Page<TravelPackageEntity> findByIdTravelPackageAndNameTravelPackageIgnoreCaseContainingAndActive(Integer idTravelPackage,
+                                                                                                 Optional<String> nameTravelPackage,
                                                                                                  Boolean active,
                                                                                                  Pageable pageable);
-    Page<TravelPackageEntity> findByIdTravelPackgeAndDestinationNameIgnoreCaseContainingAndActive(Integer idTravelPackge,
+    Page<TravelPackageEntity> findByIdTravelPackageAndDestinationNameIgnoreCaseContainingAndActive(Integer idTravelPackage,
                                                                                                   Optional<String> destinationName,
                                                                                                   Boolean active,
                                                                                                   Pageable pageable);
-    Page<TravelPackageEntity> findByNameTravelPackgeIgnoreCaseContainingAndDestinationNameIgnoreCaseContainingAndActive(Optional<String> nameTravelPackge,
+    Page<TravelPackageEntity> findByNameTravelPackageIgnoreCaseContainingAndDestinationNameIgnoreCaseContainingAndActive(Optional<String> nameTravelPackage,
                                                                                                                         Optional<String> destinationName,
                                                                                                                         Boolean active,
                                                                                                                         Pageable pageable);
-    Page<TravelPackageEntity> findByNameTravelPackgeIgnoreCaseContainingAndOriginNameIgnoreCaseContainingAndActive(Optional<String> nameTravelPackge,
+    Page<TravelPackageEntity> findByNameTravelPackageIgnoreCaseContainingAndOriginNameIgnoreCaseContainingAndActive(Optional<String> nameTravelPackage,
                                                                                                                    Optional<String> originName,
                                                                                                                    Boolean active,
                                                                                                                    Pageable pageable);
-    Page<TravelPackageEntity> findByNameTravelPackgeIgnoreCaseContainingAndActive(Optional<String> nameTravelPackge,
+    Page<TravelPackageEntity> findByNameTravelPackageIgnoreCaseContainingAndActive(Optional<String> nameTravelPackage,
                                                                                   Boolean active,
                                                                                   Pageable pageable);
     Page<TravelPackageEntity> findByDestinationNameIgnoreCaseContainingAndOriginNameIgnoreCaseContainingAndActive(Optional<String> destinationName,

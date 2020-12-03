@@ -16,52 +16,57 @@ public class TravelPackageService {
 
     private final TravelPackageRepository travelPackageRepository;
 
+    public void postTravelPackage(TravelPackageEntity entity){
+        travelPackageRepository.save(entity);
+    }
+
     public List<TravelPackageEntity> getTravelPackage() {
         return travelPackageRepository.findAll();
     }
-    public TravelPackageEntity getTravelPackageById(Integer idTravelPackge) {
-        return travelPackageRepository.findByIdTravelPackge(idTravelPackge);
+
+    public TravelPackageEntity getTravelPackageById(Integer idTravelPackage) {
+        return travelPackageRepository.findByIdTravelPackage(idTravelPackage);
     }
 
-    public Page<TravelPackageEntity> getTravelPackageFilter(Integer idTravelPackge, Optional<String> nameTravelPackge,
+    public Page<TravelPackageEntity> getTravelPackageFilter(Integer idTravelPackage, Optional<String> nameTravelPackage,
                                                          Optional<String> originName,
                                                          Optional<String> destinationName,
                                                          Boolean active,
                                                          Pageable pageable) {
 
-        nameTravelPackge = validationTravelNameIsEmpty(nameTravelPackge);
+        nameTravelPackage = validationTravelNameIsEmpty(nameTravelPackage);
         originName = validationOriginNameIsEmpty(originName);
         destinationName = validationDestinationNameIsEmpty(destinationName);
-        return getIndividualByFilters(idTravelPackge, nameTravelPackge, originName, destinationName, active, pageable);
+        return getIndividualByFilters(idTravelPackage, nameTravelPackage, originName, destinationName, active, pageable);
     }
 
 
     /**
      * Select find according to parameters passed in the URL
      */
-    private Page<TravelPackageEntity> getIndividualByFilters(Integer idTravelPackge, Optional<String> nameTravelPackge,
+    private Page<TravelPackageEntity> getIndividualByFilters(Integer idTravelPackge, Optional<String> nameTravelPackage,
                                                           Optional<String> originName,
                                                           Optional<String> destinationName,
                                                           Boolean active,
                                                           Pageable pageable) {
-        if(idTravelPackge!=null && nameTravelPackge.isPresent()) {
-            return travelPackageRepository.findByIdTravelPackgeAndNameTravelPackgeIgnoreCaseContainingAndActive(idTravelPackge, nameTravelPackge, active, pageable);
+        if(idTravelPackge!=null && nameTravelPackage.isPresent()) {
+            return travelPackageRepository.findByIdTravelPackageAndNameTravelPackageIgnoreCaseContainingAndActive(idTravelPackge, nameTravelPackage, active, pageable);
         }
         if(idTravelPackge!=null  && destinationName.isPresent()) {
-            return travelPackageRepository.findByIdTravelPackgeAndDestinationNameIgnoreCaseContainingAndActive(idTravelPackge, destinationName, active, pageable);
+            return travelPackageRepository.findByIdTravelPackageAndDestinationNameIgnoreCaseContainingAndActive(idTravelPackge, destinationName, active, pageable);
         }
         if(idTravelPackge!=null ) {
-            return travelPackageRepository.findByIdTravelPackgeAndActive(idTravelPackge, active, pageable);
+            return travelPackageRepository.findByIdTravelPackageAndActive(idTravelPackge, active, pageable);
         }
-        if (nameTravelPackge.isPresent() && destinationName.isPresent()) {
-            return travelPackageRepository.findByNameTravelPackgeIgnoreCaseContainingAndDestinationNameIgnoreCaseContainingAndActive(nameTravelPackge,
+        if (nameTravelPackage.isPresent() && destinationName.isPresent()) {
+            return travelPackageRepository.findByNameTravelPackageIgnoreCaseContainingAndDestinationNameIgnoreCaseContainingAndActive(nameTravelPackage,
                     destinationName, active, pageable);
         }
-        if (nameTravelPackge.isPresent() && originName.isPresent()){
-            return travelPackageRepository.findByNameTravelPackgeIgnoreCaseContainingAndOriginNameIgnoreCaseContainingAndActive(nameTravelPackge, originName, active, pageable);
+        if (nameTravelPackage.isPresent() && originName.isPresent()){
+            return travelPackageRepository.findByNameTravelPackageIgnoreCaseContainingAndOriginNameIgnoreCaseContainingAndActive(nameTravelPackage, originName, active, pageable);
         }
-        if (nameTravelPackge.isPresent()){
-            return travelPackageRepository.findByNameTravelPackgeIgnoreCaseContainingAndActive(nameTravelPackge, active, pageable);
+        if (nameTravelPackage.isPresent()){
+            return travelPackageRepository.findByNameTravelPackageIgnoreCaseContainingAndActive(nameTravelPackage, active, pageable);
         }
         if (destinationName.isPresent() && originName.isPresent()) {
             return travelPackageRepository.findByDestinationNameIgnoreCaseContainingAndOriginNameIgnoreCaseContainingAndActive(destinationName,originName, active, pageable);

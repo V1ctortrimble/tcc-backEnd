@@ -1,8 +1,8 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.travelPackagePostDTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingPutDTO;
 import com.unicesumar.ads.tcc.dto.vehicleGetDTO.VehicleGetDTO;
 import lombok.*;
@@ -17,15 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TravelPackageDTO {
-
-    @JsonProperty("id_travel_package")
-    private Integer idTravelPackage;
+public class TravelPackagePostDTO {
 
     @JsonProperty("name_travel_package")
     private String nameTravelPackage;
 
-    @JsonProperty("descr_travel_package")
+    @JsonProperty("desc_travel_package")
     private String descTravelPackage;
 
     @JsonProperty("destination_name")
@@ -66,19 +63,20 @@ public class TravelPackageDTO {
 
     private Boolean active;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("hostings")
     private List<Integer> IdsHost;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("vehicles")
     private List<Integer> IdsVehi;
 
 //    @JsonProperty("travel_contracts")
-//    private List<TravelContractDTO> travelContracts;
+//    private List<TravelContractDTO> travelContractDTOS;
 
     @JsonIgnore
     private List<HostingPutDTO> hostings;
     @JsonIgnore
     private List<VehicleGetDTO> vehicles;
-
 
 }
