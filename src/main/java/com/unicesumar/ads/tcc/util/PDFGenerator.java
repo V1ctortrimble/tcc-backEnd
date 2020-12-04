@@ -1,6 +1,7 @@
 package com.unicesumar.ads.tcc.util;
 
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.dto.IndividualListPdfDTO;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -29,7 +30,7 @@ public class PDFGenerator {
     /**
      * Method to generate a PDF and open
      */
-    public void createPdfReport(final List<IndividualDTO> passengers) throws JRException, IOException {
+    public void createPdfReport(final List<IndividualListPdfDTO> passengers) throws JRException, IOException {
         UUID code = createCode();
         final InputStream stream = this.getClass().getResourceAsStream("/report.jrxml");
         final JasperReport report = JasperCompileManager.compileReport(stream);

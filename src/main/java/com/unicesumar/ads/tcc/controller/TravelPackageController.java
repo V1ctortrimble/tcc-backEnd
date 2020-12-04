@@ -10,6 +10,7 @@ import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.data.entity.TravelPackageEntity;
 import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
 import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.dto.IndividualListPdfDTO;
 import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
 import com.unicesumar.ads.tcc.dto.listPassengerPdfDTO.TravelPackagePdfListDTO;
 import com.unicesumar.ads.tcc.dto.travelPackagePostDTO.TravelPackageGetDTO;
@@ -130,12 +131,12 @@ public class TravelPackageController {
     public ResponseEntity<?> getListPdf(@RequestParam(value = "idtravelpackge")
                                                 Integer idTravelPackge) {
         TravelPackageEntity entity = travelPackageService.getTravelPackageById(idTravelPackge);
-        List<IndividualDTO> passengerList = new ArrayList<>();
+        List<IndividualListPdfDTO> passengerList = new ArrayList<>();
         String nameTravelPackage;
         if (entity != null) {
             TravelPackagePdfListDTO dto = travelPackagePdfListConverter.toDTO(entity);
             for (int i = 0; i < dto.getTravelContracts().size(); i++) {
-                IndividualDTO passenger = dto.getTravelContracts().get(i).getPassengerTravelContracts()
+                IndividualListPdfDTO passenger = dto.getTravelContracts().get(i).getPassengerTravelContracts()
                         .get(0).getIndividual();
                 nameTravelPackage = dto.getNameTravelPackage();
                 dto.getTravelContracts().get(i).getPassengerTravelContracts().get(0).getIndividual()

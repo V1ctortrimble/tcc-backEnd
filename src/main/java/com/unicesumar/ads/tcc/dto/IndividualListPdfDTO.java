@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IndividualDTO {
+public class IndividualListPdfDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("id_individual")
@@ -37,4 +37,7 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("id_individual")
+    private String nameTravelPackage;
 }
