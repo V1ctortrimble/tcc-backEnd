@@ -5,10 +5,12 @@ import com.unicesumar.ads.tcc.converter.hosting.*;
 import com.unicesumar.ads.tcc.data.entity.AdressEntity;
 import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.data.entity.HostingTypeEntity;
+import com.unicesumar.ads.tcc.dto.hostingGetDTO.HostingGetDTO;
 import com.unicesumar.ads.tcc.dto.hostingPostDTO.HostingPostDTO;
 import com.unicesumar.ads.tcc.dto.hostingPostDTO.HostingTypePostDTO;
 import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingPutDTO;
 import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingTypePutDTO;
+import com.unicesumar.ads.tcc.dto.vehicleGetDTO.CompanyGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.HostingService;
@@ -41,6 +43,7 @@ public class HostingController {
     private final HostingPutEntityConverter hostingPutEntityConverter;
     private final PersonHostingEntityConverter personHostingEntityConverter;
     private final HostingTypePutEntityConverter hostingTypePutEntityConverter;
+    private final HostingGetEntityConverter hostingGetEntityConverter;
     private final HostingTypePostEntityConverter hostingTypePostEntityConverter;
     private final AdressEntityConverter adressEntityConverter;
 
@@ -117,13 +120,16 @@ public class HostingController {
      */
     @ApiOperation(value = "URL to hosting get by document ", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/hosting/all")
-    public ResponseEntity<List<HostingPutDTO>> getAllBActive(@RequestParam(value = "active",
+    public ResponseEntity<List<HostingGetDTO>> getAllBActive(@RequestParam(value = "active",
                                                                         defaultValue = "true",
                                                                         required = false)
                                                                         Boolean active){
         List<HostingEntity> entities = hostingService.getAllHostings(active);
         if(entities.size() > 0){
-            List<HostingPutDTO> dtos = hostingPutEntityConverter.toDTOList(entities);
+            List<HostingGetDTO> dtos = hostingGetEntityConverter.toDTOList(entities);
+            for (HostingGetDTO dto : dtos){
+                dto.setCompany(dto.getPerson().getCompany());
+            }
             return  new ResponseEntity<>(dtos, HttpStatus.OK);
         }
         throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
