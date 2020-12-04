@@ -1,6 +1,6 @@
 package com.unicesumar.ads.tcc.util;
 
-import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
+import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -18,16 +18,22 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PDFGenerator {
 
+    /**
+     * Method to create a random code to concatenate the file name
+     */
     private UUID createCode(){
         UUID uuid = UUID.randomUUID();
         return uuid;
     }
 
-    public void createPdfReport(final List<TravelPackageDTO> employees) throws JRException, IOException {
+    /**
+     * Method to generate a PDF and open
+     */
+    public void createPdfReport(final List<IndividualDTO> passengers) throws JRException, IOException {
         UUID code = createCode();
         final InputStream stream = this.getClass().getResourceAsStream("/report.jrxml");
         final JasperReport report = JasperCompileManager.compileReport(stream);
-        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(employees);
+        final JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(passengers);
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Squad Go Horse");
         final JasperPrint print = JasperFillManager.fillReport(report, parameters, source);
