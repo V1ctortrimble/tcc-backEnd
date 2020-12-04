@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface TravelPackageRepository extends JpaRepository<TravelPackageEntity, Integer> {
+
     TravelPackageEntity findByIdTravelPackage(Integer idTravelPackage);
     Page<TravelPackageEntity> findAllByActive(Boolean active, Pageable pageable);
     Page<TravelPackageEntity> findByIdTravelPackageAndActive(Integer idTravelPackage,Boolean active, Pageable pageable);

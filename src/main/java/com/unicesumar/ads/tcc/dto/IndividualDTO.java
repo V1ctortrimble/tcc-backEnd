@@ -2,15 +2,12 @@ package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.data.entity.PassengerTravelContractEntity;
-import com.unicesumar.ads.tcc.data.entity.PersonEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -40,11 +37,8 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-
-//    @JsonProperty("company_partners")
-//    private CompanyPartnerDTO companyPartners;
-//
-//    @JsonProperty("passenger_travel_contracts")
-//    private PassengerTravelContractDTO passengerTravelContracts;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("id_individual")
+    private String nameTravelPackage;
 
 }
