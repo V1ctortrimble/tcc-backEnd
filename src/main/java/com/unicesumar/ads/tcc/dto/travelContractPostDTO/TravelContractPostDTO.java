@@ -28,6 +28,9 @@ public class TravelContractPostDTO {
     @JsonProperty("boarding_location")
     private String boardingLocation;
 
+    @JsonProperty("landingLocation")
+    private String landingLocation;
+
     @JsonProperty("boarding_time")
     private LocalTime boardingTime;
 

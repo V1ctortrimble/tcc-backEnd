@@ -35,6 +35,9 @@ public class TravelContractEntity implements Serializable {
     @Column(name = "BOARDING_LOCATION")
     private String boardingLocation;
 
+    @Column(name = "LANDING_LOCATION")
+    private String landingLocation;
+
     @Column(name = "BOARDING_TIME")
     private LocalTime boardingTime;
 

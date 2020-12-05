@@ -81,6 +81,7 @@ public class TravelContractController {
                 entity.setBoardingTime(dto.getBoardingTime());
                 entity.setIssueDate(dto.getIssueDate());
                 entity.setTotalContractAmount(dto.getTotalContractAmount());
+                entity.setLandingLocation(dto.getLandingLocation());
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(entity);
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
                 if (dto.getPassengerTravelContracts() != null) {
