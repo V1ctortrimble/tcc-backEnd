@@ -3,13 +3,16 @@ package com.unicesumar.ads.tcc.controller;
 import com.unicesumar.ads.tcc.converter.TravelPackageEntityConverter;
 import com.unicesumar.ads.tcc.converter.hosting.HostingPutEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelPackage.TravelPackageGetEntityConverter;
+import com.unicesumar.ads.tcc.converter.travelPackage.TravelPackagePdfListConverter;
 import com.unicesumar.ads.tcc.converter.travelPackage.TravelPackagePostEntityConverter;
 import com.unicesumar.ads.tcc.converter.vehicle.VehicleGetEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.data.entity.TravelPackageEntity;
 import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
+import com.unicesumar.ads.tcc.dto.IndividualDTO;
+import com.unicesumar.ads.tcc.dto.IndividualListPdfDTO;
 import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
-import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingPutDTO;
+import com.unicesumar.ads.tcc.dto.listPassengerPdfDTO.TravelPackagePdfListDTO;
 import com.unicesumar.ads.tcc.dto.travelPackagePostDTO.TravelPackageGetDTO;
 import com.unicesumar.ads.tcc.dto.travelPackagePostDTO.TravelPackagePostDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
@@ -17,6 +20,7 @@ import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.HostingService;
 import com.unicesumar.ads.tcc.service.TravelPackageService;
 import com.unicesumar.ads.tcc.service.VehicleService;
+import com.unicesumar.ads.tcc.util.PDFGenerator;
 import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +46,7 @@ import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 //@PreAuthorize("hasRole('ADMIN')")
 public class TravelPackageController {
 
+
     /**
      * Services
      */
@@ -57,11 +62,13 @@ public class TravelPackageController {
     private final TravelPackageGetEntityConverter travelPackageGetEntityConverter;
     private final HostingPutEntityConverter hostingPutEntityConverter;
     private final VehicleGetEntityConverter vehicleGetEntityConverter;
+    private final TravelPackagePdfListConverter travelPackagePdfListConverter;
 
     /**
      * Utils
      */
     private final PaginatorUtil paginator;
+    private final PDFGenerator pdfGenerator;
 
     /**
      * GetsMapping
@@ -114,6 +121,38 @@ public class TravelPackageController {
         if(entity != null) {
             TravelPackageGetDTO dto = travelPackageGetEntityConverter.toDTO(entity);
             return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(NENHUM_PACOTE_DE_VIAGEM_LOCALIZADO);
+    }
+
+    @ApiOperation(value = "URL to return PDF List of Passengers",
+            authorizations = {@Authorization(value="jwtToken")})
+    @GetMapping(path = "/list/pdf")
+    public ResponseEntity<?> getListPdf(@RequestParam(value = "idtravelpackge")
+                                                Integer idTravelPackge) {
+        TravelPackageEntity entity = travelPackageService.getTravelPackageById(idTravelPackge);
+        List<IndividualListPdfDTO> passengerList = new ArrayList<>();
+        String nameTravelPackage;
+        if (entity != null) {
+            TravelPackagePdfListDTO dto = travelPackagePdfListConverter.toDTO(entity);
+            for (int i = 0; i < dto.getTravelContracts().size(); i++) {
+                IndividualListPdfDTO passenger = dto.getTravelContracts().get(i).getPassengerTravelContracts()
+                        .get(0).getIndividual();
+                nameTravelPackage = dto.getNameTravelPackage();
+                dto.getTravelContracts().get(i).getPassengerTravelContracts().get(0).getIndividual()
+                        .setNameTravelPackage(nameTravelPackage);
+                passengerList.add(passenger);
+            }
+            if (passengerList.size() == 0) {
+                throw new HttpNotFoundException(NENHUM_PASSAGEIRO_PARA_ESSA_VIAGEM);
+            }
+            try {
+                pdfGenerator.createPdfReport(passengerList);
+                return new ResponseEntity<>(PDF_SALVO, HttpStatus.OK);
+            } catch (final Exception e) {
+                e.printStackTrace();
+                throw new HttpBadRequestException(FALHA_AO_SALVAR_PDF);
+            }
         }
         throw new HttpNotFoundException(NENHUM_PACOTE_DE_VIAGEM_LOCALIZADO);
     }
@@ -187,5 +226,4 @@ public class TravelPackageController {
         }
         throw new HttpBadRequestException(NENHUM_PACOTE_DE_VIAGEM_LOCALIZADO);
     }
-
 }

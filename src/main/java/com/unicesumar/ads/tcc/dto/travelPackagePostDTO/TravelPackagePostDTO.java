@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingPutDTO;
+import com.unicesumar.ads.tcc.dto.listPassengerPdfDTO.TravelContractPdfListDTO;
 import com.unicesumar.ads.tcc.dto.vehicleGetDTO.VehicleGetDTO;
 import lombok.*;
 
@@ -71,8 +72,8 @@ public class TravelPackagePostDTO {
     @JsonProperty("vehicles")
     private List<Integer> IdsVehi;
 
-//    @JsonProperty("travel_contracts")
-//    private List<TravelContractDTO> travelContractDTOS;
+    @JsonProperty("travel_contracts")
+    private List<TravelContractPdfListDTO> travelContracts;
 
     @JsonIgnore
     private List<HostingPutDTO> hostings;
