@@ -15,6 +15,10 @@ public class IndividualService {
 
     private final IndividualRepository individualRepository;
 
+    public IndividualEntity getIndividualById(Integer id){
+        return individualRepository.findIndividualByIdIndividual(id);
+    }
+
     /**
      * Find All Individuals
      */

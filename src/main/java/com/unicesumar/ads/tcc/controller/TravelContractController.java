@@ -1,0 +1,148 @@
+package com.unicesumar.ads.tcc.controller;
+
+import com.sun.mail.iap.Response;
+import com.unicesumar.ads.tcc.converter.TravelPackageEntityConverter;
+import com.unicesumar.ads.tcc.converter.travelContract.PassengerTravelContractPostEntityConverter;
+import com.unicesumar.ads.tcc.converter.travelContract.TravelContractPostEntityConverter;
+import com.unicesumar.ads.tcc.converter.vehicle.CompanyPutEntityConverter;
+import com.unicesumar.ads.tcc.data.entity.*;
+import com.unicesumar.ads.tcc.dto.TravelContractDTO;
+import com.unicesumar.ads.tcc.dto.travelContractPostDTO.PassengerTravelContractPostDTO;
+import com.unicesumar.ads.tcc.dto.travelContractPostDTO.TravelContractPostDTO;
+import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
+import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
+import com.unicesumar.ads.tcc.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+
+import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
+
+@Api(tags = {"visualization of Travel Contract"})
+@RestController
+@RequestMapping(value = "api")
+@RequiredArgsConstructor
+//@PreAuthorize("hasRole('ADMIN')")
+public class TravelContractController {
+
+    private final TravelContractPostEntityConverter travelContractPostEntityConverter;
+    private final CompanyPutEntityConverter companyPutEntityConverter;
+    private final TravelPackageEntityConverter travelPackageEntityConverter;
+    private final PassengerTravelContractPostEntityConverter passengerTravelContractPostEntityConverter;
+
+    private final CompanyService companyService;
+    private final TravelPackageService travelPackageService;
+    private final TravelContractService travelContractService;
+    private final PassengerTravelContractService passengerTravelContractService;
+    private final IndividualService individualService;
+
+    /**
+     * PostsMapping
+     */
+    @ApiOperation(value = "URL to add travel contract", authorizations = {@Authorization(value="jwtToken")})
+    @PostMapping(path = "/travelcontract")
+    public ResponseEntity<TravelContractPostDTO> postTravelContract(@Validated @RequestBody TravelContractPostDTO dto){
+        try {
+            if (dto != null){
+                TravelContractEntity entity = new TravelContractEntity();
+                if (dto.getIdCompany() != null){
+                    CompanyEntity company = companyService.getCompanyById(dto.getIdCompany());
+                    if (company != null){
+                        entity.setCompany(company);
+                    }
+                    else {
+                        throw new HttpNotFoundException(NENHUMA_EMPRESA_LOCALIZADA);
+                    }
+                }
+                if (dto.getIdTravelPackage() != null){
+                    TravelPackageEntity travelPackage = travelPackageService.getTravelPackageById(dto.getIdTravelPackage());
+                    if (travelPackage != null){
+                        entity.setTravelPackage(travelPackage);
+                    }
+                    else{
+                        throw new HttpNotFoundException(NENHUM_PACOTEVIAGEM_ENCONTRADO);
+                    }
+                }
+                entity.setBoardingLocation(dto.getBoardingLocation());
+                entity.setBoardingTime(dto.getBoardingTime());
+                entity.setIssueDate(dto.getIssueDate());
+                entity.setTotalContractAmount(dto.getTotalContractAmount());
+                TravelContractEntity entityRetorno = travelContractService.postTravelContract(entity);
+                entityRetorno.setPassengerTravelContracts(new ArrayList<>());
+                if (dto.getPassengerTravelContracts().get(0) != null){
+                    for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
+                        IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
+                        PassengerTravelContractEntity entityPassenger = new PassengerTravelContractEntity();
+                        entityPassenger.setContractedPassenger(passenger.getContractedPassenger());
+                        entityPassenger.setIndividual(individualEntity);
+                        entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
+                        entityPassenger.setTravelContract(entityRetorno);
+                        entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
+                    }
+                }
+                dto = travelContractPostEntityConverter.toDTO(entityRetorno);
+            }
+        }
+        catch (Exception e){
+            throw new HttpBadRequestException(NENHUM_CONTRATOVIAGEM_ENVIADO);
+        }
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    /**
+     * PutMapping
+     */
+    @ApiOperation(value = "URL to update travel contract", authorizations = {@Authorization(value="jwtToken")})
+    @PutMapping(path = "/travelcontract")
+    public ResponseEntity<TravelContractPostDTO> putTravelContract(@Validated @RequestBody TravelContractPostDTO dto){
+        try{
+            if (dto != null){
+                TravelContractEntity entity = new TravelContractEntity();
+                if (dto.getIdCompany() != null){
+                    CompanyEntity company = companyService.getCompanyById(dto.getIdCompany());
+                    if (company != null){
+                        dto.setCompany(companyPutEntityConverter.toDTO(company));
+                    }
+                    else {
+                        throw new HttpNotFoundException(NENHUMA_EMPRESA_LOCALIZADA);
+                    }
+                }
+                if (dto.getIdTravelPackage() != null){
+                    TravelPackageEntity travelPackage = travelPackageService.getTravelPackageById(dto.getIdTravelPackage());
+                    if (travelPackage != null){
+                        dto.setTravelPackage(travelPackageEntityConverter.toDTO(travelPackage));
+                    }
+                    else{
+                        throw new HttpNotFoundException(NENHUM_PACOTEVIAGEM_ENCONTRADO);
+                    }
+                }
+                TravelContractEntity entityRetorno = travelContractService.postTravelContract(travelContractPostEntityConverter.toEntity(dto));
+                entityRetorno.setPassengerTravelContracts(new ArrayList<>());
+                if (dto.getPassengerTravelContracts().get(0) != null){
+                    for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
+                        IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
+                        PassengerTravelContractEntity entityPassenger = passengerTravelContractService.getById(passenger.getIdPassengerTravelContract());
+                        entityPassenger.setContractedPassenger(passenger.getContractedPassenger());
+                        entityPassenger.setIndividual(individualEntity);
+                        entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
+                        entityPassenger.setTravelContract(entityRetorno);
+                        entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
+                    }
+                }
+                dto = travelContractPostEntityConverter.toDTO(entityRetorno);
+            }
+        }
+        catch (Exception e){
+            throw new HttpBadRequestException("Ocorreu um problema ao atualizar");
+        }
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+}

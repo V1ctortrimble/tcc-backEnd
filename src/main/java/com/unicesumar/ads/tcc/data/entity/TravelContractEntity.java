@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -38,7 +39,7 @@ public class TravelContractEntity implements Serializable {
     private LocalTime boardingTime;
 
     @Column(name = "ISSUE_DATE")
-    private LocalDateTime issueDate;
+    private LocalDate issueDate;
 
     @Column(name = "TOTAL_CONTRACT_AMOUNT")
     private BigDecimal totalContractAmount;

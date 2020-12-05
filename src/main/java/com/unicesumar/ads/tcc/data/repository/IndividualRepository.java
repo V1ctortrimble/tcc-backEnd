@@ -33,4 +33,6 @@ public interface IndividualRepository extends PagingAndSortingRepository<Individ
                                                                              Optional<String> lastName, Boolean active,
                                                                              Pageable pageable);
 
+    IndividualEntity findIndividualByIdIndividual(Integer idIndividual);
+
 }

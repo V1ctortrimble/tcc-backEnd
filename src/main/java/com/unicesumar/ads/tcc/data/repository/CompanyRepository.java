@@ -36,4 +36,6 @@ public interface CompanyRepository extends PagingAndSortingRepository<CompanyEnt
                                                                                Pageable pageable);
 
     CompanyEntity findByCnpj(String cnpj);
+
+    CompanyEntity findCompanyByIdCompany(Integer idCompany);
 }

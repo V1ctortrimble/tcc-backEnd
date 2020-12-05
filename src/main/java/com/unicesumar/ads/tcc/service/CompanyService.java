@@ -31,6 +31,8 @@ public class CompanyService {
         return  companyRepository.findByCnpj(cnpj);
     }
 
+    public CompanyEntity getCompanyById(Integer id) { return companyRepository.findCompanyByIdCompany(id); }
+
     /**
      * Find Persons by  cpf, name, last name or birth date
      */
