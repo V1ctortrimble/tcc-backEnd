@@ -140,11 +140,12 @@ public class HostingController {
      */
     @ApiOperation(value = "URL to hosting get by ID ", authorizations = {@Authorization(value="jwtToken") })
     @GetMapping(path = "/hosting/id")
-    public ResponseEntity<HostingPutDTO> getById(@RequestParam(value = "id") Integer id){
+    public ResponseEntity<HostingGetDTO> getById(@RequestParam(value = "id") Integer id){
         if(id != null){
             HostingEntity entity = hostingService.getHostingById(id);
             if( entity != null ){
-                HostingPutDTO dto = hostingPutEntityConverter.toDTO(entity);
+                HostingGetDTO dto = hostingGetEntityConverter.toDTO(entity);
+                dto.setCompany(dto.getPerson().getCompany());
                 return  new ResponseEntity<>(dto, HttpStatus.OK);
             }
             throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
