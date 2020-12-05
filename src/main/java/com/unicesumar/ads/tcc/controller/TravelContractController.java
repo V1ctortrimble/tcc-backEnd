@@ -83,7 +83,13 @@ public class TravelContractController {
                 entity.setTotalContractAmount(dto.getTotalContractAmount());
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(entity);
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
-                dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                if (dto.getPassengerTravelContracts() != null) {
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
+                else{
+                    dto.setPassengerTravelContracts(new ArrayList<>());
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
                         IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
@@ -143,7 +149,13 @@ public class TravelContractController {
                 dto.setIdTravelContract(id);
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(travelContractPostEntityConverter.toEntity(dto));
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
-                dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                if (dto.getPassengerTravelContracts() != null) {
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
+                else{
+                    dto.setPassengerTravelContracts(new ArrayList<>());
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
                         IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
