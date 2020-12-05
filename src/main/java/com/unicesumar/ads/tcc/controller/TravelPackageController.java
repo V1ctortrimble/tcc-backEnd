@@ -166,7 +166,7 @@ public class TravelPackageController {
         if (dto != null){
             dto.setHostings(new ArrayList<>());
             dto.setVehicles(new ArrayList<>());
-            if (dto.getIdsHost() != null){
+            if (dto.getIdsHost().get(0) != null){
                 for  (Integer id : dto.getIdsHost() ){
                     HostingEntity hosting = hostingService.getHostingById(id);
                     if (hosting != null) {
@@ -178,7 +178,7 @@ public class TravelPackageController {
                     }
                 }
             }
-            if (dto.getIdsVehi() != null){
+            if (dto.getIdsVehi().get(0) != null){
                 for  (Integer id : dto.getIdsVehi() ){
                     VehicleEntity vehicle = vehicleService.getVehicleById(id);
                     if (vehicle != null){
