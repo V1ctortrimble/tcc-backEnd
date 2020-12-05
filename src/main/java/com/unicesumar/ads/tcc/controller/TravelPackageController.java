@@ -128,7 +128,7 @@ public class TravelPackageController {
     @ApiOperation(value = "URL to return PDF List of Passengers",
             authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/list/pdf")
-    public ResponseEntity<?> getListPdf(@RequestParam(value = "idtravelpackge")
+    public ResponseEntity<?> getListPdf(@RequestParam(value = "idtravelpackage")
                                                 Integer idTravelPackge) {
         TravelPackageEntity entity = travelPackageService.getTravelPackageById(idTravelPackge);
         List<IndividualListPdfDTO> passengerList = new ArrayList<>();
