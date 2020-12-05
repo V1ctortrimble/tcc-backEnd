@@ -166,11 +166,10 @@ public class TravelPackageController {
         if (dto != null){
             dto.setHostings(new ArrayList<>());
             dto.setVehicles(new ArrayList<>());
-            if (dto.getIdsHost() != null){
-                for  (Integer id : dto.getIdsHost() ){
+            if (dto.getIdsHost().get(0) != null){
+                for (Integer id : dto.getIdsHost() ){
                     HostingEntity hosting = hostingService.getHostingById(id);
                     if (hosting != null) {
-
                         dto.getHostings().add(hostingPutEntityConverter.toDTO(hosting));
                     }
                     else{
@@ -178,11 +177,10 @@ public class TravelPackageController {
                     }
                 }
             }
-            if (dto.getIdsVehi() != null){
-                for  (Integer id : dto.getIdsVehi() ){
+            if (dto.getIdsVehi().get(0) != null){
+                for (Integer id : dto.getIdsVehi() ){
                     VehicleEntity vehicle = vehicleService.getVehicleById(id);
                     if (vehicle != null){
-
                         dto.getVehicles().add(vehicleGetEntityConverter.toDTO(vehicle));
                     }
                     else{
@@ -201,28 +199,28 @@ public class TravelPackageController {
      */
     @ApiOperation(value = "URL to update travel package", authorizations = {@Authorization(value="jwtToken")})
     @PutMapping(path = "/travelpackage")
-    public ResponseEntity<TravelPackageDTO> postTravelPackage(@Validated @RequestBody TravelPackageDTO dto){
+    public ResponseEntity<TravelPackageDTO> putTravelPackage(@Validated @RequestBody TravelPackageDTO dto){
         if (dto != null){
             dto.setHostings(new ArrayList<>());
             dto.setVehicles(new ArrayList<>());
-            for  (Integer id : dto.getIdsHost() ){
-                HostingEntity hosting = hostingService.getHostingById(id);
-                if (hosting != null) {
-
-                    dto.getHostings().add(hostingPutEntityConverter.toDTO(hosting));
-                }
-                else{
-                    throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
+            if (dto.getIdsHost().get(0) != null) {
+                for (Integer id : dto.getIdsHost()) {
+                    HostingEntity hosting = hostingService.getHostingById(id);
+                    if (hosting != null) {
+                        dto.getHostings().add(hostingPutEntityConverter.toDTO(hosting));
+                    } else {
+                        throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
+                    }
                 }
             }
-            for  (Integer id : dto.getIdsVehi() ){
-                VehicleEntity vehicle = vehicleService.getVehicleById(id);
-                if (vehicle != null){
-
-                    dto.getVehicles().add(vehicleGetEntityConverter.toDTO(vehicle));
-                }
-                else{
-                    throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
+            if (dto.getIdsVehi().get(0) != null) {
+                for (Integer id : dto.getIdsVehi()) {
+                    VehicleEntity vehicle = vehicleService.getVehicleById(id);
+                    if (vehicle != null) {
+                        dto.getVehicles().add(vehicleGetEntityConverter.toDTO(vehicle));
+                    } else {
+                        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
+                    }
                 }
             }
             travelPackageService.postTravelPackage(travelPackageEntityConverter.toEntity(dto));
