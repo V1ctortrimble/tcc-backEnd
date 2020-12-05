@@ -27,7 +27,7 @@ public class TravelPackageGetDTO {
     private String nameTravelPackage;
 
     @JsonProperty("desc_travel_package")
-    private String descTravelPackage;
+    private String descrTravelPackage;
 
     @JsonProperty("destination_name")
     private String destinationName;
