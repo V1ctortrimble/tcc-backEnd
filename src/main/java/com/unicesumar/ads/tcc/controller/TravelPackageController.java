@@ -166,24 +166,28 @@ public class TravelPackageController {
         if (dto != null){
             dto.setHostings(new ArrayList<>());
             dto.setVehicles(new ArrayList<>());
-            for  (Integer id : dto.getIdsHost() ){
-                HostingEntity hosting = hostingService.getHostingById(id);
-                if (hosting != null) {
+            if (dto.getIdsHost() != null){
+                for  (Integer id : dto.getIdsHost() ){
+                    HostingEntity hosting = hostingService.getHostingById(id);
+                    if (hosting != null) {
 
-                    dto.getHostings().add(hostingPutEntityConverter.toDTO(hosting));
-                }
-                else{
-                    throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
+                        dto.getHostings().add(hostingPutEntityConverter.toDTO(hosting));
+                    }
+                    else{
+                        throw new HttpNotFoundException(HOSPEDAGEM_NAO_ENCONTRADO);
+                    }
                 }
             }
-            for  (Integer id : dto.getIdsVehi() ){
-                VehicleEntity vehicle = vehicleService.getVehicleById(id);
-                if (vehicle != null){
+            if (dto.getIdsVehi() != null){
+                for  (Integer id : dto.getIdsVehi() ){
+                    VehicleEntity vehicle = vehicleService.getVehicleById(id);
+                    if (vehicle != null){
 
-                    dto.getVehicles().add(vehicleGetEntityConverter.toDTO(vehicle));
-                }
-                else{
-                    throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
+                        dto.getVehicles().add(vehicleGetEntityConverter.toDTO(vehicle));
+                    }
+                    else{
+                        throw new HttpNotFoundException(VEICULO_NAO_ENCONTRADO);
+                    }
                 }
             }
             travelPackageService.postTravelPackage(travelPackagePostEntityConverter.toEntity(dto));

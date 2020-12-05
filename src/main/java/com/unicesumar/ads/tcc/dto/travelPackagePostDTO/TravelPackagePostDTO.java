@@ -72,7 +72,7 @@ public class TravelPackagePostDTO {
     @JsonProperty("vehicles")
     private List<Integer> IdsVehi;
 
-    @JsonProperty("travel_contracts")
+    @JsonIgnore
     private List<TravelContractPdfListDTO> travelContracts;
 
     @JsonIgnore
