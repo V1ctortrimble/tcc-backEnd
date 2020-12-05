@@ -1,5 +1,6 @@
 package com.unicesumar.ads.tcc.service;
 
+import com.unicesumar.ads.tcc.converter.travelContract.PassengerTravelContractPostEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.PassengerTravelContractEntity;
 import com.unicesumar.ads.tcc.data.repository.PassengerTravelContractRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,9 @@ public class PassengerTravelContractService {
 
     public PassengerTravelContractEntity getById(Integer id){
         return passengerTravelContractRepository.findByIdPassengerTravelContract(id);
+    }
+
+    public PassengerTravelContractEntity getValidation(Integer idIndividual, Integer idTravelContract){
+        return passengerTravelContractRepository.findByIndividualIdIndividualAndTravelContractIdTravelContract(idIndividual, idTravelContract);
     }
 }

@@ -49,6 +49,9 @@ public class TravelContractPostDTO {
     @JsonIgnore
     private CompanyPutDTO company;
 
+    @JsonProperty("passenger")
+    private PassengerTravelContractPostDTO passengerTravelContract;
+
     @JsonProperty("passengers")
     private List<PassengerTravelContractPostDTO> passengerTravelContracts;
 

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PassengerTravelContractRepository extends JpaRepository<PassengerTravelContractEntity, Integer> {
     PassengerTravelContractEntity findByIdPassengerTravelContract(Integer id);
+
+    PassengerTravelContractEntity findByIndividualIdIndividualAndTravelContractIdTravelContract(Integer IdIndividual, Integer IdTravelContract);
 }

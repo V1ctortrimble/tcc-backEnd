@@ -83,6 +83,7 @@ public class TravelContractController {
                 entity.setTotalContractAmount(dto.getTotalContractAmount());
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(entity);
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
+                dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
                         IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
@@ -91,14 +92,22 @@ public class TravelContractController {
                         entityPassenger.setIndividual(individualEntity);
                         entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
                         entityPassenger.setTravelContract(entityRetorno);
-                        entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
+                        PassengerTravelContractEntity valdition = passengerTravelContractService.getValidation(
+                                                                    entityPassenger.getIndividual().getIdIndividual(),
+                                                                    entityPassenger.getTravelContract().getIdTravelContract());
+                        if (valdition != null){
+                            entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
+                        }
+                        else {
+                            throw new HttpBadRequestException("Passageiro já cadastrado para o contrato");
+                        }
                     }
                 }
                 dto = travelContractPostEntityConverter.toDTO(entityRetorno);
             }
         }
         catch (Exception e){
-            throw new HttpBadRequestException(NENHUM_CONTRATOVIAGEM_ENVIADO);
+            throw new HttpBadRequestException(e.getMessage());
         }
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -134,6 +143,7 @@ public class TravelContractController {
                 dto.setIdTravelContract(id);
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(travelContractPostEntityConverter.toEntity(dto));
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
+                dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
                         IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
