@@ -3,12 +3,16 @@ package com.unicesumar.ads.tcc.controller;
 import com.sun.mail.iap.Response;
 import com.unicesumar.ads.tcc.converter.TravelPackageEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelContract.PassengerTravelContractPostEntityConverter;
+import com.unicesumar.ads.tcc.converter.travelContract.TravelContractGetEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelContract.TravelContractPostEntityConverter;
 import com.unicesumar.ads.tcc.converter.vehicle.CompanyPutEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.*;
 import com.unicesumar.ads.tcc.dto.TravelContractDTO;
+import com.unicesumar.ads.tcc.dto.TravelContractGetDTO.TravelContractGetDTO;
+import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.PassengerTravelContractPostDTO;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.TravelContractPostDTO;
+import com.unicesumar.ads.tcc.dto.vehiclePutDTO.CompanyPutDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.*;
@@ -23,6 +27,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 
@@ -37,6 +42,7 @@ public class TravelContractController {
     private final CompanyPutEntityConverter companyPutEntityConverter;
     private final TravelPackageEntityConverter travelPackageEntityConverter;
     private final PassengerTravelContractPostEntityConverter passengerTravelContractPostEntityConverter;
+    private final TravelContractGetEntityConverter travelContractGetEntityConverter;
 
     private final CompanyService companyService;
     private final TravelPackageService travelPackageService;
@@ -102,7 +108,8 @@ public class TravelContractController {
      */
     @ApiOperation(value = "URL to update travel contract", authorizations = {@Authorization(value="jwtToken")})
     @PutMapping(path = "/travelcontract")
-    public ResponseEntity<TravelContractPostDTO> putTravelContract(@Validated @RequestBody TravelContractPostDTO dto){
+    public ResponseEntity<TravelContractPostDTO> putTravelContract(@Validated @RequestBody TravelContractPostDTO dto,
+                                                                   @RequestParam(value = "id") Integer id){
         try{
             if (dto != null){
                 TravelContractEntity entity = new TravelContractEntity();
@@ -124,6 +131,7 @@ public class TravelContractController {
                         throw new HttpNotFoundException(NENHUM_PACOTEVIAGEM_ENCONTRADO);
                     }
                 }
+                dto.setIdTravelContract(id);
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(travelContractPostEntityConverter.toEntity(dto));
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
                 if (dto.getPassengerTravelContracts().get(0) != null){
@@ -141,8 +149,39 @@ public class TravelContractController {
             }
         }
         catch (Exception e){
-            throw new HttpBadRequestException("Ocorreu um problema ao atualizar");
+            throw new HttpBadRequestException(OCORREU_PROBLEMA);
         }
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    /**
+     * GetMapping
+     */
+    @ApiOperation(value = "URL to get travel contract", authorizations = {@Authorization(value="jwtToken")})
+    @GetMapping(path = "/travelcontract/all")
+    public ResponseEntity<List<TravelContractGetDTO>> getAllTravelContracts(){
+        List<TravelContractEntity> entities = travelContractService.getAllTravelContracts();
+        if (entities.size() > 0) {
+            List<TravelContractGetDTO> dtos = travelContractGetEntityConverter.toDTOList(entities);
+            for (TravelContractGetDTO dto : dtos){
+                dto.setCompany(null);
+                dto.setTravelPackage(null);
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }
+        throw new HttpNotFoundException(NENHUM_CONTRATOVIAGEM_ENCONTADO);
+    }
+
+    /**
+     * GetMapping
+     */
+    @ApiOperation(value = "URL to get travel contract", authorizations = {@Authorization(value="jwtToken")})
+    @GetMapping(path = "/travelcontract/id")
+    public ResponseEntity<TravelContractGetDTO> getTravelContractById(@RequestParam(value = "id") Integer id){
+        TravelContractEntity entity = travelContractService.getTravelContractById(id);
+        if (entity != null)
+            return new ResponseEntity<>(travelContractGetEntityConverter.toDTO(entity), HttpStatus.OK);
+        throw new HttpNotFoundException(NENHUM_CONTRATOVIAGEM_ENCONTADO);
+    }
+
 }

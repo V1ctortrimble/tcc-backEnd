@@ -5,6 +5,8 @@ import com.unicesumar.ads.tcc.data.repository.TravelContractRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TravelContractService {
@@ -14,4 +16,10 @@ public class TravelContractService {
     public TravelContractEntity postTravelContract(TravelContractEntity entity){
         return travelContractRepository.save(entity);
     }
+
+    public List<TravelContractEntity> getAllTravelContracts(){
+        return travelContractRepository.findAll();
+    }
+
+    public TravelContractEntity getTravelContractById(Integer id) { return travelContractRepository.getOne(id); }
 }

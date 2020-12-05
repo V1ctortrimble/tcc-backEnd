@@ -24,11 +24,11 @@ public class TravelContractEntity implements Serializable {
     @Column(name = "ID_TRAVEL_CONTRACT")
     private Integer idTravelContract;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TRAVEL_PACKAGE")
     private TravelPackageEntity travelPackage;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANY")
     private CompanyEntity company;
 
