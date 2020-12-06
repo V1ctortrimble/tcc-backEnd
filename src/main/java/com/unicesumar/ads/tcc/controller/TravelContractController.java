@@ -1,31 +1,35 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.sun.mail.iap.Response;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.converter.TravelContractPdfDTOConverter;
 import com.unicesumar.ads.tcc.converter.TravelPackageEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelContract.PassengerTravelContractPostEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelContract.TravelContractGetEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelContract.TravelContractPostEntityConverter;
 import com.unicesumar.ads.tcc.converter.vehicle.CompanyPutEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.*;
-import com.unicesumar.ads.tcc.dto.TravelContractDTO;
+import com.unicesumar.ads.tcc.dto.IndividualListPdfDTO;
 import com.unicesumar.ads.tcc.dto.TravelContractGetDTO.TravelContractGetDTO;
-import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
+import com.unicesumar.ads.tcc.dto.contractDTO.TravelContractPdfDTO;
+import com.unicesumar.ads.tcc.dto.listPassengerPdfDTO.TravelPackagePdfListDTO;
+import com.unicesumar.ads.tcc.dto.travelContractPostDTO.IndividualPostTravelContractDTO;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.PassengerTravelContractPostDTO;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.TravelContractPostDTO;
-import com.unicesumar.ads.tcc.dto.vehiclePutDTO.CompanyPutDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.*;
+import com.unicesumar.ads.tcc.util.PDFGenerator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +47,15 @@ public class TravelContractController {
     private final TravelPackageEntityConverter travelPackageEntityConverter;
     private final PassengerTravelContractPostEntityConverter passengerTravelContractPostEntityConverter;
     private final TravelContractGetEntityConverter travelContractGetEntityConverter;
+    private final TravelContractPdfDTOConverter travelContractPdfDTOConverter;
 
     private final CompanyService companyService;
     private final TravelPackageService travelPackageService;
     private final TravelContractService travelContractService;
     private final PassengerTravelContractService passengerTravelContractService;
     private final IndividualService individualService;
+
+    private final PDFGenerator pdfGenerator;
 
     /**
      * PostsMapping
@@ -206,5 +213,94 @@ public class TravelContractController {
             return new ResponseEntity<>(travelContractGetEntityConverter.toDTO(entity), HttpStatus.OK);
         throw new HttpNotFoundException(NENHUM_CONTRATOVIAGEM_ENCONTADO);
     }
+
+
+    ///contract/pdf
+    @ApiOperation(value = "URL to get travel contract too generate Pdf",
+            authorizations = {@Authorization(value="jwtToken")})
+    @GetMapping(path = "/contract/pdf")
+    public ResponseEntity<?> getTravelContractByIdToGeneratePdf(
+            @RequestParam(value = "id") Integer id){
+        TravelContractEntity entity = travelContractService.getTravelContractById(id);
+
+        List<IndividualPostTravelContractDTO> passengerList = new ArrayList<>();
+        IndividualPostTravelContractDTO payingPassenger;
+        IndividualPostTravelContractDTO passenger;
+        String route;
+        LocalDate startDate;
+        LocalDate endDate;
+        LocalTime expectedStartTime;
+        LocalTime estimatedEndTime;
+
+        String cpfPay;
+        String rgPay;
+        String nameIndividualPay;
+        String lastNamePay;
+
+        if(entity != null){
+            TravelContractPdfDTO dto = travelContractPdfDTOConverter.toDTO(entity);
+            //Individual que é o contratente ou acompanhante
+            for (int i = 0; i < dto.getPassengerTravelContracts().size(); i++) {
+                if (dto.getPassengerTravelContracts().get(i).getPayingPassenger()) {
+                    payingPassenger = dto.getPassengerTravelContracts().get(i).getIndividual();
+                    dto.getPassengerTravelContracts().get(i).setIndividualPay(payingPassenger);
+                }
+                //getter
+                route = dto.getTravelPackage().getRoute();
+                startDate = dto.getTravelPackage().getStartDate();
+                endDate = dto.getTravelPackage().getEndDate();
+                expectedStartTime = dto.getTravelPackage().getExpectedStartTime();
+                estimatedEndTime = dto.getTravelPackage().getEstimatedEndTime();
+                cpfPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getCpf();
+                rgPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getRg();
+                nameIndividualPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getNameIndividual();
+                lastNamePay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getLastName();
+
+                //setter
+                dto.setRoute(route);
+                dto.setStartDate(startDate);
+                dto.setEndDate(endDate);
+                dto.setExpectedStartTime(expectedStartTime);
+                dto.setEstimatedEndTime(estimatedEndTime);
+                dto.setCpfPay(cpfPay);
+                dto.setRgPay(rgPay);
+                dto.setNameIndividualPay(nameIndividualPay);
+                dto.setLastNamePay(lastNamePay);
+
+                passenger = dto.getPassengerTravelContracts().get(i).getIndividual();
+                passengerList.add(passenger);
+            }
+            try {
+                pdfGenerator.createPdfReportContract(dto);
+                return new ResponseEntity<>(PDF_SALVO, HttpStatus.OK);
+            } catch (final Exception e) {
+                e.printStackTrace();
+                throw new HttpBadRequestException(FALHA_AO_SALVAR_PDF);
+            }
+        }
+        throw  new HttpNotFoundException("nenhum contrato encontrado");
+    }
+
+// {
+//        TravelPackageEntity entity = travelPackageService.getTravelPackageById(idTravelPackge);
+//        List<IndividualListPdfDTO> passengerList = new ArrayList<>();
+//        String nameTravelPackage;
+//        if (entity != null) {
+//            TravelPackagePdfListDTO dto = travelPackagePdfListConverter.toDTO(entity);
+//            for (int i = 0; i < dto.getTravelContracts().size(); i++) {
+//                IndividualListPdfDTO passenger = dto.getTravelContracts().get(i).getPassengerTravelContracts()
+//                        .get(0).getIndividual();
+//                nameTravelPackage = dto.getNameTravelPackage();
+//                dto.getTravelContracts().get(i).getPassengerTravelContracts().get(0).getIndividual()
+//                        .setNameTravelPackage(nameTravelPackage);
+//                passengerList.add(passenger);
+//            }
+//            if (passengerList.size() == 0) {
+//                throw new HttpNotFoundException(NENHUM_PASSAGEIRO_PARA_ESSA_VIAGEM);
+//            }
+//
+//        }
+//        throw new HttpNotFoundException(NENHUM_PACOTE_DE_VIAGEM_LOCALIZADO);
+//    }
 
 }
