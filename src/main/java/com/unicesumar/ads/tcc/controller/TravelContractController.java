@@ -109,7 +109,7 @@ public class TravelContractController {
                             entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
                         }
                         else {
-                            throw new HttpBadRequestException("Passageiro já cadastrado para o contrato");
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM);
                         }
                     }
                 }
