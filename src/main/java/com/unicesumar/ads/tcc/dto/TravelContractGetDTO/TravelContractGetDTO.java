@@ -38,6 +38,9 @@ public class TravelContractGetDTO {
     @JsonProperty("total_contract_amount")
     private BigDecimal totalContractAmount;
 
+    @JsonProperty("active")
+    private Boolean active;
+
     @JsonProperty("id_travel_package")
     private Integer idTravelPackage;
 

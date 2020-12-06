@@ -1,6 +1,7 @@
 package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.BankDetailsEntityConverter;
+import com.unicesumar.ads.tcc.converter.ContactEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonCompanyEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonCompanyGetEntityConverter;
 import com.unicesumar.ads.tcc.converter.person.PersonIndividualEntityConverter;
@@ -18,6 +19,7 @@ import com.unicesumar.ads.tcc.dto.personGetDTO.PersonIndividualGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.BankDetailsService;
+import com.unicesumar.ads.tcc.service.ContactService;
 import com.unicesumar.ads.tcc.service.PersonService;
 import com.unicesumar.ads.tcc.util.PaginatorUtil;
 import io.swagger.annotations.Api;
@@ -49,6 +51,7 @@ public class PersonController {
      */
     private final PersonService personService;
     private final BankDetailsService bankDetailsService;
+    private final ContactService contactService;
 
     /**
      * Converters
@@ -58,6 +61,7 @@ public class PersonController {
     private final BankDetailsEntityConverter bankDetailsEntityConverter;
     private final PersonIndividualGetEntityConverter personIndividualGetEntityConverter;
     private final PersonCompanyGetEntityConverter personCompanyGetEntityConverter;
+    private final ContactEntityConverter contactEntityConverter;
 
     /**
      * Utils
@@ -89,6 +93,10 @@ public class PersonController {
                                                                                        required = false)
                                                                                        Boolean active) {
         Page<IndividualDTO> dtos = paginator.convertDTOIndividualToPages(cpf, rg, name, lastName, active, pageable);
+        for (IndividualDTO dto : dtos){
+            dto.setContact(contactEntityConverter.toDTO(contactService.getContactByIndividualId(dto.getIdIndividual())));
+        }
+
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 

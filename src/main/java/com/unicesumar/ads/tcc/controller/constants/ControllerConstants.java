@@ -18,6 +18,7 @@ public class ControllerConstants {
     public static final String NENHUM_CONTRATOVIAGEM_ENVIADO = "Nenhum Contrato de Viagem Enviado Para Cadastro";
     public static final String NENHUM_CONTRATOVIAGEM_ENCONTADO = "Nenhum Contrato de viagem encontado";
     public static final String OCORREU_PROBLEMA = "Ocorreu um problema ao atualizar";
+    public static final String PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM = "Passageiro já cadastrado para a viagem";
 
     /**
      * Define RecoveryPassController properties
