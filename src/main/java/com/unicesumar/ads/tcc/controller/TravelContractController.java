@@ -99,10 +99,13 @@ public class TravelContractController {
                         entityPassenger.setIndividual(individualEntity);
                         entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
                         entityPassenger.setTravelContract(entityRetorno);
-                        PassengerTravelContractEntity valdition = passengerTravelContractService.getValidation(
+                        PassengerTravelContractEntity validation = passengerTravelContractService.getValidation(
                                                                     entityPassenger.getIndividual().getIdIndividual(),
                                                                     entityPassenger.getTravelContract().getIdTravelContract());
-                        if (valdition != null){
+                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
+                                                                    entityPassenger.getIndividual().getIdIndividual(),
+                                                                    dto.getIdTravelPackage());
+                        if (validation == null && validationTravelPackage == null){
                             entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
                         }
                         else {

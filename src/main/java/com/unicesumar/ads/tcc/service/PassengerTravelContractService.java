@@ -23,4 +23,8 @@ public class PassengerTravelContractService {
     public PassengerTravelContractEntity getValidation(Integer idIndividual, Integer idTravelContract){
         return passengerTravelContractRepository.findByIndividualIdIndividualAndTravelContractIdTravelContract(idIndividual, idTravelContract);
     }
+
+    public PassengerTravelContractEntity getValidationPackage(Integer idIndividual, Integer idTravelPackage){
+        return passengerTravelContractRepository.findByIndividualIdIndividualAndTravelContractTravelPackageIdTravelPackage(idIndividual, idTravelPackage);
+    }
 }
