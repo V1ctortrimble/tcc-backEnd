@@ -85,11 +85,11 @@ public class TravelContractController {
                                 dto.getIdTravelPackage());
 
                         if (validationTravelPackage != null){
-                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM  +  "ID: " + passenger.getIdIndividual());
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM  +  " NOME: " + validationTravelPackage.getIndividual().getNameIndividual());
                         }
                     }
                 }
-                //Adiciona contrato de viagem
+                //Validade se empresa e pacote de viagem existe
                 TravelContractEntity entity = new TravelContractEntity();
                 if (dto.getIdCompany() != null){
                     CompanyEntity company = companyService.getCompanyById(dto.getIdCompany());
@@ -177,8 +177,11 @@ public class TravelContractController {
                                 passenger.getIndividual().getIdIndividual(),
                                 idTravelContract);
 
-                        if (validationTravelPackage != null && validationTravelContract != null){
-                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM +  "ID: " + passenger.getIdIndividual());
+                        if (validationTravelPackage != null ){
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM +  "ID: " + validationTravelPackage.getIndividual().getIdIndividual());
+                        }
+                        if (validationTravelContract != null){
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_CONTRATO +  "ID: " + validationTravelContract.getIndividual().getIdIndividual());
                         }
                     }
                 }
