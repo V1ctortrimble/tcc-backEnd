@@ -55,9 +55,9 @@ public class PDFGenerator {
         parameters.put("createdBy", "Squad Go Horse");
         final JasperPrint print = JasperFillManager.fillReport(report, parameters, source);
         final String filePath = System.getProperty("java.io.tmpdir");
-        JasperExportManager.exportReportToPdfFile(print, filePath + "lista" + code + ".pdf");
-        Runtime.getRuntime().exec("cmd /c start " + filePath + "lista" + code + ".pdf");
-        File file = new File(filePath + "lista" + code + ".pdf");
+        JasperExportManager.exportReportToPdfFile(print, filePath + "contract" + code + ".pdf");
+        Runtime.getRuntime().exec("cmd /c start " + filePath + "contract" + code + ".pdf");
+        File file = new File(filePath + "contract" + code + ".pdf");
         file.deleteOnExit();
     }
 

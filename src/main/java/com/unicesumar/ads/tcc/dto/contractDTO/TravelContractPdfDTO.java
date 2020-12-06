@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.TravelContractGetDTO.PassengerTravelContractGetDTO;
 import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
+import com.unicesumar.ads.tcc.dto.travelContractPostDTO.IndividualPostTravelContractDTO;
 import com.unicesumar.ads.tcc.dto.vehiclePutDTO.CompanyPutDTO;
 import lombok.*;
 
@@ -24,6 +25,16 @@ public class TravelContractPdfDTO {
     private String rgPay;
     private String nameIndividualPay;
     private String lastNamePay;
+
+    private String cpf;
+    private String rg;
+    private String nameIndividual;
+    private String lastName;
+
+    private String adresses;
+    private String zipCode;
+    private String neighborhood;
+    private Integer adressNumber;
 
     @JsonProperty("id_travel_contract")
     private Integer idTravelContract;

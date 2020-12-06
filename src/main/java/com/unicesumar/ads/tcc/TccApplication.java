@@ -12,6 +12,5 @@ public class TccApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TccApplication.class, args);
 		System.out.println("Senha criptografada para teste: " + new BCryptPasswordEncoder().encode("12345"));
-		System.out.println("hora agr: " + LocalDate.now() + LocalTime.now() );
 	}
 }

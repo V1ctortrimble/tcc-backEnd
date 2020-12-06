@@ -37,8 +37,16 @@
     <field name="nameIndividualPay" class="java.lang.String"/>
     <field name="lastNamePay" class="java.lang.String"/>
     <field name="rgPay" class="java.lang.String"/>
+    <field name="nameIndividual" class="java.lang.String"/>
+    <field name="lastName" class="java.lang.String"/>
+    <field name="rg" class="java.lang.String"/>
+    <field name="cpf" class="java.lang.String"/>
+    <field name="adresses" class="java.lang.String"/>
+    <field name="zipCode" class="java.lang.String"/>
+    <field name="adressNumber" class="java.lang.Integer"/>
+    <field name="neighborhood" class="java.lang.String"/>
     <title>
-        <band height="437" splitType="Stretch">
+        <band height="441" splitType="Stretch">
             <staticText>
                 <reportElement x="0" y="80" width="380" height="15" uuid="33274f5d-5b7e-4be2-a2ff-65d452a618ed">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
@@ -462,6 +470,26 @@
                 </box>
                 <textFieldExpression><![CDATA[$F{rgPay}]]></textFieldExpression>
             </textField>
+            <textField>
+                <reportElement x="0" y="400" width="300" height="22" uuid="8312f46e-cad0-4162-b277-84070478fe51"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textFieldExpression><![CDATA[$F{adresses}+", "+$F{adressNumber}+" "+$F{neighborhood}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="400" width="80" height="22" uuid="4aee9e1a-fa9d-4d36-ab3d-c16c751adb70"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textFieldExpression><![CDATA[$F{zipCode}]]></textFieldExpression>
+            </textField>
         </band>
     </title>
     <columnHeader>
@@ -515,10 +543,61 @@
                 </textElement>
                 <text><![CDATA[CPF]]></text>
             </staticText>
+            <staticText>
+                <reportElement x="333" y="0" width="100" height="22" uuid="b860018e-8b52-4253-8927-4c6072d368fd">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af29264a-e8a9-40e6-834e-662be030fd04"/>
+                </reportElement>
+                <text><![CDATA[cpf]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="415" y="0" width="100" height="22" uuid="04757766-6bae-42fc-81e5-7f0cd629a88f">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4d174cd-6251-48c9-930b-12da19b2c0aa"/>
+                </reportElement>
+                <text><![CDATA[rg]]></text>
+            </staticText>
         </band>
     </columnHeader>
     <detail>
-        <band height="21"/>
+        <band height="40">
+            <textField>
+                <reportElement x="0" y="0" width="300" height="19" uuid="424e4405-5c9b-4eb3-a77b-8ec1d0723262">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b43314ed-a4aa-47f7-9327-9da527171708"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textFieldExpression><![CDATA[$F{nameIndividual}+" "+$F{lastName}
+
+]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="0" width="80" height="19" uuid="35b68e47-f7a6-4f74-b545-7f7db3f732f6">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af29264a-e8a9-40e6-834e-662be030fd04"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="380" y="0" width="100" height="19" uuid="3800c97c-ff6f-413f-8d5f-8db9af818cb8">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4d174cd-6251-48c9-930b-12da19b2c0aa"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textFieldExpression><![CDATA[$F{rg}]]></textFieldExpression>
+            </textField>
+        </band>
     </detail>
     <summary>
         <band height="368" splitType="Stretch">

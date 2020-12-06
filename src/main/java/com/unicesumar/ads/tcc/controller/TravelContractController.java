@@ -230,9 +230,7 @@ public class TravelContractController {
         throw new HttpNotFoundException(NENHUM_CONTRATOVIAGEM_ENCONTADO);
     }
 
-
-    ///contract/pdf
-    @ApiOperation(value = "URL to get travel contract too generate Pdf",
+    @ApiOperation(value = "URL to get travel contract to generate Pdf",
             authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/contract/pdf")
     public ResponseEntity<?> getTravelContractByIdToGeneratePdf(
@@ -248,10 +246,20 @@ public class TravelContractController {
         LocalTime expectedStartTime;
         LocalTime estimatedEndTime;
 
+        String adresses;
+        String zipCode;
+        String neighborhood;
+        Integer adressNumber;
+
         String cpfPay;
         String rgPay;
         String nameIndividualPay;
         String lastNamePay;
+
+        String cpf;
+        String rg;
+        String nameIndividual;
+        String lastName;
 
         if(entity != null){
             TravelContractPdfDTO dto = travelContractPdfDTOConverter.toDTO(entity);
@@ -260,17 +268,61 @@ public class TravelContractController {
                 if (dto.getPassengerTravelContracts().get(i).getPayingPassenger()) {
                     payingPassenger = dto.getPassengerTravelContracts().get(i).getIndividual();
                     dto.getPassengerTravelContracts().get(i).setIndividualPay(payingPassenger);
+                    cpfPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getCpf();
+                    rgPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getRg();
+                    nameIndividualPay = dto.getPassengerTravelContracts().get(i).getIndividualPay()
+                            .getNameIndividual();
+                    lastNamePay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getLastName();
+
+                    adresses = dto.getPassengerTravelContracts().get(i).getIndividual()
+                            .getPersonEntity().getAdresses().get(i).getAdress();
+                    zipCode = dto.getPassengerTravelContracts().get(i).getIndividual()
+                            .getPersonEntity().getAdresses().get(i).getZipCode();
+                    neighborhood = dto.getPassengerTravelContracts().get(i).getIndividual()
+                            .getPersonEntity().getAdresses().get(i).getNeighborhood();
+                    adressNumber = dto.getPassengerTravelContracts().get(i).getIndividual()
+                            .getPersonEntity().getAdresses().get(i).getAdressNumber();
+
+                    dto.setCpfPay(cpfPay);
+                    dto.setRgPay(rgPay);
+                    dto.setNameIndividualPay(nameIndividualPay);
+                    dto.setLastNamePay(lastNamePay);
+
+                    dto.setAdresses(adresses);
+                    dto.setZipCode(zipCode);
+                    dto.setNeighborhood(neighborhood);
+                    dto.setAdressNumber(adressNumber);
+
                 }
+                else if (!dto.getPassengerTravelContracts().get(i).getPayingPassenger()) {
+                    if (passengerList.size() != 0) {
+                        //getter
+                        cpf = passengerList.get(0).getCpf();
+                        rg = passengerList.get(0).getRg();
+                        nameIndividual = passengerList.get(0).getNameIndividual();
+                        lastName = passengerList.get(0).getLastName();
+                        //setter
+                        dto.setCpf(cpf);
+                        dto.setRg(rg);dto.setNameIndividual(nameIndividual);
+                        dto.setLastName(lastName);
+                    }else {
+                        dto.setCpf("N.A");
+                        dto.setRg("N.A");
+                        dto.setNameIndividual("N.A");
+                        dto.setLastName("");
+                    }
+                    passenger = dto.getPassengerTravelContracts().get(i).getIndividual();
+                    passengerList.add(passenger);
+                } else {
+                    throw new HttpBadRequestException("Nenhum Passageiro Contratante");
+                }
+
                 //getter
                 route = dto.getTravelPackage().getRoute();
                 startDate = dto.getTravelPackage().getStartDate();
                 endDate = dto.getTravelPackage().getEndDate();
                 expectedStartTime = dto.getTravelPackage().getExpectedStartTime();
                 estimatedEndTime = dto.getTravelPackage().getEstimatedEndTime();
-                cpfPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getCpf();
-                rgPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getRg();
-                nameIndividualPay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getNameIndividual();
-                lastNamePay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getLastName();
 
                 //setter
                 dto.setRoute(route);
@@ -278,13 +330,6 @@ public class TravelContractController {
                 dto.setEndDate(endDate);
                 dto.setExpectedStartTime(expectedStartTime);
                 dto.setEstimatedEndTime(estimatedEndTime);
-                dto.setCpfPay(cpfPay);
-                dto.setRgPay(rgPay);
-                dto.setNameIndividualPay(nameIndividualPay);
-                dto.setLastNamePay(lastNamePay);
-
-                passenger = dto.getPassengerTravelContracts().get(i).getIndividual();
-                passengerList.add(passenger);
             }
             try {
                 pdfGenerator.createPdfReportContract(dto);
@@ -296,27 +341,4 @@ public class TravelContractController {
         }
         throw  new HttpNotFoundException("nenhum contrato encontrado");
     }
-
-// {
-//        TravelPackageEntity entity = travelPackageService.getTravelPackageById(idTravelPackge);
-//        List<IndividualListPdfDTO> passengerList = new ArrayList<>();
-//        String nameTravelPackage;
-//        if (entity != null) {
-//            TravelPackagePdfListDTO dto = travelPackagePdfListConverter.toDTO(entity);
-//            for (int i = 0; i < dto.getTravelContracts().size(); i++) {
-//                IndividualListPdfDTO passenger = dto.getTravelContracts().get(i).getPassengerTravelContracts()
-//                        .get(0).getIndividual();
-//                nameTravelPackage = dto.getNameTravelPackage();
-//                dto.getTravelContracts().get(i).getPassengerTravelContracts().get(0).getIndividual()
-//                        .setNameTravelPackage(nameTravelPackage);
-//                passengerList.add(passenger);
-//            }
-//            if (passengerList.size() == 0) {
-//                throw new HttpNotFoundException(NENHUM_PASSAGEIRO_PARA_ESSA_VIAGEM);
-//            }
-//
-//        }
-//        throw new HttpNotFoundException(NENHUM_PACOTE_DE_VIAGEM_LOCALIZADO);
-//    }
-
 }

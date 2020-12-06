@@ -1,6 +1,8 @@
 package com.unicesumar.ads.tcc.dto.travelContractPostDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.data.entity.PersonEntity;
+import com.unicesumar.ads.tcc.dto.personGetDTO.PersonIndividualGetDTO;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -29,6 +31,9 @@ public class IndividualPostTravelContractDTO {
 
     @JsonProperty("birth_date")
     private LocalDate birthDate;
+
+    @JsonProperty("person")
+    private PersonIndividualGetDTO personEntity;
 
 
 }
