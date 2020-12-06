@@ -168,7 +168,18 @@ public class TravelContractController {
                         entityPassenger.setIndividual(individualEntity);
                         entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
                         entityPassenger.setTravelContract(entityRetorno);
-                        entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
+                        PassengerTravelContractEntity validation = passengerTravelContractService.getValidation(
+                                entityPassenger.getIndividual().getIdIndividual(),
+                                entityPassenger.getTravelContract().getIdTravelContract());
+                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
+                                entityPassenger.getIndividual().getIdIndividual(),
+                                dto.getIdTravelPackage());
+                        if (validation == null && validationTravelPackage == null){
+                            entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
+                        }
+                        else {
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM);
+                        }
                     }
                 }
                 dto = travelContractPostEntityConverter.toDTO(entityRetorno);
