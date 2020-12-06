@@ -27,4 +27,8 @@ public class PassengerTravelContractService {
     public PassengerTravelContractEntity getValidationPackage(Integer idIndividual, Integer idTravelPackage){
         return passengerTravelContractRepository.findByIndividualIdIndividualAndTravelContractTravelPackageIdTravelPackage(idIndividual, idTravelPackage);
     }
+
+    public void deleteByIdTravel(Integer id){
+        return passengerTravelContractRepository.delete
+    }
 }
