@@ -28,7 +28,4 @@ public class PassengerTravelContractService {
         return passengerTravelContractRepository.findByIndividualIdIndividualAndTravelContractTravelPackageIdTravelPackage(idIndividual, idTravelPackage);
     }
 
-    public void deleteByIdTravel(Integer id){
-        return passengerTravelContractRepository.delete
-    }
 }

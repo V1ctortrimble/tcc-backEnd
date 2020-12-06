@@ -12,5 +12,4 @@ public interface PassengerTravelContractRepository extends JpaRepository<Passeng
 
     PassengerTravelContractEntity findByIndividualIdIndividualAndTravelContractTravelPackageIdTravelPackage(Integer idIndividual, Integer idTravelContract);
 
-    void removeByIdTravelContract (Integer id);
 }
