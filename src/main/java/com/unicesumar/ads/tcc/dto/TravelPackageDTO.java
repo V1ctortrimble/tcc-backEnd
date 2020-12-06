@@ -52,11 +52,11 @@ public class TravelPackageDTO {
     @JsonProperty("expected_start_time" )
     private LocalTime expectedStartTime;
 
-    @JsonProperty("end_date")
-    private LocalDate endDate;
-
     @JsonProperty("estimated_end_time" )
     private LocalTime estimatedEndTime;
+
+    @JsonProperty("end_date")
+    private LocalDate endDate;
 
     @JsonProperty("feature_travel_packge")
     private String featureTravelPackge;

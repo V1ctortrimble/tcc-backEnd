@@ -1,4 +1,4 @@
-package com.unicesumar.ads.tcc.dto.TravelContractGetDTO;
+package com.unicesumar.ads.tcc.dto.contractDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.IndividualPostTravelContractDTO;
@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PassengerTravelContractGetDTO {
+public class PassengerTravelContractPdfDTO {
 
     @JsonProperty("id_passenger_travel_contract")
     private Integer idPassengerTravelContract;
@@ -22,5 +22,8 @@ public class PassengerTravelContractGetDTO {
 
     @JsonProperty("individual")
     private IndividualPostTravelContractDTO individual;
+
+    @JsonProperty("individual")
+    private IndividualPostTravelContractDTO individualPay;
 
 }
