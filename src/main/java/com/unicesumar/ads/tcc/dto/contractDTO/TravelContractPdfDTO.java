@@ -36,6 +36,10 @@ public class TravelContractPdfDTO {
     private String neighborhood;
     private Integer adressNumber;
 
+    private String phone;
+    private String cellPhone;
+    private String email;
+
     @JsonProperty("id_travel_contract")
     private Integer idTravelContract;
 

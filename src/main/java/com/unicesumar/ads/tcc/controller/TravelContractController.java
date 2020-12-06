@@ -273,6 +273,7 @@ public class TravelContractController {
         throw new HttpNotFoundException(NENHUM_CONTRATOVIAGEM_ENCONTADO);
     }
 
+    //TODO: Refatorar codigo e encapsular logica na Service
     @ApiOperation(value = "URL to get travel contract to generate Pdf",
             authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/contract/pdf")
@@ -293,6 +294,10 @@ public class TravelContractController {
         String zipCode;
         String neighborhood;
         Integer adressNumber;
+
+        String phone;
+        String cellPhone;
+        String email;
 
         String cpfPay;
         String rgPay;
@@ -317,14 +322,26 @@ public class TravelContractController {
                             .getNameIndividual();
                     lastNamePay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getLastName();
 
+                    //TODO: Verificar se vai continuar com i ou 0
                     adresses = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(0).getAdress();
+                            .getPersonEntity().getAdresses().get(i).getAdress();
                     zipCode = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(0).getZipCode();
+                            .getPersonEntity().getAdresses().get(i).getZipCode();
                     neighborhood = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(0).getNeighborhood();
+                            .getPersonEntity().getAdresses().get(i).getNeighborhood();
                     adressNumber = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(0).getAdressNumber();
+                            .getPersonEntity().getAdresses().get(i).getAdressNumber();
+
+                    phone = dto.getPassengerTravelContracts().get(i).getIndividual().getPersonEntity().getContacts()
+                            .get(0).getPhone();
+                    cellPhone = dto.getPassengerTravelContracts().get(i).getIndividual().getPersonEntity().getContacts()
+                            .get(0).getCellPhone();
+                    email =  dto.getPassengerTravelContracts().get(i).getIndividual().getPersonEntity().getContacts()
+                            .get(0).getEmail();
+
+                    dto.setPhone(phone);
+                    dto.setCellPhone(cellPhone);
+                    dto.setEmail(email);
 
                     dto.setCpfPay(cpfPay);
                     dto.setRgPay(rgPay);
