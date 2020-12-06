@@ -82,6 +82,7 @@ public class TravelContractController {
                 entity.setIssueDate(dto.getIssueDate());
                 entity.setTotalContractAmount(dto.getTotalContractAmount());
                 entity.setLandingLocation(dto.getLandingLocation());
+                entity.setActive(dto.getActive());
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(entity);
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
                 if (dto.getPassengerTravelContracts() != null) {
@@ -166,6 +167,7 @@ public class TravelContractController {
                         PassengerTravelContractEntity entityPassenger = passengerTravelContractService.getById(passenger.getIdPassengerTravelContract());
                         entityPassenger.setContractedPassenger(passenger.getContractedPassenger());
                         entityPassenger.setIndividual(individualEntity);
+                        entity.setActive(dto.getActive());
                         entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
                         entityPassenger.setTravelContract(entityRetorno);
                         PassengerTravelContractEntity validation = passengerTravelContractService.getValidation(

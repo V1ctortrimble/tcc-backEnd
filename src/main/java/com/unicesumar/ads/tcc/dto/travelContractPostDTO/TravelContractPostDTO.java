@@ -43,6 +43,9 @@ public class TravelContractPostDTO {
     @JsonProperty("id_travel_package")
     private Integer idTravelPackage;
 
+    @JsonProperty("active")
+    private Boolean active;
+
     @JsonIgnore
     private TravelPackageDTO travelPackage;
 
