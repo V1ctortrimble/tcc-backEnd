@@ -2,6 +2,8 @@ package com.unicesumar.ads.tcc.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.unicesumar.ads.tcc.dto.personGetDTO.AdressGetDTO;
+import com.unicesumar.ads.tcc.dto.personGetDTO.ContactGetDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,5 +38,9 @@ public class IndividualDTO {
 
     @JsonProperty("birth_date")
     private LocalDate birthDate;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("contact")
+    private ContactGetDTO contact;
 
 }
