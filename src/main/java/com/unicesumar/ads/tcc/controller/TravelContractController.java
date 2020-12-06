@@ -318,13 +318,13 @@ public class TravelContractController {
                     lastNamePay = dto.getPassengerTravelContracts().get(i).getIndividualPay().getLastName();
 
                     adresses = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getAdress();
+                            .getPersonEntity().getAdresses().get(0).getAdress();
                     zipCode = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getZipCode();
+                            .getPersonEntity().getAdresses().get(0).getZipCode();
                     neighborhood = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getNeighborhood();
+                            .getPersonEntity().getAdresses().get(0).getNeighborhood();
                     adressNumber = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getAdressNumber();
+                            .getPersonEntity().getAdresses().get(0).getAdressNumber();
 
                     dto.setCpfPay(cpfPay);
                     dto.setRgPay(rgPay);
