@@ -68,10 +68,9 @@ public class TravelContractController {
     public ResponseEntity<TravelContractPostDTO> postTravelContract(@Validated @RequestBody TravelContractPostDTO dto){
         try {
             if (dto != null){
-
                 //Valida se a lista de passageiros está nula pra adicionar o contratante
                 if (dto.getPassengerTravelContracts() != null) {
-                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                    dto.getPassengerTravelContracts().add(0, dto.getPassengerTravelContract());
                 }
                 else{
                     dto.setPassengerTravelContracts(new ArrayList<>());
@@ -119,6 +118,7 @@ public class TravelContractController {
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(entity);
                 //adiciona lista de passageiros e valida se já tem o mesmo passageiro para o contrato
                 entity.setPassengerTravelContracts(new ArrayList<>());
+
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
                         IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
@@ -260,7 +260,7 @@ public class TravelContractController {
         }
         throw new HttpNotFoundException(NENHUM_CONTRATOVIAGEM_ENCONTADO);
     }
-
+//trazer telefone do contratante
     /**
      * GetMapping
      */
