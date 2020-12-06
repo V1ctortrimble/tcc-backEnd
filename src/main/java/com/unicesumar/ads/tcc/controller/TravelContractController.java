@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,11 +54,34 @@ public class TravelContractController {
     /**
      * PostsMapping
      */
+    @Transactional
     @ApiOperation(value = "URL to add travel contract", authorizations = {@Authorization(value="jwtToken")})
     @PostMapping(path = "/travelcontract")
     public ResponseEntity<TravelContractPostDTO> postTravelContract(@Validated @RequestBody TravelContractPostDTO dto){
         try {
             if (dto != null){
+
+                //Valida se a lista de passageiros está nula pra adicionar o contratante
+                if (dto.getPassengerTravelContracts() != null) {
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
+                else{
+                    dto.setPassengerTravelContracts(new ArrayList<>());
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
+                //valida se algum dos passageiros já estão em outro contrato da mesma viagem
+                if (dto.getPassengerTravelContracts().get(0) != null) {
+                    for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()) {
+                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
+                                passenger.getIdIndividual(),
+                                dto.getIdTravelPackage());
+
+                        if (validationTravelPackage != null){
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM  +  "ID: " + passenger.getIdIndividual());
+                        }
+                    }
+                }
+                //Adiciona contrato de viagem
                 TravelContractEntity entity = new TravelContractEntity();
                 if (dto.getIdCompany() != null){
                     CompanyEntity company = companyService.getCompanyById(dto.getIdCompany());
@@ -77,6 +101,7 @@ public class TravelContractController {
                         throw new HttpNotFoundException(NENHUM_PACOTEVIAGEM_ENCONTRADO);
                     }
                 }
+                //adiciona contrato de viagem
                 entity.setBoardingLocation(dto.getBoardingLocation());
                 entity.setBoardingTime(dto.getBoardingTime());
                 entity.setIssueDate(dto.getIssueDate());
@@ -84,14 +109,8 @@ public class TravelContractController {
                 entity.setLandingLocation(dto.getLandingLocation());
                 entity.setActive(dto.getActive());
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(entity);
-                entityRetorno.setPassengerTravelContracts(new ArrayList<>());
-                if (dto.getPassengerTravelContracts() != null) {
-                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
-                }
-                else{
-                    dto.setPassengerTravelContracts(new ArrayList<>());
-                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
-                }
+                //adiciona lista de passageiros e valida se já tem o mesmo passageiro para o contrato
+                entity.setPassengerTravelContracts(new ArrayList<>());
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
                         IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
@@ -103,17 +122,15 @@ public class TravelContractController {
                         PassengerTravelContractEntity validation = passengerTravelContractService.getValidation(
                                                                     entityPassenger.getIndividual().getIdIndividual(),
                                                                     entityPassenger.getTravelContract().getIdTravelContract());
-                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
-                                                                    entityPassenger.getIndividual().getIdIndividual(),
-                                                                    dto.getIdTravelPackage());
-                        if (validation == null && validationTravelPackage == null){
+                        if (validation == null){
                             entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
                         }
                         else {
-                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM);
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_CONTRATO + " Nome: " + passenger.getIndividual().getNameIndividual());
                         }
                     }
                 }
+
                 dto = travelContractPostEntityConverter.toDTO(entityRetorno);
             }
         }
@@ -126,12 +143,40 @@ public class TravelContractController {
     /**
      * PutMapping
      */
+    //TODO: Ajustar para salvar tudo de uma vez
+    @Transactional
     @ApiOperation(value = "URL to update travel contract", authorizations = {@Authorization(value="jwtToken")})
     @PutMapping(path = "/travelcontract")
     public ResponseEntity<TravelContractPostDTO> putTravelContract(@Validated @RequestBody TravelContractPostDTO dto,
-                                                                   @RequestParam(value = "id") Integer id){
+                                                                   @RequestParam(value = "id") Integer idTravelContract){
         try{
             if (dto != null){
+                //Valida se a lista de passageiros está nula pra adicionar o contratante
+                if (dto.getPassengerTravelContracts() != null) {
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
+                else{
+                    dto.setPassengerTravelContracts(new ArrayList<>());
+                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
+                }
+                //valida se algum dos passageiros já estão em outro contrato da mesma viagem ou mesmo contrato
+                if (dto.getPassengerTravelContracts().get(0) != null) {
+                    for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()) {
+                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
+                                passenger.getIdIndividual(),
+                                dto.getIdTravelPackage());
+
+                        PassengerTravelContractEntity validationTravelContract = passengerTravelContractService.getValidation(
+                                passenger.getIndividual().getIdIndividual(),
+                                idTravelContract);
+
+                        if (validationTravelPackage != null && validationTravelContract != null){
+                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM +  "ID: " + passenger.getIdIndividual());
+                        }
+                    }
+                }
+
+                //Valida se company existe
                 TravelContractEntity entity = new TravelContractEntity();
                 if (dto.getIdCompany() != null){
                     CompanyEntity company = companyService.getCompanyById(dto.getIdCompany());
@@ -142,6 +187,7 @@ public class TravelContractController {
                         throw new HttpNotFoundException(NENHUMA_EMPRESA_LOCALIZADA);
                     }
                 }
+                //validade se o pacote de viagem existe
                 if (dto.getIdTravelPackage() != null){
                     TravelPackageEntity travelPackage = travelPackageService.getTravelPackageById(dto.getIdTravelPackage());
                     if (travelPackage != null){
@@ -151,16 +197,10 @@ public class TravelContractController {
                         throw new HttpNotFoundException(NENHUM_PACOTEVIAGEM_ENCONTRADO);
                     }
                 }
-                dto.setIdTravelContract(id);
+                dto.setIdTravelContract(idTravelContract);
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(travelContractPostEntityConverter.toEntity(dto));
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
-                if (dto.getPassengerTravelContracts() != null) {
-                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
-                }
-                else{
-                    dto.setPassengerTravelContracts(new ArrayList<>());
-                    dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
-                }
+                //adiciona passageiros ao contrato
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
                         IndividualEntity individualEntity = individualService.getIndividualById(passenger.getIdIndividual());
@@ -170,18 +210,6 @@ public class TravelContractController {
                         entity.setActive(dto.getActive());
                         entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
                         entityPassenger.setTravelContract(entityRetorno);
-//                        PassengerTravelContractEntity validation = passengerTravelContractService.getValidation(
-//                                entityPassenger.getIndividual().getIdIndividual(),
-//                                entityPassenger.getTravelContract().getIdTravelContract());
-//                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
-//                                entityPassenger.getIndividual().getIdIndividual(),
-//                                dto.getIdTravelPackage());
-//                        if (validation == null && validationTravelPackage == null){
-                            entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
-//                        }
-//                        else {
-//                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM);
-//                        }
                     }
                 }
                 dto = travelContractPostEntityConverter.toDTO(entityRetorno);
