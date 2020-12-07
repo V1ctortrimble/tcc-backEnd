@@ -11,3 +11,4 @@ Repository where all the code related to the project's back end will be.
 * Swagger
 * H2 Database
 * PostgreSQL
+* Jasper Reports
