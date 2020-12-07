@@ -166,28 +166,9 @@ public class TravelContractController {
                     dto.setPassengerTravelContracts(new ArrayList<>());
                     dto.getPassengerTravelContracts().add(dto.getPassengerTravelContract());
                 }
-                //valida se algum dos passageiros já estão em outro contrato da mesma viagem ou mesmo contrato
-                if (dto.getPassengerTravelContracts().get(0) != null) {
-                    for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()) {
-                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
-                                passenger.getIdIndividual(),
-                                dto.getIdTravelPackage());
-
-                        PassengerTravelContractEntity validationTravelContract = passengerTravelContractService.getValidation(
-                                passenger.getIndividual().getIdIndividual(),
-                                idTravelContract);
-
-                        if (validationTravelPackage != null ){
-                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM +  "ID: " + validationTravelPackage.getIndividual().getIdIndividual());
-                        }
-                        if (validationTravelContract != null){
-                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_CONTRATO +  "ID: " + validationTravelContract.getIndividual().getIdIndividual());
-                        }
-                    }
-                }
+                //TODO: validar se algum dos passageiros já estão em outro contrato da mesma viagem ou mesmo contrato
 
                 //Valida se company existe
-                TravelContractEntity entity = new TravelContractEntity();
                 if (dto.getIdCompany() != null){
                     CompanyEntity company = companyService.getCompanyById(dto.getIdCompany());
                     if (company != null){
@@ -210,6 +191,7 @@ public class TravelContractController {
                 dto.setIdTravelContract(idTravelContract);
                 TravelContractEntity entityRetorno = travelContractService.postTravelContract(travelContractPostEntityConverter.toEntity(dto));
                 entityRetorno.setPassengerTravelContracts(new ArrayList<>());
+
                 //adiciona passageiros ao contrato
                 if (dto.getPassengerTravelContracts().get(0) != null){
                     for (PassengerTravelContractPostDTO passenger : dto.getPassengerTravelContracts()){
@@ -217,21 +199,9 @@ public class TravelContractController {
                         PassengerTravelContractEntity entityPassenger = passengerTravelContractService.getById(passenger.getIdPassengerTravelContract());
                         entityPassenger.setContractedPassenger(passenger.getContractedPassenger());
                         entityPassenger.setIndividual(individualEntity);
-                        entity.setActive(dto.getActive());
                         entityPassenger.setPayingPassenger(passenger.getPayingPassenger());
                         entityPassenger.setTravelContract(entityRetorno);
-//                        PassengerTravelContractEntity validation = passengerTravelContractService.getValidation(
-//                                entityPassenger.getIndividual().getIdIndividual(),
-//                                entityPassenger.getTravelContract().getIdTravelContract());
-//                        PassengerTravelContractEntity validationTravelPackage = passengerTravelContractService.getValidationPackage(
-//                                entityPassenger.getIndividual().getIdIndividual(),
-//                                dto.getIdTravelPackage());
-//                        if (validation == null && validationTravelPackage == null){
-                            entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
-//                        }
-//                        else {
-//                            throw new HttpBadRequestException(PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM);
-//                        }
+                        entityRetorno.getPassengerTravelContracts().add(passengerTravelContractService.postPassengerTravelContract(entityPassenger));
                     }
                 }
                 dto = travelContractPostEntityConverter.toDTO(entityRetorno);
