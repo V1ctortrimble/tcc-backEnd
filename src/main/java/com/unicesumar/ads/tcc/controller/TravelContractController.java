@@ -224,7 +224,7 @@ public class TravelContractController {
             List<TravelContractGetDTO> dtos = travelContractGetEntityConverter.toDTOList(entities);
             for (TravelContractGetDTO dto : dtos){
                 dto.setCompany(null);
-                dto.setTravelPackage(null);
+                //dto.setTravelPackage(null);
             }
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }
