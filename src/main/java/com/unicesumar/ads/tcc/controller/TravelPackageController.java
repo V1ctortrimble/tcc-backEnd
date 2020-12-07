@@ -137,12 +137,14 @@ public class TravelPackageController {
         if (entity != null) {
             TravelPackagePdfListDTO dto = travelPackagePdfListConverter.toDTO(entity);
             for (int i = 0; i < dto.getTravelContracts().size(); i++) {
-                IndividualListPdfDTO passenger = dto.getTravelContracts().get(i).getPassengerTravelContracts()
-                        .get(0).getIndividual();
+                for (int j = 0; j < dto.getTravelContracts().get(i).getPassengerTravelContracts().size(); j++){
+                    IndividualListPdfDTO passenger = dto.getTravelContracts().get(i).getPassengerTravelContracts()
+                            .get(j).getIndividual();
+                    passengerList.add(passenger);
+                }
                 nameTravelPackage = dto.getNameTravelPackage();
                 dto.getTravelContracts().get(i).getPassengerTravelContracts().get(0).getIndividual()
                         .setNameTravelPackage(nameTravelPackage);
-                passengerList.add(passenger);
             }
             if (passengerList.size() == 0) {
                 throw new HttpNotFoundException(NENHUM_PASSAGEIRO_PARA_ESSA_VIAGEM);
