@@ -1,9 +1,6 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.TravelContractGetDTO;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.dto.personGetDTO.AdressGetDTO;
-import com.unicesumar.ads.tcc.dto.personGetDTO.ContactGetDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,14 +12,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class IndividualDTO {
+public class IndividualGetTravelContractDTO {
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("id_individual")
-    private Integer idIndividual;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean active;
+    private int idIndividual;
 
     @JsonProperty("cpf")
     private String cpf;
@@ -39,8 +32,5 @@ public class IndividualDTO {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("contact")
-    private ContactGetDTO contact;
 
 }

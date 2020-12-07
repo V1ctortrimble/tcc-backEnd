@@ -10,6 +10,17 @@ public class ControllerConstants {
     public static final String NENHUMA_PESSOA_FOI_LOCALIZADA = "Nenhuma Pessoa Foi Localizada";
     public static final String NENHUMA_EMPRESA_LOCALIZADA = "Nenhuma Empresa Foi Localizada";
     public static final String NECESSARIO_ENVIAR_ID = "Nenhum id enviado para busca";
+
+    /**
+     * Define TravelContractController properties
+     */
+    public static final String NENHUM_PACOTEVIAGEM_ENCONTRADO = "Nenhum Pacote de Viagem Foi Encontrado";
+    public static final String NENHUM_CONTRATOVIAGEM_ENVIADO = "Nenhum Contrato de Viagem Enviado Para Cadastro";
+    public static final String NENHUM_CONTRATOVIAGEM_ENCONTADO = "Nenhum Contrato de viagem encontado";
+    public static final String OCORREU_PROBLEMA = "Ocorreu um problema ao atualizar";
+    public static final String PASSAGEIRO_JA_CADASTRADO_PARA_VIAGEM = "Passageiro já cadastrado para a viagem";
+    public static final String PASSAGEIRO_JA_CADASTRADO_PARA_CONTRATO = "Passageiro já cadastrado para o contrato";
+
     /**
      * Define RecoveryPassController properties
      */

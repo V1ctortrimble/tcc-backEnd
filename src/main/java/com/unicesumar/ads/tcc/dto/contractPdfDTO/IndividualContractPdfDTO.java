@@ -1,21 +1,13 @@
-package com.unicesumar.ads.tcc.dto;
+package com.unicesumar.ads.tcc.dto.contractPdfDTO;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unicesumar.ads.tcc.dto.personGetDTO.AdressGetDTO;
-import com.unicesumar.ads.tcc.dto.personGetDTO.ContactGetDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.unicesumar.ads.tcc.dto.personGetDTO.PersonIndividualGetDTO;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class IndividualDTO {
+public class IndividualContractPdfDTO {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("id_individual")
@@ -40,7 +32,10 @@ public class IndividualDTO {
     private LocalDate birthDate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("contact")
-    private ContactGetDTO contact;
+    @JsonProperty("id_individual")
+    private String nameTravelPackage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<PersonIndividualGetDTO> persons;
 
 }
