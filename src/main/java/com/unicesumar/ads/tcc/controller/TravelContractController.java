@@ -325,6 +325,8 @@ public class TravelContractController {
 
                 }
                 else if (!dto.getPassengerTravelContracts().get(i).getPayingPassenger()) {
+                    passenger = dto.getPassengerTravelContracts().get(i).getIndividual();
+                    passengerList.add(passenger);
                     if (passengerList.size() != 0) {
                         //getter
                         cpf = passengerList.get(0).getCpf();
@@ -341,8 +343,6 @@ public class TravelContractController {
                         dto.setNameIndividual("N.A");
                         dto.setLastName("");
                     }
-                    passenger = dto.getPassengerTravelContracts().get(i).getIndividual();
-                    passengerList.add(passenger);
                 } else {
                     throw new HttpBadRequestException("Nenhum Passageiro Contratante");
                 }
