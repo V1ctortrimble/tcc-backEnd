@@ -23,6 +23,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -247,8 +254,9 @@ public class TravelContractController {
     @ApiOperation(value = "URL to get travel contract to generate Pdf",
             authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/contract/pdf")
+    @ResponseBody
     public ResponseEntity<?> getTravelContractByIdToGeneratePdf(
-            @RequestParam(value = "id") Integer id){
+            @RequestParam(value = "id") Integer id, HttpServletResponse response) throws IOException, JRException, SQLException {
         TravelContractEntity entity = travelContractService.getTravelContractById(id);
 
         List<IndividualPostTravelContractDTO> passengerList = new ArrayList<>();
@@ -259,6 +267,7 @@ public class TravelContractController {
         LocalDate endDate;
         LocalTime expectedStartTime;
         LocalTime estimatedEndTime;
+        JasperPrint jasperPrint = null;
 
         String adresses;
         String zipCode;
@@ -294,13 +303,13 @@ public class TravelContractController {
 
                     //TODO: Verificar se vai continuar com i ou 0
                     adresses = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getAdress();
-                    zipCode = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getZipCode();
+                            .getPersonEntity().getAdresses().get(0).getAdress();
+                    zipCode = dto.getPassengerTravelContracts().get(0).getIndividual()
+                            .getPersonEntity().getAdresses().get(0).getZipCode();
                     neighborhood = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getNeighborhood();
+                            .getPersonEntity().getAdresses().get(0).getNeighborhood();
                     adressNumber = dto.getPassengerTravelContracts().get(i).getIndividual()
-                            .getPersonEntity().getAdresses().get(i).getAdressNumber();
+                            .getPersonEntity().getAdresses().get(0).getAdressNumber();
 
                     phone = dto.getPassengerTravelContracts().get(i).getIndividual().getPersonEntity().getContacts()
                             .get(0).getPhone();
@@ -362,7 +371,11 @@ public class TravelContractController {
                 dto.setEstimatedEndTime(estimatedEndTime);
             }
             try {
-                pdfGenerator.createPdfReportContract(dto);
+                response.setHeader("Content-Type", "application/pdf");
+                response.setHeader("Content-Disposition", "attachment; filename=contratoPassageiro.pdf");
+                final OutputStream out = response.getOutputStream();
+                jasperPrint = pdfGenerator.createPdfReportContract(dto);
+                JasperExportManager.exportReportToPdfStream(jasperPrint, out);
                 return new ResponseEntity<>(PDF_SALVO, HttpStatus.OK);
             } catch (final Exception e) {
                 e.printStackTrace();

@@ -26,6 +26,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -129,10 +136,12 @@ public class TravelPackageController {
     @ApiOperation(value = "URL to return PDF List of Passengers",
             authorizations = {@Authorization(value="jwtToken")})
     @GetMapping(path = "/list/pdf")
+    @ResponseBody
     public ResponseEntity<?> getListPdf(@RequestParam(value = "idtravelpackage")
-                                                Integer idTravelPackge) {
+                                                Integer idTravelPackge, HttpServletResponse response) throws IOException, JRException, SQLException {
         TravelPackageEntity entity = travelPackageService.getTravelPackageById(idTravelPackge);
         List<IndividualListPdfDTO> passengerList = new ArrayList<>();
+        JasperPrint jasperPrint = null;
         String nameTravelPackage;
         if (entity != null) {
             TravelPackagePdfListDTO dto = travelPackagePdfListConverter.toDTO(entity);
@@ -150,7 +159,11 @@ public class TravelPackageController {
                 throw new HttpNotFoundException(NENHUM_PASSAGEIRO_PARA_ESSA_VIAGEM);
             }
             try {
-                pdfGenerator.createPdfReport(passengerList);
+                response.setHeader("Content-Type", "application/pdf");
+                response.setHeader("Content-Disposition", "attachment; filename=ListaPassageiros.pdf");
+                final OutputStream out = response.getOutputStream();
+                jasperPrint = pdfGenerator.createPdfReport(passengerList);
+                JasperExportManager.exportReportToPdfStream(jasperPrint, out);
                 return new ResponseEntity<>(PDF_SALVO, HttpStatus.OK);
             } catch (final Exception e) {
                 e.printStackTrace();

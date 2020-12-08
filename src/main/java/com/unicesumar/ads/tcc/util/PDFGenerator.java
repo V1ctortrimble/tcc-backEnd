@@ -1,8 +1,6 @@
 package com.unicesumar.ads.tcc.util;
 
-import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.IndividualListPdfDTO;
-import com.unicesumar.ads.tcc.dto.TravelContractGetDTO.TravelContractGetDTO;
 import com.unicesumar.ads.tcc.dto.contractDTO.TravelContractPdfDTO;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
@@ -29,7 +27,7 @@ public class PDFGenerator {
     /**
      * Method to generate a PDF and open
      */
-    public void createPdfReport(final List<IndividualListPdfDTO> passengers) throws JRException, IOException {
+    public JasperPrint createPdfReport(final List<IndividualListPdfDTO> passengers) throws JRException, IOException {
         UUID code = createCode();
         final InputStream stream = this.getClass().getResourceAsStream("/report.jrxml");
         final JasperReport report = JasperCompileManager.compileReport(stream);
@@ -37,14 +35,10 @@ public class PDFGenerator {
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Squad Go Horse");
         final JasperPrint print = JasperFillManager.fillReport(report, parameters, source);
-        final String filePath = System.getProperty("java.io.tmpdir");
-        JasperExportManager.exportReportToPdfFile(print, filePath + "lista" + code + ".pdf");
-        Runtime.getRuntime().exec("cmd /c start " + filePath + "lista" + code + ".pdf");
-        File file = new File(filePath + "lista" + code + ".pdf");
-        file.deleteOnExit();
+        return print;
     }
 
-    public void createPdfReportContract(final TravelContractPdfDTO contract) throws JRException, IOException {
+    public JasperPrint createPdfReportContract(final TravelContractPdfDTO contract) throws JRException, IOException {
         UUID code = createCode();
         List<TravelContractPdfDTO> travelContractPdfDTOS = new ArrayList<>();
         travelContractPdfDTOS.add(contract);
@@ -54,11 +48,7 @@ public class PDFGenerator {
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Squad Go Horse");
         final JasperPrint print = JasperFillManager.fillReport(report, parameters, source);
-        final String filePath = System.getProperty("java.io.tmpdir");
-        JasperExportManager.exportReportToPdfFile(print, filePath + "contract" + code + ".pdf");
-        Runtime.getRuntime().exec("cmd /c start " + filePath + "contract" + code + ".pdf");
-        File file = new File(filePath + "contract" + code + ".pdf");
-        file.deleteOnExit();
+        return print;
     }
 
 }
