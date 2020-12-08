@@ -25,7 +25,7 @@ public class TravelPackageDTO {
     @JsonProperty("name_travel_package")
     private String nameTravelPackage;
 
-    @JsonProperty("descr_travel_package")
+    @JsonProperty("desc_travel_package")
     private String descrTravelPackage;
 
     @JsonProperty("destination_name")
