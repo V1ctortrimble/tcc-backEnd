@@ -9,7 +9,6 @@ import com.unicesumar.ads.tcc.converter.vehicle.VehicleGetEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.data.entity.TravelPackageEntity;
 import com.unicesumar.ads.tcc.data.entity.VehicleEntity;
-import com.unicesumar.ads.tcc.dto.IndividualDTO;
 import com.unicesumar.ads.tcc.dto.IndividualListPdfDTO;
 import com.unicesumar.ads.tcc.dto.TravelPackageDTO;
 import com.unicesumar.ads.tcc.dto.listPassengerPdfDTO.TravelPackagePdfListDTO;

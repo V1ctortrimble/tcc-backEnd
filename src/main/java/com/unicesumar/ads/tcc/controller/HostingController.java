@@ -2,7 +2,6 @@ package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.AdressEntityConverter;
 import com.unicesumar.ads.tcc.converter.hosting.*;
-import com.unicesumar.ads.tcc.data.entity.AdressEntity;
 import com.unicesumar.ads.tcc.data.entity.HostingEntity;
 import com.unicesumar.ads.tcc.data.entity.HostingTypeEntity;
 import com.unicesumar.ads.tcc.dto.hostingGetDTO.HostingGetDTO;
@@ -10,7 +9,6 @@ import com.unicesumar.ads.tcc.dto.hostingPostDTO.HostingPostDTO;
 import com.unicesumar.ads.tcc.dto.hostingPostDTO.HostingTypePostDTO;
 import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingPutDTO;
 import com.unicesumar.ads.tcc.dto.hostingPutDTO.HostingTypePutDTO;
-import com.unicesumar.ads.tcc.dto.vehicleGetDTO.CompanyGetDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
 import com.unicesumar.ads.tcc.exception.HttpNotFoundException;
 import com.unicesumar.ads.tcc.service.HostingService;
@@ -39,7 +37,6 @@ public class HostingController {
     /**
      * Converters
      */
-    private final HostingPostEntityConverter hostingPostEntityConverter;
     private final HostingPutEntityConverter hostingPutEntityConverter;
     private final PersonHostingEntityConverter personHostingEntityConverter;
     private final HostingTypePutEntityConverter hostingTypePutEntityConverter;

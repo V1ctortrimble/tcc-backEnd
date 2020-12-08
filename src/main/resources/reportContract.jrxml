@@ -717,7 +717,7 @@
         </band>
     </detail>
     <summary>
-        <band height="526" splitType="Stretch">
+        <band height="714" splitType="Stretch">
             <property name="local_mesure_unitheight" value="pixel"/>
             <line>
                 <reportElement x="1" y="10" width="556" height="1" uuid="0b6c26ec-b944-4fb2-8f77-04e4b329b5fe">
@@ -970,7 +970,7 @@ Não é permitido o embarque sem documentos pessoais (RG, CNH ou CERTIDÃO DE NA
                 <text><![CDATA[Valor Total a Ser Pago Pelo Contratante: R$]]></text>
             </staticText>
             <staticText>
-                <reportElement x="0" y="233" width="555" height="274" uuid="2c1b95db-df3b-4744-ba31-cd3bf0624117">
+                <reportElement x="0" y="440" width="555" height="274" uuid="2c1b95db-df3b-4744-ba31-cd3bf0624117">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -988,19 +988,19 @@ Excursões paty e Eliza Tur
 CNPJ: 24.654.810/0001-20]]></text>
             </staticText>
             <line>
-                <reportElement x="63" y="290" width="200" height="1" uuid="90105609-1232-4a49-9d3e-657cdc9ca1ed">
+                <reportElement x="63" y="497" width="200" height="1" uuid="90105609-1232-4a49-9d3e-657cdc9ca1ed">
                     <property name="local_mesure_unitheight" value="pixel"/>
                     <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </reportElement>
             </line>
             <line>
-                <reportElement x="303" y="290" width="200" height="1" uuid="cb2e19b4-7fd7-4eb6-8927-04e4f19eb2af">
+                <reportElement x="303" y="497" width="200" height="1" uuid="cb2e19b4-7fd7-4eb6-8927-04e4f19eb2af">
                     <property name="local_mesure_unitheight" value="pixel"/>
                     <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </reportElement>
             </line>
             <staticText>
-                <reportElement x="64" y="295" width="199" height="18" uuid="ef9a2444-9785-466e-a051-d0033abcc046">
+                <reportElement x="64" y="502" width="199" height="18" uuid="ef9a2444-9785-466e-a051-d0033abcc046">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -1016,7 +1016,7 @@ CNPJ: 24.654.810/0001-20]]></text>
                 <text><![CDATA[Patricia Cristina Modesto Gabriel]]></text>
             </staticText>
             <staticText>
-                <reportElement x="303" y="295" width="199" height="18" uuid="7dcfbe8e-77e1-47f5-a483-c420dae2ff9d">
+                <reportElement x="303" y="502" width="199" height="18" uuid="7dcfbe8e-77e1-47f5-a483-c420dae2ff9d">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -1032,13 +1032,13 @@ CNPJ: 24.654.810/0001-20]]></text>
                 <text><![CDATA[Elisangela Aparecida Modesto Gabriel]]></text>
             </staticText>
             <line>
-                <reportElement x="183" y="370" width="200" height="1" uuid="098b0d3c-77e4-4361-9af6-9479fdef7f9e">
+                <reportElement x="183" y="577" width="200" height="1" uuid="098b0d3c-77e4-4361-9af6-9479fdef7f9e">
                     <property name="local_mesure_unitheight" value="pixel"/>
                     <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </reportElement>
             </line>
             <staticText>
-                <reportElement x="184" y="330" width="199" height="18" uuid="f54dc41b-af77-4cec-a15a-c2407ef28814">
+                <reportElement x="184" y="537" width="199" height="18" uuid="f54dc41b-af77-4cec-a15a-c2407ef28814">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -1054,19 +1054,19 @@ CNPJ: 24.654.810/0001-20]]></text>
                 <text><![CDATA[Contratante:]]></text>
             </staticText>
             <line>
-                <reportElement x="64" y="420" width="200" height="1" uuid="26380b31-dc85-4207-883f-457de3006438">
+                <reportElement x="64" y="627" width="200" height="1" uuid="26380b31-dc85-4207-883f-457de3006438">
                     <property name="local_mesure_unitheight" value="pixel"/>
                     <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </reportElement>
             </line>
             <line>
-                <reportElement x="303" y="420" width="200" height="1" uuid="dabbbd98-8901-4e92-9f9d-04f46e7a79f7">
+                <reportElement x="303" y="627" width="200" height="1" uuid="dabbbd98-8901-4e92-9f9d-04f46e7a79f7">
                     <property name="local_mesure_unitheight" value="pixel"/>
                     <property name="com.jaspersoft.studio.unit.height" value="px"/>
                 </reportElement>
             </line>
             <staticText>
-                <reportElement x="183" y="380" width="199" height="18" uuid="6d15b4b4-50cd-455d-b609-cca64f1745df">
+                <reportElement x="183" y="587" width="199" height="18" uuid="6d15b4b4-50cd-455d-b609-cca64f1745df">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -1082,7 +1082,7 @@ CNPJ: 24.654.810/0001-20]]></text>
                 <text><![CDATA[Testemunhas:]]></text>
             </staticText>
             <staticText>
-                <reportElement x="65" y="430" width="199" height="18" uuid="ff41fea5-2499-4b26-a258-bb4c99bdb3a2">
+                <reportElement x="65" y="637" width="199" height="18" uuid="ff41fea5-2499-4b26-a258-bb4c99bdb3a2">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -1098,7 +1098,7 @@ CNPJ: 24.654.810/0001-20]]></text>
                 <text><![CDATA[Testemunhas da Contratada:]]></text>
             </staticText>
             <staticText>
-                <reportElement x="303" y="430" width="199" height="18" uuid="85ed4051-e0e5-4658-b6cd-bedbf950226e">
+                <reportElement x="303" y="637" width="199" height="18" uuid="85ed4051-e0e5-4658-b6cd-bedbf950226e">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -1114,7 +1114,7 @@ CNPJ: 24.654.810/0001-20]]></text>
                 <text><![CDATA[Testemunhas do Contratante:]]></text>
             </staticText>
             <staticText>
-                <reportElement x="0" y="480" width="190" height="18" uuid="ea4dcd20-a50a-49e8-a7ae-1626390513c3">
+                <reportElement x="0" y="687" width="190" height="18" uuid="ea4dcd20-a50a-49e8-a7ae-1626390513c3">
                     <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
                 </reportElement>
                 <box>
@@ -1128,6 +1128,50 @@ CNPJ: 24.654.810/0001-20]]></text>
                     <paragraph leftIndent="2"/>
                 </textElement>
                 <text><![CDATA[Londrina,      de                   de              .]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="230" width="555" height="210" uuid="932cbcad-4581-44e1-bcb1-14062bac1525">
+                    <property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement>
+                    <font isBold="false"/>
+                    <paragraph leftIndent="3"/>
+                </textElement>
+                <text><![CDATA[					CLÁUSULAS CONTRATUAIS
+CLAUSULA PRIMEIRA: constitui objeto do presente a contratação de nossos serviços, para realizar 01 viagem para
+: , seguindo o percurso acima descrito com a contratação de no mínimo pax para ser
+realizado a viagem.
+CLÁUSULA SEGUNDA: A CONTRATADA deverá no / /2020 Hora: hs min da noite, cumprir a viagem estabelecida
+na Cláusula Primeira, com retorno no dia / /2020 Hora: hs mim da tarde.
+CLÁUSULA TERCEIRA: No caso de acidentes, os passageiros estarão cobertos por seguro, conforme previsão dos
+Órgãos concedente, estando à responsabilidade da empresa de Transportes, nesses casos, limitar o valor segurado.
+CLÁUSULA QUARTA: Responsabiliza- do CONTRATANTE por todo e qualquer dano (assentos rasgados, aparelhos
+eletrônicos quebrados por má utilização, etc.) que venha a ocorrer, proveniente de sua utilização pelos passageiros,
+não cabe a CONTRATADA qualquer responsabilidade sobre eventuais objetos e bagagens esquecidos ou extraviados
+e demais itens pessoais do passageiro não são objetos desse contrato, sendo que estes viajam por contae risco dos
+passageiros. A Operadora não se responsabiliza pela perda, roubo, extravio ou danos que as bagagens possam
+sofrer durante a viagem, por qualquer causa, incluindo sua manipulação em traslados, quando este serviço existir.
+A CONTRATADA também não se responsabiliza por roubo de documentos, objetosde valores e pessoais durante a
+viagem. Recomenda-se verificar junto ao hotel a existência de cofres para a guarda desses.
+CLÁUSULA QUINTA: Crianças com idade acima de 5 anos e 12 meses deverão ser transportadas no banco do veículo.
+CLÁUSULA SEXTA:A CONTRATADA não se responsabilizará por eventuais atrasos na viagem em face de
+acontecimentos que escapam ao seu controle, como na ocorrência de casos de força maior, de casos fortuitos,
+chuvas, trânsito acentuado, congestionamento, entre outros.
+CLÁUSULA SÉTIMA: A desistência por parte do CONTRATANTE no após a assinatura deste contrato o valor já pago
+não será devolvido e só será restituído (em caso de morte ou doenças consideradas graves), esta cláusula e também
+estabelecida pela empresa na qual foi locada o ônibus e a hospedagem sendo assim a CONTRATADA também sofrera
+a perca dos valores já pagos.
+CLÁUSULA OITAVA: A pessoa física que assinar este documento, por si ou como representante de terceiros é
+tambémsolidamente responsável pelo compromisso ora assumido.
+CLÁUSULA NONA: O contrato se torna valido apenas contendo a assinatura de uma das CONTRATADAS.
+E, por estarem assim juntas e contratadas, as partes assinam o presente Contrato, em duas vias de igual teor e
+forma na presença de 02(duas) testemunhas.]]></text>
             </staticText>
         </band>
     </summary>

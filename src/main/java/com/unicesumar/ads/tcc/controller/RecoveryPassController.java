@@ -1,7 +1,6 @@
 package com.unicesumar.ads.tcc.controller;
 
 import com.unicesumar.ads.tcc.converter.UsersEntityConverter;
-import com.unicesumar.ads.tcc.converter.UsersEntityPostConverter;
 import com.unicesumar.ads.tcc.data.entity.UsersEntity;
 import com.unicesumar.ads.tcc.dto.UsersDTO;
 import com.unicesumar.ads.tcc.exception.HttpBadRequestException;
@@ -36,7 +35,6 @@ public class RecoveryPassController {
      * Converters
      */
     private final UsersEntityConverter usersEntityConverter;
-    private final UsersEntityPostConverter usersEntityPostConverter;
     /**
      * Utils
      */

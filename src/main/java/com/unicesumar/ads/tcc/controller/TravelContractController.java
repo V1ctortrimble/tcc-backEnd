@@ -1,17 +1,13 @@
 package com.unicesumar.ads.tcc.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.unicesumar.ads.tcc.converter.TravelContractPdfDTOConverter;
 import com.unicesumar.ads.tcc.converter.TravelPackageEntityConverter;
-import com.unicesumar.ads.tcc.converter.travelContract.PassengerTravelContractPostEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelContract.TravelContractGetEntityConverter;
 import com.unicesumar.ads.tcc.converter.travelContract.TravelContractPostEntityConverter;
 import com.unicesumar.ads.tcc.converter.vehicle.CompanyPutEntityConverter;
 import com.unicesumar.ads.tcc.data.entity.*;
-import com.unicesumar.ads.tcc.dto.IndividualListPdfDTO;
 import com.unicesumar.ads.tcc.dto.TravelContractGetDTO.TravelContractGetDTO;
 import com.unicesumar.ads.tcc.dto.contractDTO.TravelContractPdfDTO;
-import com.unicesumar.ads.tcc.dto.listPassengerPdfDTO.TravelPackagePdfListDTO;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.IndividualPostTravelContractDTO;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.PassengerTravelContractPostDTO;
 import com.unicesumar.ads.tcc.dto.travelContractPostDTO.TravelContractPostDTO;
@@ -48,13 +44,12 @@ import static com.unicesumar.ads.tcc.controller.constants.ControllerConstants.*;
 @RestController
 @RequestMapping(value = "api")
 @RequiredArgsConstructor
-//@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class TravelContractController {
 
     private final TravelContractPostEntityConverter travelContractPostEntityConverter;
     private final CompanyPutEntityConverter companyPutEntityConverter;
     private final TravelPackageEntityConverter travelPackageEntityConverter;
-    private final PassengerTravelContractPostEntityConverter passengerTravelContractPostEntityConverter;
     private final TravelContractGetEntityConverter travelContractGetEntityConverter;
     private final TravelContractPdfDTOConverter travelContractPdfDTOConverter;
 
